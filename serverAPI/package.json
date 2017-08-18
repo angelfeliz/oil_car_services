@@ -1,0 +1,31 @@
+{
+  "name": "serverapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec \"babel-node --inspect\" -- src/index.js",
+    "build": "babel src -d build && node generatePackageJSON.js"
+  },
+  "author": "angel",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "jade": "~1.11.0",
+    "mongodb-autoincrement": "^1.0.1",
+    "mongoose": "^4.10.6",
+    "morgan": "~1.8.1",
+    "ramda": "^0.24.1",
+    "serve-favicon": "~2.4.2",
+    "validate.js": "^0.11.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "nodemon": "^1.11.0"
+  }
+}

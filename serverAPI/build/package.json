@@ -1,0 +1,1 @@
+{"name":"serv-oil-app","dependencies":{"body-parser":"~1.17.1","cookie-parser":"~1.4.3","debug":"~2.6.3","express":"~4.15.2","jade":"~1.11.0","mongodb-autoincrement":"^1.0.1","mongoose":"^4.10.6","morgan":"~1.8.1","ramda":"^0.24.1","serve-favicon":"~2.4.2","validate.js":"^0.11.1"},"scripts":{"start":"node index.js","deploy":"now -e MONGODB_URI=@serv-aceite-mongodb-url"}}

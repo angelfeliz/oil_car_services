@@ -1,0 +1,25 @@
+{
+  "name": "lubri-serv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "n-run \"npm run build-client && npm run copy-client\" \"npm run build-server && npm run copy-server\"",
+    "build-client": "cd client && npm run build",
+    "build-server": "cd serverAPI && npm run build",
+    "copy-client": "n-copy --source client/build --destination build/static \"**\"",
+    "copy-server": "n-copy --source serverAPI/build --destination build \"**\"",
+    "clean": "n-run \"trash client/build && trash server/build && trash build\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://erodriguezfeliz@bitbucket.org/erodriguezfeliz/serv_oil.git"
+  },
+  "keywords": [],
+  "author": "Angel",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "npm-build-tools": "^2.2.5"
+  }
+}

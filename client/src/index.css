@@ -1,0 +1,137 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.checkbox-inline
+{
+  margin-left: 0px!important;
+}
+.not-show
+{
+  display:none;
+}
+
+input[type=checkbox]
+{
+  /*visibility: hidden;*/
+}
+
+.gray-light
+{
+    color: #999;
+}
+
+.gray-lighter
+{
+  color: #eee;
+}
+
+.card-info-primary
+{
+  font-size: 65px;
+}
+
+.card-dashboard
+{
+  margin-top:2%;
+}
+.card-dashboard p
+{
+  margin-top:30px;
+}
+
+.card-icon
+{
+  margin-top: 14px;
+}
+
+.padding-left-off
+{
+  padding-left: 0px;
+}
+
+.padding-left-on
+{
+  padding-left: 15px;
+}
+
+.dash_board-margin-form
+{
+  margin-top:20px;
+}
+
+.top-money
+{
+  margin-top:2%;
+}
+
+/*Colocar esto en otro css para tener mejor organizacion*/
+.spanLookInput {
+  border: 1px black solid;
+}
+
+.drop-open {
+  display: block;
+}
+
+.drop-close {
+  display: none;
+}
+
+.block_view {
+  position: fixed;
+  z-index:999;
+  height: 100vh;
+  width: 100%;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(220, 223, 229,0.8);
+}
+
+.box_central {
+  position: absolute;
+  top:50%;
+  left:50%;
+  margin: -70px 0 0 -170px;
+}
+
+.go_arrow {
+  cursor: pointer;
+}
+
+.go_arrow:active {
+  background-color: #959595;
+}
+/*------Start product style-----*/
+.product-grid, .customer-grid, .vehicle-grid, .checkout-grid {
+  height: 60vh;
+  overflow: auto;
+}
+
+.product-grid p, .product-grid h4 {
+  color: #666;
+  font-weight: 100;
+}
+.product-grid .line_row_element {
+  margin-bottom:0px;
+  margin-top: 0px;
+}
+.product-grid .row {
+  border-bottom: solid 1px #333333;
+  margin-top:15px;
+}
+.product-grid p {
+  margin-bottom: 0px;
+}
+/*----End product style---*/
+.hideElement{
+  display: none;
+}
+.showElement{
+  display: block;
+}
