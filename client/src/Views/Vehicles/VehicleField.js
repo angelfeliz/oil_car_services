@@ -6,7 +6,9 @@ export const VehicleField = (props) => {
   let elementsFuel = [];
 
   for(let x = 0; x < keysFuel.length; x++ ) {
+    if(fuelType[keysFuel[x]] != "diesel/gasolina" && fuelType[keysFuel[x]] != "no aplica") {
       elementsFuel.push(<option key={x} value={keysFuel[x]}>{ fuelType[keysFuel[x]] }</option>);
+    }
   }
 
   return(

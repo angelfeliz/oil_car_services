@@ -7,8 +7,11 @@
   text-align: left;
   padding: 0;
   overflow-x: auto;
-  height: 15vh;
+  height: 33vh;
   padding-left: 2.2%;
+  z-index: 999;
+  position: absolute;
+  width: 92%;
 }
 
 .AutoCompleteList_list-style li:hover{
@@ -17,5 +20,5 @@
 }
 
 .dash_board {
-  
+
 }

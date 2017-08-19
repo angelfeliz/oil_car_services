@@ -61,19 +61,25 @@ const products = (state=ProductsTree, action) => {
         isShowProductForm: !state.isShowProductForm,
       }
     case productActionType.FILTER_PRODUCTS:
+
       let filterProducts = state.productListClone.filter((item) => {
-        if(item.name_.toLocaleLowerCase().includes(action.filter.toLocaleLowerCase())) {
+        if(item.name_.toLowerCase().includes(action.filter.toLowerCase())) {
           return item;
         }
-        else if(item.productType.toLocaleLowerCase() === action.filter.toLocaleLowerCase()) {
+        else if(item.typeProduct.toLowerCase().includes(action.filter.toLowerCase())) {
+          return item;
+        }
+        else if (item.model.toLowerCase().includes(action.filter.toLowerCase())) {
           return item;
         }
       });
+
       let noMatch = false;
       filterProducts.length === 0 ? noMatch = true : noMatch = false;
       return {
         ...state,
         productList: filterProducts.map(item=>item),
+
         isNoMatch: noMatch,
       }
     case productActionType.ADD_PRODUCT_ITEM:
