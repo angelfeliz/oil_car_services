@@ -18,13 +18,14 @@ class CustomerServiceForm extends Component {
     this.state = {
       product_select_price: '',
       product_select: '',
-      product_select_cuantity: '',
-      product_select_name: 'seleccione producto'
+      product_select_quantity: '',
+      product_select_name: 'seleccione producto',
+      product_type_select: '',
     }
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeServicsInput = this.onChangeServicsInput.bind(this);
     this.onProductChangeInput = this.onProductChangeInput.bind(this);
-    this.onChangeProductCuantaty = this.onChangeProductCuantaty.bind(this);
+    this.onChangeProductQuantity = this.onChangeProductQuantity.bind(this);
     this.onProductAdd = this.onProductAdd.bind(this);
     this.onChangeFindProduct = this.onChangeFindProduct.bind(this);
     this.onChangeInputCustomer = this.onChangeInputCustomer.bind(this);
@@ -90,6 +91,8 @@ class CustomerServiceForm extends Component {
       itebis: itebis_tmp,
       totalProduct: total_tmp
     });
+
+    this.setState({...this.state, product_type_select:"", product_select_name:"", product_select_quantity:"", product_select_price:""});
   }
 
   /*This Handle set the produc_select state with the price and the id for future known*/
@@ -133,10 +136,10 @@ class CustomerServiceForm extends Component {
     this.props.totalPropertyDispatch(total_bruto, total_neto, total_itebis, 0);
   }
 
-  onChangeProductCuantaty(e) {
+  onChangeProductQuantity(e) {
     this.setState({
       ...this.state,
-      product_select_cuantity: e.target.value
+      product_select_quantity: e.target.value
     });
   }
 
@@ -274,12 +277,15 @@ class CustomerServiceForm extends Component {
             <Services
               onChangeProduct={this.onProductChangeInput}
               onProductAdd={this.onProductAdd}
-              onChangeProductCuantaty={this.onChangeProductCuantaty}
+              onChangeProductQuantity={this.onChangeProductQuantity}
               onChangeFindProduct={this.onChangeFindProduct}
+              onChangeProductType={this.onChangeProductType}
               products={this.products}
               productsAdded={this.props.state.customerServer.products}
               product_select_price={this.state.product_select_price}
-              product_select_name={this.state.product_select_name}/>
+              product_select_name={this.state.product_select_name}
+              product_select_quantity = { this.state.product_select_quantity}
+              product_type_select = { this.state.product_type_select }/>
 
             <div className="row top-money">
               <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 pull-right">

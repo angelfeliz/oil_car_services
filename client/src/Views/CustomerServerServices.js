@@ -27,7 +27,7 @@ class Services extends Component {
     let elementsProductType = [];
 
     for(let x = 0; x < keysTypeProduct.length; x++ ) {
-        elementsProductType.push(<option key={x} value={keysTypeProduct[x]}>{ productType[keysTypeProduct[x]] }</option>);
+        elementsProductType.push(<option key={x} value={productType[keysTypeProduct[x]]}>{ productType[keysTypeProduct[x]] }</option>);
     }
 
     return (
@@ -38,7 +38,7 @@ class Services extends Component {
         <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
           <div className="form-group">
             <label className="sr-only">dd</label>
-            <select name="typeProduct" onChange={(e) => this.props.onChangeProductType(e)} className="form-control">
+            <select name="typeProduct" value={this.props.product_type_select} onChange={(e) => this.props.onChangeProductType(e)} className="form-control">
               <option value="">Tipo de producto</option>
               { elementsProductType }
             </select>
@@ -72,14 +72,14 @@ class Services extends Component {
           <div className="col-xs-6 col-sm-2 col-md-2 col-lg-2">
             <div className="form-group">
               <label className="sr-only">-</label>
-              <input onChange={(e) => this.props.onChangeProductCuantaty(e)} className="form-control" placeholder="Cantidad" name="cuantity_product" type="text"/>
+              <input onChange={(e) => this.props.onChangeProductQuantity(e)} value={ this.props.product_select_quantity } className="form-control" placeholder="Cantidad" name="quantity_product" type="text"/>
             </div>
           </div>
 
           <div className="col-xs-6 col-sm-4 col-md-2 col-lg-2">
             <div className="form-group">
               <label className="sr-only">-</label>
-              <input className="form-control" placeholder="Precio" name="product_select_price" type="text" value={this.props.product_select_price} readOnly/>
+              <input className="form-control" placeholder="Precio" name="product_select_price" type="text" value={ this.props.product_select_price } readOnly/>
             </div>
           </div>
 
@@ -89,9 +89,7 @@ class Services extends Component {
               <button className="btn btn-defatul" type="button" onClick={() => this.props.onProductAdd()}>Add</button>
             </div>
           </div>
-
         </div>
-
         <div className="row">
           <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <table className="table striped">
@@ -120,7 +118,7 @@ class Services extends Component {
                     </tr>
                   )
                 })
-}
+              }
               </tbody>
             </table>
           </div>

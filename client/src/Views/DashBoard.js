@@ -79,7 +79,7 @@ class DashBoard extends Component {
         let name_ = item.firstName +' '+ item.lastName;
         return {
           _id: item._id,
-          name_
+          name_,          
         }
       });
 

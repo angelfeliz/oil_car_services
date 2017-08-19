@@ -72,6 +72,10 @@ input[type=checkbox]
   border: 1px black solid;
 }
 
+.sub_name {
+  color: rgba(156, 156, 156, 0.97);
+}
+
 .drop-open {
   display: block;
 }

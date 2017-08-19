@@ -1,6 +1,8 @@
 export const fuelType = {
   diesel: "diesel",
   gasolina: "gasolina",
+  gas: "gas",
+  mix: "diesel/gasolina",
   no_aplica: "no aplica",
 }
 
