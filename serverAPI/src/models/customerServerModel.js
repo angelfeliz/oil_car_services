@@ -10,7 +10,9 @@ export const customerServerSchema = new Schema({
   totalDesc: { type: Number },
   totalItebis: { type: Number },
   totalNeto: { type: Number },
-  branch_office: { type: String },
+  typePayment: { type: String },
+  branchOffice: { type: String },
+  dateNextOilChange: { type: Date },
   vehicle: {
     vehicle_id: { type: Number, },
     brand: { type: String, },
@@ -28,7 +30,7 @@ export const customerServerSchema = new Schema({
      rnc: { type: String },
    },
   products: [{
-    cuantity: { type: Number },
+    quantity: { type: Number },
     itebis: { type: Number },
     name_: { type: String },
     price: { type: Number },

@@ -6,7 +6,7 @@ import thunkMiddleware from 'redux-thunk';
 import Product from './Views/Products/Product';
 import Customer from './Views/Customers/Customer';
 import Vehicle from './Views/Vehicles/Vehicle';
-import CustomerServices from './Views/CustomerServiceForm';
+import oilChangeServices from './Views/OilChangeServices/OilChangeServicesForm';
 import DashBoard from './Views/DashBoard';
 import Checkout from './Views/Checkout'
 import registerServiceWorker from './registerServiceWorker';
@@ -51,8 +51,8 @@ const Root = () => (
     </Navbar.Collapse>
   </Navbar>
   <Route exact path='/' component={DashBoard}/>
-  <Route path='/nuevoCambioAceite/' component={ CustomerServices }/>
-  <Route path='/cambioAceiteCliente/:id' component={ CustomerServices }/>
+  <Route path='/nuevoCambioAceite/' component={ oilChangeServices }/>
+  <Route path='/cambioAceiteCliente/:id' component={ oilChangeServices }/>
   <Route path='/nuevoProducto' component={Product} />
   <Route path='/customer' component={Customer}/>
   <Route path='/nuevoVehiculo' component={Vehicle}/>
