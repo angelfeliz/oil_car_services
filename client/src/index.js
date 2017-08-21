@@ -13,7 +13,7 @@ import registerServiceWorker from './registerServiceWorker';
 import reducerApp from './reducers/reducerApp';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-import { Navbar,Nav, NavItem, Jumbotron, Button } from 'react-bootstrap';
+import { Navbar,Nav, NavItem } from 'react-bootstrap';
 import 'font-awesome/css/font-awesome.css';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
@@ -34,7 +34,7 @@ const Root = () => (
     <Navbar collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
-        <Link to='/'>Brand</Link>
+        <Link to='/'>LubriServ</Link>
       </Navbar.Brand>
       <Navbar.Toggle />
     </Navbar.Header>

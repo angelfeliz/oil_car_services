@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import api from '../../api';
 import * as productAction from '../../actions/productsAction';
-import validateProduct from '../../utils/validateProduct';
+import validateProduct from '../../utils/Validations/validateProduct';
 import * as alerts from '../util/Alerts';
 import { fuelType, productType } from '../../utils/objectAsList';
 

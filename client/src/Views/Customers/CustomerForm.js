@@ -1,6 +1,6 @@
 import React,  { Component } from 'react';
 import { connect } from 'react-redux';
-import validateCustomer from '../../utils/validateCustomer';
+import validateCustomer from '../../utils/Validations/validateCustomer';
 import CustomerField from './CustomerField';
 import * as customerAction from '../../actions/customerAction';
 import * as alerts from '../util/Alerts';

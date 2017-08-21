@@ -89,7 +89,7 @@ export const GetAllProducts = () => {
   return (dispatch) => {
     return api.get('/product')
       .then(
-        (response) => {
+        (response) => {          
            return response.data
          },
         (error) => {

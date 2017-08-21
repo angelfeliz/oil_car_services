@@ -45,6 +45,7 @@ export const VehicleField = (props) => {
 <div className="form-group">
   <label className="sr-only"></label>
   <select placeholder="Tipo combustible" name="typeFuel" value={ props.typeFuel } onChange={(e)=>props.onChange(e)} className="form-control">
+    <option value="tipo de combustible">tipo de combustible</option>
     { elementsFuel }
   </select>
 </div>

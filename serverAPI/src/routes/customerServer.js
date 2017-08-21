@@ -10,8 +10,9 @@ router.post('/', function(req, res, next) {
     ...req.body,
     _id: 4
   };
+  console.log('llego');
   let servicesCustomerDb = new customerServerModel(servicesCustomer);
-  servicesCustomerDb.save().then((response) => {
+  servicesCustomerDb.save().then((response) => {    
     return res.json(response);
   },
   (err) => {
