@@ -28,6 +28,7 @@ router.post('/', function (req, res, next) {
   var servicesCustomer = _extends({}, req.body, {
     _id: 4
   });
+  console.log('llego');
   var servicesCustomerDb = new _customerServerModel2.default(servicesCustomer);
   servicesCustomerDb.save().then(function (response) {
     return res.json(response);
