@@ -10,7 +10,6 @@ export const posts = (
 ) => {
   switch (action.type) {
     case REQUEST_GET:
-
       return {
         ...state,
         isFetching: true,
