@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
 import * as checkoutAction from '../actions/checkoutAction';
-import CheckoutBoxModel from './util/CheckoutBoxModel';
+import { CheckoutBoxModel } from './util/BoxModel';
 
 
 class Checkout extends Component {
@@ -14,6 +14,18 @@ class Checkout extends Component {
   onClickProcessCheckout(checkoutObj) {
     console.log(checkoutObj);
     this.props.processCheckout(checkoutObj);
+  }
+
+  onClickCancelCheckout = () => {
+    this.props.cancelCheckout();
+  }
+
+  onClickPaymentType  = (e) => {
+    let paymentType = e.target.value;
+    if(paymentType) {
+      this.paymentTypeChange(paymentType);
+    }
+
   }
 
   componentWillMount() {
@@ -86,8 +98,10 @@ class Checkout extends Component {
              firstName={this.props.checkoutMaching.firstName}
              lastName={this.props.checkoutMaching.lastName}
              services={this.props.checkoutMaching.services}
-             cancelCheckOut={this.props.cancelCheckOut}
-              onClickConfirmedCheckout={this.onClickConfirmedCheckout}/>
+             onClickPaymentType = {this.props.onClickPaymentType}
+             onClickProcessCheckout={this.onClickProcessCheckout}
+             onClickCancelCheckout = {this.onClickCancelCheckout}
+             />
          : null
      }
      </div>
@@ -106,12 +120,15 @@ let mapDispatchToProps = (dispatch) => {
     confirmedCheckout: (check) => {
       dispatch(checkoutAction.confirmedCheckout(check));
     },
-    cancelCheckOut: () => {
+    cancelCheckout: () => {
       dispatch(checkoutAction.cancelModalViewCheckout());
     },
     processCheckout: (checkout) => {
       dispatch(checkoutAction.processCheckout(checkout));
     },
+    paymentTypeChange: (type) => {
+      dispatch(checkoutAction.paymentTypeChange(type));
+    }
   }
 }
 

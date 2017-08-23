@@ -5,8 +5,13 @@ export const PROCESS_CHECKOUT = 'PROCESS_CHECKOUT';
 export const CONFIRMED_CHECKOUT = 'CONFIRMEDCHECKOUT';
 export const ABORT_CHECKOUT_SYSTEM = 'ABORT_CHECKOUT_SYSTEM';
 export const STOP_ABORT_CHECKOUT_SYSTEM = 'STOP_ABORT_CHECKOUT_SYSTEM';
+export const PAYMENT_TYPE = 'PAYMENT_TYPE';
 
 
+export const paymentTypeChange = (paymentType) => ({
+  type: PAYMENT_TYPE,
+  paymentType
+})
 export const processCheckout = (checkoutObj) => {
   return {
     type: PROCESS_CHECKOUT,
@@ -41,7 +46,7 @@ export const stopAbortCheckoutBySystem = () => {
   }
 }
 
-export const ReceivekConfirmedCheckout = () => {
+export const ReceiveConfirmedCheckout = () => {
   return {
     type: CONFIRMED_CHECKOUT,
     isModalVisible: false,
@@ -61,7 +66,7 @@ export const confirmedCheckout = (checkout) => {
     })
     .then((data) => {
       if(data.isPaid) {
-        dispatch(ReceivekConfirmedCheckout);
+        dispatch(ReceiveConfirmedCheckout);
       }
       else{
         dispatch(abortCheckoutBySystem);

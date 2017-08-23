@@ -6,7 +6,8 @@ import CustomerField from '../Customers/CustomerField';
 import VehicleField from '../Vehicles/VehicleField';
 import {GetAllProducts, filteringProduct} from '../../actions/productsAction';
 import * as oilChangeServicesAction from '../../actions/oilChangeServicesAction';
-import Services, {ServicesCheckbox} from './CustomerServerServices';
+import ProductAndGeneralServicesSelectorGrid from '../UtilsServices/ProductAndGeneralServicesSelectorGrid';
+import ServicesCheckbox from '../UtilsServices/ServicesCheckBox';
 import ModalList from '../util/ModalList';
 import * as alerts from '../util/Alerts';
 import validatedOilChange from '../../utils/Validations/validatedOilChange';
@@ -194,7 +195,7 @@ class OilChangeServicesForm extends Component {
     console.log('Entro a submit');
     let validation = validatedOilChange(this.props.oilChangeServices);
     console.log(validation);
-    if(validation === undefined) {      
+    if(validation === undefined) {
       this.props.saveCustomerServices(this.props.oilChangeServices);
     }
     else {
@@ -315,7 +316,7 @@ class OilChangeServicesForm extends Component {
                </div>
 
                <ServicesCheckbox onChange={this.onChangeServicsInput}/>
-               <Services
+               <ProductAndGeneralServicesSelectorGrid
                  onChangeProduct={this.onProductChangeInput}
                  onProductAdd={this.onProductAdd}
                  onChangeProductQuantity={this.onChangeProductQuantity}

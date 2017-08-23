@@ -2,9 +2,12 @@ import * as checkoutActionType from '../actions/checkoutAction';
 
 let stateDefault = {
   _id: '',
+  services_id:'',
+  paymentType: '',
   firstName: '',
   lastName: '',
   services: '',
+  products:[],
   placeNumber: '',
   total: '',
   isModalVisible: true,
