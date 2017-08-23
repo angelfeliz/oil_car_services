@@ -49,8 +49,10 @@ export const getCustomerServerCustomer = (state = {}, data) => {
 export const checkOwnerExistVehicle = (customerId) => {
     return {type: CHECK_OWNER_EXIST_VEHICLE, customerId}
 }
-export const generalTotalProperty = (totalBruto, totalNeto, totalItebis, totalDesc) => {
-    return {type: GENERAL_TOTAL_PROPERTY, totalBruto, totalNeto, totalItebis, totalDesc}
+export const generalTotalProperty = ({totalBruto, totalNeto, totalItebis, totalDesc}) => {  
+    return {
+      type: GENERAL_TOTAL_PROPERTY,
+      totalBruto, totalNeto, totalItebis, totalDesc}
 }
 export const stageCustomer = (customer) => {
     return {
@@ -125,7 +127,7 @@ const customerOilChangeSave = (dispatch, state) => {
         }, (error) => {
             console.log(error);
             //TODO dispatch a error for vehicle
-        }).then((data) => {            
+        }).then((data) => {
             state = {
                 ...state,
                 vehicle: {

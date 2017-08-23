@@ -11,7 +11,7 @@ import ServicesCheckbox from '../UtilsServices/ServicesCheckBox';
 import ModalList from '../util/ModalList';
 import * as alerts from '../util/Alerts';
 import validatedOilChange from '../../utils/Validations/validatedOilChange';
-import { validationSpread } from '../../utils/functions';
+import { validationSpread, calculateTotal } from '../../utils/functions';
 
 
 
@@ -28,12 +28,11 @@ class OilChangeServicesForm extends Component {
     }
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeServicsInput = this.onChangeServicsInput.bind(this);
-    this.onProductChangeInput = this.onProductChangeInput.bind(this);
+    //this.onProductChangeInput = this.onProductChangeInput.bind(this);
     this.onChangeProductQuantity = this.onChangeProductQuantity.bind(this);
     this.onProductAdd = this.onProductAdd.bind(this);
     this.onChangeFindProduct = this.onChangeFindProduct.bind(this);
-    this.onChangeInputCustomer = this.onChangeInputCustomer.bind(this);
-    this.CalculateTotal = this.CalculateTotal.bind(this);
+
     this.OnClickSelectVehicleFromModalList = this.OnClickSelectVehicleFromModalList.bind(this);
     this.onChangeProductType = this.onChangeProductType.bind(this);
     const products = [];
@@ -45,7 +44,7 @@ class OilChangeServicesForm extends Component {
       this.props.filteringProudct(productType);
     }
   }
-  onChangeInputCustomer(e) {
+  onChangeInputCustomer = (e) => {
     this.props.addCustomerServerCustomer({
       property: [e.target.name],
       value: e.target.value
@@ -83,7 +82,7 @@ class OilChangeServicesForm extends Component {
     });
     let itebis_tmp = parseFloat(pro.price) * 0.18;
     let total_tmp = (parseFloat(pro.price) + parseFloat(itebis_tmp)) * parseInt(this.state.product_select_quantity);
-    this.CalculateTotal(itebis_tmp, parseFloat(pro.price), parseInt(this.state.product_select_quantity), parseInt(this.state.totalDesc));
+    this.props.totalPropertyDispatch(calculateTotal(this.props.oilChangeServices.products, itebis_tmp, parseFloat(pro.price), parseInt(this.state.product_select_quantity), parseInt(this.state.totalDesc)));
 
     this.props.addCustomerServerProduct({
       product_id: pro._id,
@@ -99,7 +98,7 @@ class OilChangeServicesForm extends Component {
   }
 
   /*This Handle set the produc_select state with the price and the id for future known*/
-  onProductChangeInput(_id) {
+ onSelectProduct = (_id) => {
     let pro = this.products.find((item) => {
       if (item._id == _id) {
         return item;
@@ -119,24 +118,6 @@ class OilChangeServicesForm extends Component {
     } else {
       this.props.loadProducts();
     }
-  }
-
-  CalculateTotal(total_itebis_tmp = 0, total_bruto_tmp = 0, cantidad = 0) {
-    let total_bruto = total_bruto_tmp * cantidad;
-    let total_itebis = total_itebis_tmp * cantidad;
-    let total_neto = total_bruto + total_itebis;
-
-    for (let i = 0; i < this.props.oilChangeServices.products.length; i++) {
-      let product = this.props.oilChangeServices.products[i];
-      total_bruto = (total_bruto + (parseFloat(product.price) * parseInt(product.cuantity)));
-      total_itebis = total_itebis + (parseFloat(product.itebis) * parseInt(product.cuantity));
-      total_neto = total_bruto + total_itebis;
-    }
-    //State Redux
-    total_bruto = parseFloat(Math.round(total_bruto * 100) / 100).toFixed(2);
-    total_neto = parseFloat(Math.round(total_neto * 100) / 100).toFixed(2);
-    total_itebis = parseFloat(Math.round(total_itebis * 100) / 100).toFixed(2);
-    this.props.totalPropertyDispatch(total_bruto, total_neto, total_itebis, 0);
   }
 
   onChangeProductQuantity(e) {
@@ -170,14 +151,24 @@ class OilChangeServicesForm extends Component {
       total_bruto = parseFloat(Math.round(total_bruto * 100) / 100).toFixed(2);
       total_neto = parseFloat(Math.round(total_neto * 100) / 100).toFixed(2);
       total_itebis = parseFloat(Math.round(total_itebis * 100) / 100).toFixed(2);
-      this.props.totalPropertyDispatch(total_bruto, total_neto, total_itebis, total_desc);
+      this.props.totalPropertyDispatch({
+        totalBruto: total_bruto,
+        totalNeto: total_neto,
+        totalItebis: total_itebis,
+        totalDesc: total_desc });
     } else if (Number.isInteger(parseInt(e.target.value)) && parseInt(e.target.value) === 0) {
-      this.CalculateTotal();
+      this.props.totalPropertyDispatch(calculateTotal(this.props.oilChangeServices.products));
     } else if (!e.target.value) {
-      this.CalculateTotal();
+      this.props.totalPropertyDispatch(calculateTotal(this.props.oilChangeServices.products));
     } else {
       //Redux state
-      this.props.totalPropertyDispatch(this.props.oilChangeServices.totalBruto, this.props.oilChangeServices.totalNeto, this.props.oilChangeServices.totalItebis, this.props.oilChangeServices.totalDesc);
+      this.props.totalPropertyDispatch(
+        {
+           totalBruto: this.props.oilChangeServices.totalBruto,
+           totalNeto: this.props.oilChangeServices.totalNeto,
+           totalItebis: this.props.oilChangeServices.totalItebis,
+           totalDesc: this.props.oilChangeServices.totalDesc
+         });
     }
   }
   OnClickSelectVehicleFromModalList(id) {
@@ -221,6 +212,7 @@ class OilChangeServicesForm extends Component {
     let mm = today.getMonth()+1;
     let yyyy = today.getFullYear();
     let todayDate = `${dd}/${mm}/${yyyy}`;
+
 
     return this.props.oilChangeServices.doneAndRedirect
       ? <Redirect to="/"/>
@@ -271,11 +263,7 @@ class OilChangeServicesForm extends Component {
             <fieldset>
                <legend>Cambio de aceite</legend>
                <CustomerField
-                   firstName={this.props.oilChangeServices.customer.firstName}
-                   lastName={this.props.oilChangeServices.customer.lastName}
-                   rnc={this.props.oilChangeServices.customer.rnc}
-                   phoneNumber={this.props.oilChangeServices.customer.phoneNumber}
-                   email={this.props.oilChangeServices.customer.email}
+                   customer={this.props.oilChangeServices.customer}
                    onChangeInput={this.onChangeInputCustomer}
                />
                <div className="row">
@@ -317,15 +305,15 @@ class OilChangeServicesForm extends Component {
 
                <ServicesCheckbox onChange={this.onChangeServicsInput}/>
                <ProductAndGeneralServicesSelectorGrid
-                 onChangeProduct={this.onProductChangeInput}
                  onProductAdd={this.onProductAdd}
                  onChangeProductQuantity={this.onChangeProductQuantity}
-                 onChangeFindProduct={this.onChangeFindProduct}
+                 onChangeFind={this.onChangeFindProduct}
                  onChangeProductType={this.onChangeProductType}
-                 products={this.products}
+                 list={this.products}
+                 onClickElementList = {this.onSelectProduct}
                  productsAdded={this.props.oilChangeServices.products}
                  product_select_price={this.state.product_select_price}
-                 product_select_name={this.state.product_select_name}
+                 select_item_name={this.state.product_select_name}
                  product_select_quantity = { this.state.product_select_quantity}
                  product_type_select = { this.state.product_type_select }/>
 
@@ -393,8 +381,9 @@ const mapDispatchToProps = (dispatch) => {
     filteringProudct: (filter) => {
       dispatch(filteringProduct(filter));
     },
-    totalPropertyDispatch: (totalBruto, totalNeto, totalItebis) => {
-      dispatch(oilChangeServicesAction.generalTotalProperty(totalBruto, totalNeto, totalItebis));
+    totalPropertyDispatch: (totals) => {
+      console.log('totals', totals);
+      dispatch(oilChangeServicesAction.generalTotalProperty(totals));
     },
     addCustomerServerCustomer: (customer) => {
       dispatch(oilChangeServicesAction.addCustomerServerCustomer(customer));

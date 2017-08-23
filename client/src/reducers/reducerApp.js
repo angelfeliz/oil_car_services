@@ -6,6 +6,7 @@ import { oilChangeServices } from './oilChangeServicesReducer';
 import { dashBoard } from './dashBoardReducer';
 import { vehicles } from './vehicleReducer';
 import { checkoutMaching } from './checkoutReducer';
+import { generalServices } from './generalServicesReducer'
 
 const reducerApp = combineReducers({
   products,
@@ -14,7 +15,8 @@ const reducerApp = combineReducers({
   oilChangeServices,
   dashBoard,
   vehicles,
-  checkoutMaching
+  checkoutMaching,
+  generalServices
 });
 
 export default reducerApp

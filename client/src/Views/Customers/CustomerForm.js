@@ -72,11 +72,7 @@ render() {
       ? 'showElement'
       : 'hideElement'} onSubmit={e => { this.onSubmit(e) }}>
       <CustomerField
-          firstName={this.props.customers.customer.firstName}
-          lastName={this.props.customers.customer.lastName}
-          rnc={this.props.customers.customer.rnc}
-          phoneNumber={this.props.customers.customer.phoneNumber}
-          email={this.props.customers.customer.email}
+          customer={this.props.customers.customer}          
           onChangeInput={this.onChangeInput}
       />
       <button type="submit" className="btn btn-primary">Guardar</button>
