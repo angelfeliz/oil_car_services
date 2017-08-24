@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {withRouter, Redirect} from 'react-router-dom';
 import CustomerField from '../Customer/CustomerField';
 import ProductAndGeneralServicesSelectorGrid from '../UtilsServices/GeneralServicesForm';
 import * as productAction from '../../actions/productsAction';
@@ -8,13 +10,6 @@ import { calculateTotal } from '../../utils/functions';
 class GeneralServicesForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      product_select_price: '',
-      product_select: '',
-      product_select_quantity: '',
-      product_select_name: 'seleccione producto',
-      product_type_select: '',
-    }
   }
 
   onChangeProductType(e) {
@@ -71,19 +66,23 @@ class GeneralServicesForm extends Component {
       this.props.loadProducts();
     }
   }
-
-
   onChangeProductQuantity = (e) => {
     let quantity = e.target.value;
     if(quantity) {
       this.props.changeItemQuantity(quantity);
     }
   }
-
+  onSubmit = () => {
+     this.props.saveGeneralServices(this.props.generealServices);
+  }
   render() {
-    let general = this.props.generalServicesForm;
+    let general = this.props.generalServices;
     let products = this.props.products;
+    if(general.isRidirect) {
+      <Redirect to='/'/>
+    }
     return (
+      <form onSubmit={this.onSubmit}>
       <CustomerField
          customer={general.customer}
          onChangeInput={this.onChangeInputCustomer}
@@ -104,6 +103,7 @@ class GeneralServicesForm extends Component {
         onProductAdd = {  onProductAdd }
         productsAdded = {  productsAdded }
       />
+      </form>
     )
   }
 }
@@ -131,12 +131,15 @@ let mapDispatchToProps = (dispatch) => ({
   },
   changeItemQuantity: (quantity) => {
     dispatch(generalServicesAction.setItemQuantity(quantity));
+  },
+  saveGeneralServices: (status) => {
+    dispatch(generalServicesAction.saveGeneralServices(status));
   }
 }
 
-GeneralServicesForm = connect(
+GeneralServicesForm = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(GeneralServicesForm);
+)(GeneralServicesForm));
 
 })

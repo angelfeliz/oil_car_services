@@ -1,8 +1,15 @@
+import
+
 export const ADD_ITEM = 'ADD_PRODUCT';
 export const ADD_CUSTOMER_ITEM = 'ADD_CUSTOMER_PROPERTY';
 export const SET_TOTALS = 'SET_TOTALS';
 export const SET_SELECT_ITEM = 'SET_SELECT_PRODUCT',
 export const SET_ITEM_QUANTITY = 'SET_ITEM_QUANTITY';
+export const TOGGLE_IS_REDIRECT = 'TOGGLE_IS_REDIRECT';
+
+export const toggleRedirect = () => ({
+  type:TOGGLE_IS_REDIRECT,
+})
 
 export const addProduct = (item) => ({
   type: ADD_PRODUCT,
@@ -31,3 +38,9 @@ export const setItemQuantity = (quantity) => ({
   type: SET_ITEM_QUANTITY,
   quantity
 })
+
+export const saveGeneralServices = () => {
+  return (dispatch) => {
+
+  }
+}

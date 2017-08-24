@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
 import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
 import CustomerField from '../Customers/CustomerField';
@@ -112,7 +111,7 @@ class OilChangeServicesForm extends Component {
     });
   }
 
-  onChangeFindProduct = (e) => {
+ onChangeFindProduct = (e) => {
     if (e.target.value != undefined && e.target.value) {
       this.props.filteringProudct(e.target.value);
     } else {

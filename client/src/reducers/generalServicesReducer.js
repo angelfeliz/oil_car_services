@@ -12,10 +12,15 @@ let initialState = {
   item_select_quantity: '',
   item_select_name: 'seleccione producto',
   item_type_select: '',
+  isRedirect: false,
 }
-export const generalServices = (state = {}, action) => {
+export const generalServices = (state = initialState, action) => {
   switch(action.type) {
-
+    case generalServicesActionType.TOGGLE_IS_REDIRECT:
+      return {
+        ...state,
+        isRedirect: !state.isRedirect
+      }
     case generalServicesActionType.SET_ITEM_QUANTITY:
       return {
         ...state,
