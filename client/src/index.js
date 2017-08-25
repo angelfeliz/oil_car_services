@@ -8,7 +8,8 @@ import Customer from './Views/Customers/Customer';
 import Vehicle from './Views/Vehicles/Vehicle';
 import oilChangeServices from './Views/OilChangeServices/OilChangeServicesForm';
 import DashBoard from './Views/DashBoard';
-import Checkout from './Views/Checkout'
+import Checkout from './Views/Checkout';
+import GeneralServicesForm from './Views/GeneralServices/GeneralServicesForm';
 import registerServiceWorker from './registerServiceWorker';
 import reducerApp from './reducers/reducerApp';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -23,7 +24,7 @@ import './loading.css';
 const store = createStore(
   reducerApp,
   applyMiddleware(
-    thunkMiddleware  // lets us dispatch() functions
+    thunkMiddleware  // lets us dispatch() functions async
   )
 );
 
@@ -45,8 +46,7 @@ const Root = () => (
       <NavItem eventKey={3} href="#"><Link to='/customer'>Cliente</Link></NavItem>
       <NavItem eventKey={5} href="#"><Link to='/nuevoVehiculo'>Vehiculo</Link></NavItem>
       <NavItem eventKey={4} href="#"><Link to='/caja'>Caja</Link></NavItem>
-
-
+      <NavItem eventKey={5} href="#"><Link to='/generalServices'>Ventas generales</Link></NavItem>
     </Nav>
     </Navbar.Collapse>
   </Navbar>
@@ -57,6 +57,7 @@ const Root = () => (
   <Route path='/customer' component={Customer}/>
   <Route path='/nuevoVehiculo' component={Vehicle}/>
   <Route path='/caja' component={Checkout}/>
+  <Route path='/generalServices' component={GeneralServicesForm}/>
 
    </div>
   </Router>

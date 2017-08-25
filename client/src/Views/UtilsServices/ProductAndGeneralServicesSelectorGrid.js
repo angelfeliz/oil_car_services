@@ -32,7 +32,7 @@ const ProductAndGeneralServicesSelectorGrid = (props) => {
           <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <div className="form-group">
               <HeadAutoComplete
-                 select_item={ props.select_item_name }
+                 select_item={ props.item_select_name }
                  onChangeFind={ props.onChangeFind }
                  list={ props.list }
                  onClickElementList={props.onClickElementList}
@@ -43,14 +43,14 @@ const ProductAndGeneralServicesSelectorGrid = (props) => {
           <div className="col-xs-6 col-sm-2 col-md-2 col-lg-2">
             <div className="form-group">
               <label className="sr-only">-</label>
-              <input onChange={(e) => props.onChangeProductQuantity(e)} value={ props.product_select_quantity } className="form-control" placeholder="Cantidad" name="quantity_product" type="text"/>
+              <input onChange={(e) => props.onChangeProductQuantity(e)} value={ props.item_select_quantity } className="form-control" placeholder="Cantidad" name="quantity_product" type="text"/>
             </div>
           </div>
 
           <div className="col-xs-6 col-sm-4 col-md-2 col-lg-2">
             <div className="form-group">
               <label className="sr-only">-</label>
-              <input className="form-control" placeholder="Precio" name="product_select_price" type="text" value={ props.product_select_price }   readOnly/>
+              <input className="form-control" placeholder="Precio" name="product_select_price" type="text" value={ props.item_select_price }   readOnly/>
             </div>
           </div>
 

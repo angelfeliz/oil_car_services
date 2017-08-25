@@ -1,20 +1,29 @@
-import
+import api from '../api';
 
 export const ADD_ITEM = 'ADD_PRODUCT';
-export const ADD_CUSTOMER_ITEM = 'ADD_CUSTOMER_PROPERTY';
+export const ADD_CUSTOMER_PROPERTY = 'ADD_CUSTOMER_PROPERTY';
 export const SET_TOTALS = 'SET_TOTALS';
-export const SET_SELECT_ITEM = 'SET_SELECT_PRODUCT',
+export const SET_SELECT_ITEM = 'SET_SELECT_ITEM';
 export const SET_ITEM_QUANTITY = 'SET_ITEM_QUANTITY';
 export const TOGGLE_IS_REDIRECT = 'TOGGLE_IS_REDIRECT';
+export const ADD_PRODUCT_TO_GENERAL_SERVICES = 'ADD_PRODUCT_TO_GENERAL_SERVICES';
+
+
+export const addProduct = (product) => ({
+  type: ADD_ITEM,
+  _id: product.product_id,
+  name_: product.name_,
+  price: product.price,
+  quantity: product.quantity,
+  itebis: product.itebis,
+  productType: product.productType,
+  productTotal: product.totalProduct
+})
 
 export const toggleRedirect = () => ({
   type:TOGGLE_IS_REDIRECT,
 })
 
-export const addProduct = (item) => ({
-  type: ADD_PRODUCT,
-  item,
-});
 
 export const addCustomerProperty = (customer) => ({
   type: ADD_CUSTOMER_PROPERTY,
@@ -31,7 +40,9 @@ export const setTotalGeneralProperty = ({ totalBruto, totalNeto, totalItebis, to
 
 export const selectItem = (item) => ({
   type:  SET_SELECT_ITEM,
-  item,
+  item_select_price: item.item_select_price,
+  item_select_id: item.item_select_id,
+  item_select_name: item.item_select_name
 })
 
 export const setItemQuantity = (quantity) => ({
@@ -39,8 +50,45 @@ export const setItemQuantity = (quantity) => ({
   quantity
 })
 
-export const saveGeneralServices = () => {
+export const saveGeneralServices = (state) => {
   return (dispatch) => {
+    if(state.customer.customer_id) {
+      api.post("/customer", state)
+        .then(
+           (responses) => { return responses.data },
+           (error) => {
+             //TODO handle errors
+             console.log(error);
+             throw error;
+           }
+        )
+       .then((data) => {
+         let general = {...state, customer:{...state.customer, customer_id : data._id}};
+         api.post('generalServices/save',general).then(
+           (responses) => {
+             dispatch(toggleRedirect());
+           },
+           (error) => {
+             //TODO handle errors
+             console.log(error);
+             throw error;
+           }
+         )
+       },
+       //TODO handle errors
+       (error) => {
 
-  }
-}
+       })
+    }
+    else
+    {
+      api.post('generalServices/save',state)
+      .then((responses) => {
+        dispatch(toggleRedirect());
+      },
+       (error) => {
+         console.log(error);
+         throw error;
+       }
+     )
+  }}}

@@ -1,10 +1,10 @@
 import * as  generalServicesActionType from '../actions/generalServicesAction';
 
 let initialState = {
-  totalBruto,
-  totalNeto,
-  totalItebis,
-  totalDesc,
+  totalBruto:'',
+  totalNeto:'',
+  totalItebis:'',
+  totalDesc:'',
   products:[],
   customer:{},
   item_select_price: '',
@@ -31,20 +31,22 @@ export const generalServices = (state = initialState, action) => {
         ...state,
         item_select_price: action.item_select_price,
         item_select_id: action.item_select_id,
-        item_select_name: action.item_select_name,
+        item_select_name: action.item_select_name
       }
-    case generalServicesActionType.ADD_PRODUCT:
+    case generalServicesActionType.ADD_ITEM:
       return {
         ...state,
         products: [
           ...state.products,
-          product_id: action.product._id,
-          name_: action.product.name_,
-          price: action.product.price,
-          itebis: action.product.itebis,
-          quantity: action.product.quantity,
-          productType: action.product.productType,
-          totalProduct: action.product.totalProduct,
+          {
+            product_id: action.product_id,
+            name_: action.name_,
+            price: action.price,
+            itebis: action.itebis,
+            quantity: action.quantity,
+            productType: action.productType,
+            productTotal: action.productTotal
+          }
         ],
         item_select_price: '',
         item_select_id: '',

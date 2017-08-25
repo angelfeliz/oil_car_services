@@ -311,9 +311,9 @@ class OilChangeServicesForm extends Component {
                  list={this.products}
                  onClickElementList = {this.onSelectProduct}
                  productsAdded={this.props.oilChangeServices.products}
-                 product_select_price={this.state.product_select_price}
-                 select_item_name={this.state.product_select_name}
-                 product_select_quantity = { this.state.product_select_quantity}
+                 item_select_price={this.state.product_select_price}
+                 item_select_name={this.state.product_select_name}
+                 item_select_quantity = { this.state.product_select_quantity}
                  product_type_select = { this.state.product_type_select }/>
 
                <div className="row top-money">
