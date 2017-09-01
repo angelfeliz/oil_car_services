@@ -80,7 +80,7 @@ const ProductAndGeneralServicesSelectorGrid = (props) => {
                   return (
                     <tr key={index}>
                       <td>{item.product_id}</td>
-                      <td>{item.typeProduct}</td>
+                      <td>{item.productType}</td>
                       <td>{item.name_}</td>
                       <td>{item.quantity}</td>
                       <td>{item.itebis}</td>

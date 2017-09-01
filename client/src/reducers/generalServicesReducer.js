@@ -1,6 +1,7 @@
 import * as  generalServicesActionType from '../actions/generalServicesAction';
 
 let initialState = {
+  paymentType:'',
   totalBruto:'',
   totalNeto:'',
   totalItebis:'',
@@ -13,9 +14,20 @@ let initialState = {
   item_select_name: 'seleccione producto',
   item_type_select: '',
   isRedirect: false,
+  errors:[]
 }
 export const generalServices = (state = initialState, action) => {
   switch(action.type) {
+    case generalServicesActionType.ADD_ERRORS:    
+      return {
+        ...state,
+        errors: action.errors.map(item => item)
+      }
+    case generalServicesActionType.ADD_GENERALS_ITEM:
+      return {
+        ...state,
+        [action.property]: action.value
+      }
     case generalServicesActionType.TOGGLE_IS_REDIRECT:
       return {
         ...state,
@@ -31,7 +43,8 @@ export const generalServices = (state = initialState, action) => {
         ...state,
         item_select_price: action.item_select_price,
         item_select_id: action.item_select_id,
-        item_select_name: action.item_select_name
+        item_select_name: action.item_select_name,
+        item_type_select: action.item_type_select
       }
     case generalServicesActionType.ADD_ITEM:
       return {
@@ -45,7 +58,7 @@ export const generalServices = (state = initialState, action) => {
             itebis: action.itebis,
             quantity: action.quantity,
             productType: action.productType,
-            productTotal: action.productTotal
+            totalProduct: action.productTotal
           }
         ],
         item_select_price: '',
@@ -69,7 +82,7 @@ export const generalServices = (state = initialState, action) => {
         totalNeto: action.totalNeto,
         totalItebis: action.totalItebis,
         totalDesc: action.totalDesc,
-      }
+       }
     default: return state;
   }
 }

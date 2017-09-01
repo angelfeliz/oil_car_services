@@ -7,23 +7,33 @@ export const SET_SELECT_ITEM = 'SET_SELECT_ITEM';
 export const SET_ITEM_QUANTITY = 'SET_ITEM_QUANTITY';
 export const TOGGLE_IS_REDIRECT = 'TOGGLE_IS_REDIRECT';
 export const ADD_PRODUCT_TO_GENERAL_SERVICES = 'ADD_PRODUCT_TO_GENERAL_SERVICES';
+export const ADD_GENERALS_ITEM = 'ADD_GENERALS_ITEM';
+export const ADD_ERRORS = 'ADD_ERRORS';
 
+export const addErrors = (errors) => ({
+  type:ADD_ERRORS,
+  errors: errors.map(item => item)
+})
 
+export const addGeneralProperty = (general) => ({
+  type: ADD_GENERALS_ITEM,
+  property: general.property,
+  value: general.value
+})
 export const addProduct = (product) => ({
   type: ADD_ITEM,
-  _id: product.product_id,
+  product_id: product.product_id,
   name_: product.name_,
   price: product.price,
   quantity: product.quantity,
   itebis: product.itebis,
   productType: product.productType,
-  productTotal: product.totalProduct
+  totalProduct: product.totalProduct
 })
 
 export const toggleRedirect = () => ({
   type:TOGGLE_IS_REDIRECT,
 })
-
 
 export const addCustomerProperty = (customer) => ({
   type: ADD_CUSTOMER_PROPERTY,
@@ -42,7 +52,8 @@ export const selectItem = (item) => ({
   type:  SET_SELECT_ITEM,
   item_select_price: item.item_select_price,
   item_select_id: item.item_select_id,
-  item_select_name: item.item_select_name
+  item_select_name: item.item_select_name,
+  item_type_select: item.item_type_select
 })
 
 export const setItemQuantity = (quantity) => ({

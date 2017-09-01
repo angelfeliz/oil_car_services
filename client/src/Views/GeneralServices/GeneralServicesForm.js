@@ -5,13 +5,23 @@ import CustomerField from '../Customers/CustomerField';
 import ProductAndGeneralServicesSelectorGrid from '../UtilsServices/ProductAndGeneralServicesSelectorGrid';
 import * as productAction from '../../actions/productsAction';
 import * as generalServicesAction from '../../actions/generalServicesAction';
-import { calculateTotal } from '../../utils/functions';
+import { calculateTotal, validationSpread } from '../../utils/functions';
+import PaymentType from '../util/PaymentType';
+import TotalInputs from '../util/TotalInputs';
+import validateCustomer from '../../utils/Validations/validateCustomer';
+import {RenderErrorMessage} from '../util/Alerts';
 
 class GeneralServicesForm extends Component {
   constructor(props) {
     super(props);
   }
 
+  onChangeInput = (e) => {
+    this.props.addGeneralProperty({
+      property: [e.target.name],
+      value: e.target.value
+    })
+  }
   onChangeProductType(e) {
     let productType = e.target.value;
     if(productType) {
@@ -19,12 +29,10 @@ class GeneralServicesForm extends Component {
     }
   }
   onChangeInputCustomer = (e) => {
-    if(e.target.value) {
       this.props.addCustomerProperty({
         property: [e.target.name],
         value: e.target.value
       });
-    }
   }
   onProductAdd = () => {
     let general = this.props.generalServices;
@@ -54,10 +62,12 @@ class GeneralServicesForm extends Component {
         return item;
       }
     });
+    console.log('ver', pro);
     this.props.selectItem({
         item_select_price: pro.price,
         item_select_id: pro._id,
-        item_select_name: pro.name_
+        item_select_name: pro.name_,
+        item_type_select: pro.typeProduct
       });
   }
   onChangeItemFind = (e) => {
@@ -73,8 +83,16 @@ class GeneralServicesForm extends Component {
       this.props.changeItemQuantity(quantity);
     }
   }
-  onSubmit = () => {
-     this.props.saveGeneralServices(this.props.generealServices);
+  onChangeInputDisc = () => {}
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    let validatedCustomer = validateCustomer(this.props.generalServices.customer);
+    if(validateCustomer) {
+      let spread = validationSpread(validatedCustomer);      
+      this.props.addErrors(validationSpread(validatedCustomer));
+    }
+     //this.props.saveGeneralServices(this.props.generealServices);
   }
 
   componentDidMount() {
@@ -84,12 +102,34 @@ class GeneralServicesForm extends Component {
   render() {
     let general = this.props.generalServices;
     let products = this.props.products;
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+    let todayDate = `${dd}/${mm}/${yyyy}`;
+
     if(general.isRedirect) {
       <Redirect to='/'/>
     }
     return (
       <div className="container">
-        <form onSubmit={this.onSubmit}>
+       {general.errors.length > 0 ?  <RenderErrorMessage errors={general.errors}/> : null }
+        <form onSubmit={(e)=>this.onSubmit(e)}>
+        <input name="id" type="text" className="not-show"/>
+
+        <div className="">
+          <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 pull-right">
+            <div className="form-group">
+              <label className="sr-only"></label>
+              <input className="form-control" placeholder="Fecha" name="date" type="text" readOnly value={todayDate}/>
+           </div>
+         </div>
+        <PaymentType
+          onChangeInput = {this.onChangeInput}
+        />
+        </div>
+        <fieldset>
+          <legend>Ventas generales</legend>
         <CustomerField
            customer={general.customer}
            onChangeInput={this.onChangeInputCustomer}
@@ -101,16 +141,25 @@ class GeneralServicesForm extends Component {
           item_select_price = { general.item_select_price}
           item_select_name = { general.item_select_name }
           item_select_id = { general.item_select_id }
-
-        onChangeProductType = { general.onChangeProductType }
-        onChangeFind = { this.onChangeItemFind }
-        list = { products.productList }
-        onClickElementList = {this.onSelectProduct}
-        onChangeProductQuantity = {this.onChangeProductQuantity}
-        onProductAdd = {  this.onProductAdd }
-        productsAdded = {  general.products }
+          onChangeProductType = { general.onChangeProductType }
+          onChangeFind = { this.onChangeItemFind }
+          list = { products.productList }
+          onClickElementList = {this.onSelectProduct}
+          onChangeProductQuantity = {this.onChangeProductQuantity}
+          onProductAdd = {  this.onProductAdd }
+          productsAdded = {  general.products }
       />
+
+      <TotalInputs
+       totalBruto={general.totalBruto}
+       onChangeInputDisc={this.onChangeInputDisc}
+       totalDesc={general.totalDesc}
+       totalItebis={general.totalItebis}
+       totalNeto={general.totalNeto}
+      />
+</fieldset>
       <button className="btn btn-primary">Guardar</button>
+
       </form>
       </div>
     )
@@ -123,6 +172,12 @@ let mapStateToProps = (state) => ({
 })
 
 let mapDispatchToProps = (dispatch) => ({
+  addErrors: (errorArray) => {
+    dispatch(generalServicesAction.addErrors(errorArray));
+  },
+  addGeneralProperty: (general) => {
+    dispatch(generalServicesAction.addGeneralProperty(general));
+  },
   loadProducts: () => {
     dispatch(productAction.GetAllProducts());
   },
