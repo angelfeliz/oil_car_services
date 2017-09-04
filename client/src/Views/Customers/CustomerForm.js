@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import validateCustomer from '../../utils/Validations/validateCustomer';
 import CustomerField from './CustomerField';
 import * as customerAction from '../../actions/customerAction';
-import * as alerts from '../util/Alerts';
+import {RenderErrorMessage, AlertSuccess} from '../util/Alerts';
 
 class CustomerForm extends Component {
   constructor(props) {
@@ -51,7 +51,7 @@ componentWillUnmount() {
 render() {
   return(
 <div className="container">
-{ this.props.customers.didSaved  ? <alerts.AlertSuccess text={"guardado con exito!"} />
+{ this.props.customers.didSaved  ? <AlertSuccess text={"guardado con exito!"} />
   : null}
 
     <button className={this.props.customers.isShowCustomerForm
@@ -61,18 +61,14 @@ render() {
     }}>
       Agregar Cliente
     </button>
+   {this.props.customers.errors.length > 0 ?  <RenderErrorMessage errors={this.props.customers.errors}/> : null }
 
-    <div className={this.props.customers.errors.length > 0
-      ? 'showElement'
-      : 'hideElement'}>
-      { alerts.RenderErrorMessage(this.props.customers.errors) }
-    </div>
     <div>
     <form method="post" className={this.props.customers.isShowCustomerForm
       ? 'showElement'
       : 'hideElement'} onSubmit={e => { this.onSubmit(e) }}>
       <CustomerField
-          customer={this.props.customers.customer}          
+          customer={this.props.customers.customer}
           onChangeInput={this.onChangeInput}
       />
       <button type="submit" className="btn btn-primary">Guardar</button>

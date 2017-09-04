@@ -8,7 +8,7 @@ import * as oilChangeServicesAction from '../../actions/oilChangeServicesAction'
 import ProductAndGeneralServicesSelectorGrid from '../UtilsServices/ProductAndGeneralServicesSelectorGrid';
 import ServicesCheckbox from '../UtilsServices/ServicesCheckBox';
 import ModalList from '../util/ModalList';
-import * as alerts from '../util/Alerts';
+import {RenderErrorMessage, AlertSuccess} from '../util/Alerts';
 import validatedOilChange from '../../utils/Validations/validatedOilChange';
 import {validationSpread, calculateTotal} from '../../utils/functions';
 import PaymentType from '../util/PaymentType';
@@ -178,9 +178,7 @@ class OilChangeServicesForm extends Component {
     }
     onSubmit(e) {
         e.preventDefault();
-        console.log('Entro a submit');
         let validation = validatedOilChange(this.props.oilChangeServices);
-        console.log(validation);
         if (validation === undefined) {
             this.props.saveCustomerServices(this.props.oilChangeServices);
         } else {
@@ -212,16 +210,13 @@ class OilChangeServicesForm extends Component {
                     ? " container"
                     : "container"}>
                     {this.props.oilChangeServices.didSaved
-                        ? <alerts.AlertSuccess text={"El cambio de aceite fue guardado y listo para pasar por caja."}/>
+                        ? <AlertSuccess text={"El cambio de aceite fue guardado y listo para pasar por caja."}/>
                         : null}
                     {this.props.oilChangeServices.isModalListVehicle
                         ? <ModalList vehicleArray={this.props.oilChangeServices.vehicleArray} OnClickSelect={this.OnClickSelectVehicleFromModalList}/>
                         : null}
-                    <div className={this.props.oilChangeServices.oilChangeErrors.length > 0
-                        ? 'showElement'
-                        : 'hideElement'}>
-                        {alerts.RenderErrorMessage(this.props.oilChangeServices.oilChangeErrors)}
-                    </div>
+                        {this.props.oilChangeServices.oilChangeErrors.length > 0 ?  <RenderErrorMessage errors={this.props.oilChangeServices.oilChangeErrors}/> : null }
+
                     <form method="post" onSubmit={e => {
                         this.onSubmit(e);
                     }}>

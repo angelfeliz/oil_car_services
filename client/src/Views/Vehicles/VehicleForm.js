@@ -4,7 +4,7 @@ import api from '../../api';
 import * as vehicleAction from '../../actions/vehicleAction';
 import * as customerAction from '../../actions/customerAction';
 import validateVehicle from '../../utils/Validations/validatedVehicle';
-import * as alerts from '../util/Alerts';
+import {RenderErrorMessage, AlertSuccess} from '../util/Alerts';
 import HeadAutoComplete from '../util/HeadAutoComplete';
 import VehicleField from './VehicleField';
 
@@ -81,7 +81,7 @@ class VehicleForm extends Component {
     return (
       <div className="container">
         {this.props.vehicles.didSaved
-          ? <alerts.AlertSuccess text={"El vehiculo fue guardado sastifactoriamente"} />
+          ? <AlertSuccess text={"El vehiculo fue guardado sastifactoriamente"} />
           : null}
         <button className={this.props.vehicles.isShowVehicleForm
           ? 'hideElement'
@@ -90,11 +90,7 @@ class VehicleForm extends Component {
         }}>
           Agregar vehiculo
         </button>
-        <div className={this.props.vehicles.vehicleErrors.length > 0
-          ? 'showElement'
-          : 'hideElement'}>
-          {alerts.RenderErrorMessage(this.props.vehicles.vehicleErrors)}
-        </div>
+        {this.props.vehicles.vehicleErrors.length > 0 ?  <RenderErrorMessage errors={this.porps.propsvehicles.vehicleErrors}/> : null }
         <form method="post" className={this.props.vehicles.isShowVehicleForm
           ? 'showElement'
           : 'hideElement'} onSubmit={e => { this.onSubmit(e) }}>

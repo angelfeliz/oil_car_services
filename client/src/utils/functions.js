@@ -17,7 +17,7 @@ export const onlyNumber = (value) => {
 }
 
 export const validationSpread = (validation) => {
-  
+
   let errorList = [];
   let keyArray = Object.keys(validation);
   for (let item = 0; item < keyArray.length; item++) {
@@ -33,7 +33,7 @@ export const calculateTotal = (list = [], total_itebis_tmp = 0, total_bruto_tmp 
   let total_bruto = total_bruto_tmp * cantidad;
   let total_itebis = total_itebis_tmp * cantidad;
   let total_neto = total_bruto + total_itebis;
-
+  
   for (let i = 0; i < list.length; i++) {
     let item = list[i];
     total_bruto = (total_bruto + (parseFloat(item.price) * parseInt(item.quantity)));

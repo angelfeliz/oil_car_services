@@ -8,11 +8,11 @@ export const SET_ITEM_QUANTITY = 'SET_ITEM_QUANTITY';
 export const TOGGLE_IS_REDIRECT = 'TOGGLE_IS_REDIRECT';
 export const ADD_PRODUCT_TO_GENERAL_SERVICES = 'ADD_PRODUCT_TO_GENERAL_SERVICES';
 export const ADD_GENERALS_ITEM = 'ADD_GENERALS_ITEM';
-export const ADD_ERRORS = 'ADD_ERRORS';
+export const ADD_GENERAL_SERVICES_ERRORS = 'ADD_GENERAL_SERVICES_ERRORS';
 
 export const addErrors = (errors) => ({
-  type:ADD_ERRORS,
-  errors: errors.map(item => item)
+  type:ADD_GENERAL_SERVICES_ERRORS,
+  errors_:errors.map(item => item)
 })
 
 export const addGeneralProperty = (general) => ({
@@ -63,11 +63,14 @@ export const setItemQuantity = (quantity) => ({
 
 export const saveGeneralServices = (state) => {
   return (dispatch) => {
-    if(state.customer.customer_id) {
-      api.post("/customer", state)
+    console.log(state);
+    if(!state.customer.customer_id) {
+      console.log('aqui no ahora');
+      api.post("/customer", state.customer)
         .then(
            (responses) => { return responses.data },
            (error) => {
+             console.log('aqui al error');
              //TODO handle errors
              console.log(error);
              throw error;
@@ -98,6 +101,7 @@ export const saveGeneralServices = (state) => {
         dispatch(toggleRedirect());
       },
        (error) => {
+            //TODO handle errors
          console.log(error);
          throw error;
        }

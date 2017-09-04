@@ -1,27 +1,33 @@
 import * as  generalServicesActionType from '../actions/generalServicesAction';
 
 let initialState = {
-  paymentType:'',
+  paymentType:'cash',
   totalBruto:'',
   totalNeto:'',
   totalItebis:'',
   totalDesc:'',
   products:[],
-  customer:{},
+  customer:{
+    customer_id:'',
+  },
   item_select_price: '',
   item_select_id: '',
   item_select_quantity: '',
   item_select_name: 'seleccione producto',
   item_type_select: '',
   isRedirect: false,
-  errors:[]
+  generalServerErrors:[]
 }
 export const generalServices = (state = initialState, action) => {
   switch(action.type) {
-    case generalServicesActionType.ADD_ERRORS:    
+    case generalServicesActionType.ADD_GENERAL_SERVICES_ERRORS:
       return {
         ...state,
-        errors: action.errors.map(item => item)
+        generalServerErrors: [
+          ...state.generalServerErrors,
+          action.errors_.map(item => item)
+        ]
+
       }
     case generalServicesActionType.ADD_GENERALS_ITEM:
       return {
@@ -58,7 +64,7 @@ export const generalServices = (state = initialState, action) => {
             itebis: action.itebis,
             quantity: action.quantity,
             productType: action.productType,
-            totalProduct: action.productTotal
+            totalProduct: action.totalProduct
           }
         ],
         item_select_price: '',

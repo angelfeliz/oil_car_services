@@ -8,7 +8,7 @@ import * as generalServicesAction from '../../actions/generalServicesAction';
 import { calculateTotal, validationSpread } from '../../utils/functions';
 import PaymentType from '../util/PaymentType';
 import TotalInputs from '../util/TotalInputs';
-import validateCustomer from '../../utils/Validations/validateCustomer';
+import validatedGeneralServices from '../../utils/Validations/validatedGeneralServices';
 import {RenderErrorMessage} from '../util/Alerts';
 
 class GeneralServicesForm extends Component {
@@ -43,7 +43,8 @@ class GeneralServicesForm extends Component {
     });
     let itebis_tmp = parseFloat(pro.price) * 0.18;
     let total_tmp = (parseFloat(pro.price) + parseFloat(itebis_tmp)) * parseInt(general.item_select_quantity);
-    this.props.totalProperty((calculateTotal(itebis_tmp, parseFloat(pro.price), parseInt(general.item_select_quantity), parseInt(general.totalDesc))));
+
+    this.props.totalProperty(calculateTotal(general.products, itebis_tmp, parseFloat(pro.price), parseInt(general.item_select_quantity)));
 
     this.props.addProduct({
       product_id: pro._id,
@@ -54,7 +55,6 @@ class GeneralServicesForm extends Component {
       itebis: itebis_tmp,
       totalProduct: total_tmp
     });
-    //this.setState({...this.state, product_type_select:"", product_select_name:"", product_select_quantity:"", product_select_price:""});
    }
   onSelectProduct = (_id) => {
     let pro = this.props.products.productList.find((item) => {
@@ -62,7 +62,6 @@ class GeneralServicesForm extends Component {
         return item;
       }
     });
-    console.log('ver', pro);
     this.props.selectItem({
         item_select_price: pro.price,
         item_select_id: pro._id,
@@ -84,17 +83,16 @@ class GeneralServicesForm extends Component {
     }
   }
   onChangeInputDisc = () => {}
-
   onSubmit = (e) => {
     e.preventDefault();
-    let validatedCustomer = validateCustomer(this.props.generalServices.customer);
-    if(validateCustomer) {
-      let spread = validationSpread(validatedCustomer);      
-      this.props.addErrors(validationSpread(validatedCustomer));
+    let validatedGeneral = validatedGeneralServices(this.props.generalServices);
+    if(validatedGeneral) {
+      this.props.addErrors(validationSpread(validatedGeneral));
+    }else{
+      this.props.saveGeneralServices(this.props.generalServices);
     }
-     //this.props.saveGeneralServices(this.props.generealServices);
+     window.scrollTo(1000, 0);
   }
-
   componentDidMount() {
     this.props.loadProducts();
   }
@@ -109,11 +107,12 @@ class GeneralServicesForm extends Component {
     let todayDate = `${dd}/${mm}/${yyyy}`;
 
     if(general.isRedirect) {
-      <Redirect to='/'/>
+    return   <Redirect to='/'/>
     }
     return (
       <div className="container">
-       {general.errors.length > 0 ?  <RenderErrorMessage errors={general.errors}/> : null }
+       {general.generalServerErrors.length > 0 ?  <RenderErrorMessage errors={general.generalServerErrors}/> : null }
+
         <form onSubmit={(e)=>this.onSubmit(e)}>
         <input name="id" type="text" className="not-show"/>
 

@@ -8,11 +8,11 @@ var router = express.Router();
 router.post('/', function(req, res, next) {
   let servicesCustomer = {
     ...req.body,
-    _id: 4
+    _id: 3
   };
   console.log('llego');
   let servicesCustomerDb = new customerServerModel(servicesCustomer);
-  servicesCustomerDb.save().then((response) => {    
+  servicesCustomerDb.save().then((response) => {
     return res.json(response);
   },
   (err) => {

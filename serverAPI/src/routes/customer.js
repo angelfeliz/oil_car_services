@@ -8,6 +8,7 @@ var router = express.Router();
 
 router.post('/', function(req, res, next) {
   let customer = { ...req.body, _id: 1 };
+  
   validateCustomer(customer)
   .then(customer => {
     new customerModel(customer)
@@ -29,7 +30,7 @@ router.get('/customerList', function(req, res){
   })
 });
 
-router.get('/:id', function(req, res) {  
+router.get('/:id', function(req, res) {
   customerModel.find({_id:req.params.id},function(err, data){
     if(err) {
       return handlers.validateError(res, err);

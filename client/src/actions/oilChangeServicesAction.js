@@ -49,7 +49,7 @@ export const getCustomerServerCustomer = (state = {}, data) => {
 export const checkOwnerExistVehicle = (customerId) => {
     return {type: CHECK_OWNER_EXIST_VEHICLE, customerId}
 }
-export const generalTotalProperty = ({totalBruto, totalNeto, totalItebis, totalDesc}) => {  
+export const generalTotalProperty = ({totalBruto, totalNeto, totalItebis, totalDesc}) => {
     return {
       type: GENERAL_TOTAL_PROPERTY,
       totalBruto, totalNeto, totalItebis, totalDesc}
@@ -94,7 +94,7 @@ export const toggledidSaved = () => ({type: TOGGLE_IS_SAVED})
 export const toggleDoneAdnRiderect = () => ({type: TOGGLE_REDIRECT})
 export const addOilChangeErrors = (errors) => ({
   type: ADD_OIL_CHANGE_ERRORS,
-  errors: errors.map(item => item)  ,
+  errors: errors.map(item => item),
 })
 export const postCustomerServiceForm = (state) => {
     return (dispatch) => {

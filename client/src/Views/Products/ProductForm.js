@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import api from '../../api';
 import * as productAction from '../../actions/productsAction';
 import validateProduct from '../../utils/Validations/validateProduct';
-import * as alerts from '../util/Alerts';
+import {RenderErrorMessage, AlertSuccess} from '../util/Alerts';
 import { fuelType, productType } from '../../utils/objectAsList';
 
 class ProductForm extends Component {
@@ -65,7 +65,7 @@ componentWillUnmount(){
     return (
       <div className="container">
         {this.props.products.didSaved
-          ? <alerts.AlertSuccess text={"El product fue guardado sastifactoriamente"} />
+          ? <AlertSuccess text={"El product fue guardado sastifactoriamente"} />
           : null}
         <button className={this.props.products.isShowProductForm
           ? 'hideElement'
@@ -74,11 +74,7 @@ componentWillUnmount(){
         }}>
           Agregar product
         </button>
-        <div className={this.props.products.productErrors.length > 0
-          ? 'showElement'
-          : 'hideElement'}>
-          {alerts.RenderErrorMessage(this.props.products.productErrors)}
-        </div>
+        {this.props.products.productErrors.length > 0 ?  <RenderErrorMessage errors={this.props.products.productErrors}/> : null }
         <form method="post" className={this.props.products.isShowProductForm
           ? 'showElement'
           : 'hideElement'} onSubmit={e => { this.onSubmit(e)  }}>

@@ -5,12 +5,14 @@ import users from './users';
 import customerServer from './customerServer';
 import customer from './customer';
 import vehicle from './vehicle';
+import generalServices from './generalServices';
 
 router.use('/customer', customer);
 router.use('/vehicle', vehicle);
 router.use('/customerServices', customerServer);
 router.use('/product', products);
 router.use('/user', users);
+router.use('/generalServices', generalServices);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
