@@ -5,6 +5,7 @@ import autoIncrement from 'mongodb-autoincrement';
 
 export const customerServerSchema = new Schema({
   _id: { type: Number },
+  statu: { type: String},
   supervisor: { type: String },
   totalBruto: { type: Number },
   totalDesc: { type: Number },

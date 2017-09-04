@@ -72,7 +72,6 @@ router.get('/topSell', function(req, res) {
 router.get('/countOilSellOfDay', function(req, res) {
   let today = Date.now();
   customerServerModel.aggregate(
-
   { $unwind: "$products" },
   {
     $group: {
@@ -87,5 +86,15 @@ router.get('/countOilSellOfDay', function(req, res) {
      return res.status(200).json(responses);
    });
 });
+
+router.get('/oilChangeUnPay', function(req, res) {
+    var pending = customerServerModel.find({statu:"pending"});
+    pending.exec(function(err, sell){
+        if(err) {
+          return res.status(500).json(err);
+        }
+        return res.status(200).json(sell);
+    });
+})
 
 module.exports = router;

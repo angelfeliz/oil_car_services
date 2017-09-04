@@ -28,8 +28,12 @@ class Checkout extends Component {
 
   }
 
-  componentWillMount() {
-    this.props.loadOilChangeServices();
+  componentDidMount() {
+  //  this.props.loadOilChangeServices();
+  }
+
+  onChangeFindCheckout = (e) => {
+    let words = e.target.value;
   }
 
   render() {
@@ -55,6 +59,11 @@ class Checkout extends Component {
                 La operación fue abortada por el sístema.</div>)
             : null
       }
+      <div className="row">
+        <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-12 col-xs-12">
+          <input type="text" className="form-control" onChange={(e)=>this.onChangeFindCheckout(e)} />
+        </div>
+      </div>
       <table className = "table table-striped table-hover">
       <thead>
        <tr>
@@ -116,7 +125,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    loadOilChangeServices: () => {},
+    loadAllSells: () => {
+      dispatch(checkoutAction.loadAllSells());
+    },
     confirmedCheckout: (check) => {
       dispatch(checkoutAction.confirmedCheckout(check));
     },

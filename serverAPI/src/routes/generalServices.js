@@ -21,5 +21,13 @@ router.post('/save', function(req, res, next) {
   })
 });
 
-
+router.get('/generalUnPay', function(req, res, next) {
+  var generalUnpay = generalServicesModel.find({statu: "pending"});
+  generalUnpay.exec((err, sell) => {
+    if(err) {
+      return res.status(500).json(err);
+    }
+    return res.status(200).json(sell);
+  })
+});
 module.exports = router;

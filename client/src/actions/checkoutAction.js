@@ -6,7 +6,7 @@ export const CONFIRMED_CHECKOUT = 'CONFIRMEDCHECKOUT';
 export const ABORT_CHECKOUT_SYSTEM = 'ABORT_CHECKOUT_SYSTEM';
 export const STOP_ABORT_CHECKOUT_SYSTEM = 'STOP_ABORT_CHECKOUT_SYSTEM';
 export const PAYMENT_TYPE = 'PAYMENT_TYPE';
-
+export const SET_SELL = 'SET_SELL';
 
 export const paymentTypeChange = (paymentType) => ({
   type: PAYMENT_TYPE,
@@ -53,7 +53,10 @@ export const ReceiveConfirmedCheckout = () => {
     isRidrectToReceipt: true,
   }
 }
-
+export const setSell = (sell) => ({
+  type: SET_SELL,
+  sell: sell.map(item => item),
+})
 export const confirmedCheckout = (checkout) => {
   return (dispatch) => {
     api.put('customerServices/checkout/',checkout)
@@ -76,5 +79,30 @@ export const confirmedCheckout = (checkout) => {
        dispatch(abortCheckoutBySystem);
        window.setTimeout(dispatch(stopAbortCheckoutBySystem()), 1500);
   })
+  }
+}
+
+export const loadAllSells = () => {
+  return (dispatch) => {
+    api.get("/customerServices/oilChangeUnPay")
+    .then(
+      (responses)=>{ dispatch(setSell(responses.data)); },
+      (err) => {
+        //TODO handler errror
+        throw err;
+      }
+    )
+    .then(
+      api.get("/generalServices/generalUnPay")
+      .then(
+        (responses) => {
+          dispatch(setSell(responses.data));
+        },
+        (err) => {
+          //TODO handler errror
+          throw err;
+        }
+    )
+    )
   }
 }
