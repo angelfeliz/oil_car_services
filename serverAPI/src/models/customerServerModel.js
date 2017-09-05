@@ -5,13 +5,13 @@ import autoIncrement from 'mongodb-autoincrement';
 
 export const customerServerSchema = new Schema({
   _id: { type: Number },
-  statu: { type: String},
+  statu: { type: String, default: "pending"},
   supervisor: { type: String },
   totalBruto: { type: Number },
   totalDesc: { type: Number },
   totalItebis: { type: Number },
   totalNeto: { type: Number },
-  typePayment: { type: String },
+  paymentType: { type: String },
   branchOffice: { type: String },
   dateNextOilChange: { type: Date },
   vehicle: {

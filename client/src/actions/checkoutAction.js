@@ -53,8 +53,9 @@ export const ReceiveConfirmedCheckout = () => {
     isRidrectToReceipt: true,
   }
 }
-export const setSell = (sell) => ({
+export const setSell = (sell, sellType) => ({
   type: SET_SELL,
+  sellType,
   sell: sell.map(item => item),
 })
 export const confirmedCheckout = (checkout) => {
@@ -86,23 +87,47 @@ export const loadAllSells = () => {
   return (dispatch) => {
     api.get("/customerServices/oilChangeUnPay")
     .then(
-      (responses)=>{ dispatch(setSell(responses.data)); },
+      (responses)=>{
+          return responses.data;
+       },
       (err) => {
         //TODO handler errror
         throw err;
       }
     )
     .then(
+      (data) => {
+        if(data.length > 0) {
+            dispatch(setSell(data, "oilChange"));
+        }
+      },
+      (err) => {}
+   )
+    .then(()=>{
       api.get("/generalServices/generalUnPay")
       .then(
         (responses) => {
-          dispatch(setSell(responses.data));
+          return responses.data;
         },
         (err) => {
           //TODO handler errror
           throw err;
         }
-    )
-    )
+      )
+      .then(
+        (data) => {
+          if(data.length > 0) {
+           dispatch(setSell(data, "general"));
+          }
+        },
+      (err) => {
+
+      })
+    },
+    (err) => {
+      //TODO handler error
+      throw err;
+    }
+  )
   }
 }

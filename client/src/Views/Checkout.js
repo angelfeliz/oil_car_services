@@ -29,7 +29,7 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-  //  this.props.loadOilChangeServices();
+   this.props.loadAllSells();
   }
 
   onChangeFindCheckout = (e) => {
@@ -37,18 +37,8 @@ class Checkout extends Component {
   }
 
   render() {
-    let checks = this.props.checkoutMaching.oilChangeServices.filter((item) => {
-      if (!item.isPaid) {
-        return {
-          _id: item._id,
-          firstName: item.firstName,
-          lastName: item.lastName,
-          services: "cambio de aceite",
-          placeNumber: item.placeNumber,
-          total: item.total
-        }
-      }
-    })
+
+    let checks = this.props.checkoutMaching.sell.map(item =>item);
     return (
       <div className="container">
       {
@@ -81,17 +71,17 @@ class Checkout extends Component {
      <tbody>
      {checks.map((item) => {
        return (
-         <tr key={item._id}>
-           <td>{item.id}</td>
+         <tr key={item.services_id}>
+           <td>{item.services_id}</td>
            <td>{item.firstName}
            </td>
            <td>{item.lastName}</td>
            <td>{item.services}</td>
            <td>{item.placeNumber}
            </td>
-           <td>{item.total}</td>
+           <td>{item.totalNeto}</td>
            <td>
-             <button onClick={this.onClickProcessCheckout(item)} type="button" className="btn btn-default">Procesar</button>
+             <button onClick={()=>this.onClickProcessCheckout(item)} type="button" className="btn btn-default">Procesar</button>
            </td>
          </tr>
        )

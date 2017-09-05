@@ -2,22 +2,44 @@ import * as checkoutActionType from '../actions/checkoutAction';
 
 let stateDefault = {
   _id: '',
-  services_id:'',
-  paymentType: '',
-  firstName: '',
-  lastName: '',
-  services: '',
-  products:[],
-  placeNumber: '',
-  total: '',
+  sell: [/*{
+    services_id: '',
+    paymentType: '',
+    firstName: '',
+    lastName: '',
+    services: '',
+    products:[],
+    placeNumber: '',
+    total: ''}*/
+  ],
   isModalVisible: true,
   isRidirectToInvoice: false,
   isAbortBySystem: false,
-  oilChangeServices:[],
 }
 
 export const checkoutMaching = (state = stateDefault, action) => {
   switch (action.type) {
+   case checkoutActionType.SET_SELL:
+   console.log('action ',action);
+     return {
+       ...state,
+       sell:[
+         ...state.sell,
+         ...action.sell.map((item) => {
+             return {
+               services_id: item._id,
+               paymentType: '',
+               services: action.sellType,
+               firstName: item.customer.firstName,
+               lastName: item.customer.lastName,
+               totalNeto: item.totalNeto,
+               podructs: [
+                 ...item.products.map(pro => pro)
+               ]
+             }
+         })
+       ]
+     }
    case checkoutActionType.PROCESS_CHECKOUT:
       return {
         ...state,

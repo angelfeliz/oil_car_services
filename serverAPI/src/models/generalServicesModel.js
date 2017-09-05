@@ -5,7 +5,7 @@ import autoIncrement from 'mongodb-autoincrement';
 
 export const generalServicesSchema = new Schema({
   _id: { type: Number },
-  statu: { type: String },
+  statu: { type: String, default: "pending" },
   totalBruto: { type: Number },
   totalDesc: { type: Number },
   totalItebis: { type: Number },

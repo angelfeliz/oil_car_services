@@ -67,7 +67,6 @@ export const stageCustomer = (customer) => {
     }
 }
 export const stageVehicle = (vehicle) => {
-    console.log(vehicle);
     return {
         type: STAGE_VEHICLE_CHANGE_OIL,
         vehicle_id: vehicle._id,
