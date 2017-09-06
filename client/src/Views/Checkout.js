@@ -33,27 +33,33 @@ class Checkout extends Component {
   }
 
   onChangeFindCheckout = (e) => {
-    let words = e.target.value;
+    let word = e.target.value;
+    this.props.findSell(word);
   }
 
   render() {
-
-    let checks = this.props.checkoutMaching.sell.map(item =>item);
+     let checkoutMaching = this.props.checkoutMaching;
+    let checks = checkoutMaching.sell.map(item =>item);
     return (
       <div className="container">
       {
-        this.props.checkoutMaching.isRidirectToInvoice
-          ? <Redirect to='/invoice'/>
-          : this.props.checkoutMaching.isAbortBySystem
+         checkoutMaching.isAbortBySystem
             ? (<div className="alert alert-warnning">
                 La operación fue abortada por el sístema.</div>)
             : null
       }
       <div className="row">
         <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-12 col-xs-12">
-          <input type="text" className="form-control" onChange={(e)=>this.onChangeFindCheckout(e)} />
+          <input type="text" className="form-control" onChange={(e)=>this.onChangeFindCheckout(e)} placeholder="Buscar factura" />
         </div>
       </div>
+      {
+        checkoutMaching.isNoMatch
+        ?
+        <div className="row">
+                 <h2>No se encontro ninguna factura</h2>
+        </div>
+        :
       <table className = "table table-striped table-hover">
       <thead>
        <tr>
@@ -77,11 +83,11 @@ class Checkout extends Component {
            </td>
            <td>{item.lastName}</td>
            <td>{item.services}</td>
-           <td>{item.placeNumber}
+           <td>{item.phoneNumber}
            </td>
            <td>{item.totalNeto}</td>
            <td>
-             <button onClick={()=>this.onClickProcessCheckout(item)} type="button" className="btn btn-default">Procesar</button>
+             <button onClick={()=>{this.onClickProcessCheckout(item)}} type="button" className="btn btn-default">Procesar</button>
            </td>
          </tr>
        )
@@ -89,14 +95,12 @@ class Checkout extends Component {
     }
      </tbody>
      </table>
+   }
 <div>
      {
-       this.props.checkoutMaching.isModalVisble
+       checkoutMaching.isModalVisible
          ? <CheckoutBoxModel
-             total={this.props.checkoutMaching.total}
-             firstName={this.props.checkoutMaching.firstName}
-             lastName={this.props.checkoutMaching.lastName}
-             services={this.props.checkoutMaching.services}
+             checkoutItem= {checkoutMaching.checkoutItem}
              onClickPaymentType = {this.props.onClickPaymentType}
              onClickProcessCheckout={this.onClickProcessCheckout}
              onClickCancelCheckout = {this.onClickCancelCheckout}
@@ -115,6 +119,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    findSell: (word) => {
+      dispatch(checkoutAction.findSell(word));
+    },
     loadAllSells: () => {
       dispatch(checkoutAction.loadAllSells());
     },
@@ -129,8 +136,8 @@ let mapDispatchToProps = (dispatch) => {
     },
     paymentTypeChange: (type) => {
       dispatch(checkoutAction.paymentTypeChange(type));
-    }
   }
+ }
 }
 
   Checkout = withRouter(connect(mapStateToProps, mapDispatchToProps)(Checkout));

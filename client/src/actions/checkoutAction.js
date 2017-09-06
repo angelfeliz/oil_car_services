@@ -7,20 +7,21 @@ export const ABORT_CHECKOUT_SYSTEM = 'ABORT_CHECKOUT_SYSTEM';
 export const STOP_ABORT_CHECKOUT_SYSTEM = 'STOP_ABORT_CHECKOUT_SYSTEM';
 export const PAYMENT_TYPE = 'PAYMENT_TYPE';
 export const SET_SELL = 'SET_SELL';
+export const FIND_SELL_CHECKOUT = 'FIND_SELL_CHECKOUT';
 
+export const findSell = (word) => ({
+  type: FIND_SELL_CHECKOUT,
+  word
+})
 export const paymentTypeChange = (paymentType) => ({
   type: PAYMENT_TYPE,
   paymentType
 })
 export const processCheckout = (checkoutObj) => {
+  console.log('action', checkoutObj);
   return {
     type: PROCESS_CHECKOUT,
-    _id: checkoutObj._id,
-    firstName: checkoutObj.firstName,
-    lastName: checkoutObj.lastName,
-    services: checkoutObj.services,
-    placeNumber: checkoutObj.placeNumber,
-    total: checkoutObj.total,
+    checkoutObj,
     isModalVisible: true,
     isRidirectToInvoice: false,
     isAbortBySystem: false,
@@ -98,7 +99,7 @@ export const loadAllSells = () => {
     .then(
       (data) => {
         if(data.length > 0) {
-            dispatch(setSell(data, "oilChange"));
+            dispatch(setSell(data, "cambio aceite"));
         }
       },
       (err) => {}

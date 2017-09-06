@@ -84,7 +84,7 @@ class OilChangeServicesForm extends Component {
 
         this.props.addCustomerServerProduct({
             product_id: pro._id,
-            typeProduct: pro.typeProduct,
+            productType: pro.typeProduct,
             name_: pro.name_,
             price: pro.price,
             quantity: this.state.product_select_quantity,
