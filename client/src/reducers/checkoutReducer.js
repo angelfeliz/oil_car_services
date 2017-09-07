@@ -15,7 +15,9 @@ let stateDefault = {
         ],
     sellClone: [],
     checkoutItem: {
-      products:[]
+      descCheckout: 0.00,
+      products:[],
+      paymentMethod:"cash",
     },
     isModalVisible: false,
     isRidirectToInvoice: false,
@@ -25,6 +27,14 @@ let stateDefault = {
 
 export const checkoutMaching = (state = stateDefault, action) => {
     switch (action.type) {
+        case checkoutActionType.DESC_CHEKOUT:
+          return {
+            ...state,
+            checkoutItem:{
+              ...state.checkoutItem,
+              descCheckout: action.desc
+            }
+          }
         case checkoutActionType.FIND_SELL_CHECKOUT:
             let filterSell = state.sellClone.filter((item) => {
                 if (item.services_id) {
@@ -55,6 +65,7 @@ export const checkoutMaching = (state = stateDefault, action) => {
                         firstName: item.customer.firstName,
                         lastName: item.customer.lastName,
                         totalNeto: item.totalNeto,
+                        totalCaja: item.totalNeto,
                         phoneNumber: item.customer.phoneNumber,
                         products: [...item.products.map(pro => pro)],
                         vehicle: {
@@ -73,6 +84,7 @@ export const checkoutMaching = (state = stateDefault, action) => {
                         firstName: item.customer.firstName,
                         lastName: item.customer.lastName,
                         totalNeto: item.totalNeto,
+                        totalCaja: item.totalNeto,
                         phoneNumber: item.customer.phoneNumber,
                         products: [...item.products.map(pro => pro)]
                     }
@@ -94,6 +106,7 @@ export const checkoutMaching = (state = stateDefault, action) => {
             return {
                 ...state,
                 checkoutItem: {
+                    ...state.checkoutItem,
                     ...action.checkoutObj,
                     products:[...action.checkoutObj.products.map(item => item)]
                 },

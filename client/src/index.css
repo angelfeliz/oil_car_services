@@ -141,8 +141,7 @@ input[type=checkbox]
 }
 
 .input-control {
-
-width: 5%;
+width: 22%;
 height: 34px;
 padding: 6px 12px;
 font-size: 14px;
@@ -157,4 +156,18 @@ box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
 -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
 -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.inner-container {
+  width: 70%;
+  height: inherit;
+  margin: 0 auto;
+}
+
+.total_checkout {
+  font-size:19px;
+}
+
+.checkout_button {
+  margin-top: 6%;
 }

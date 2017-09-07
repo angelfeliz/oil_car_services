@@ -8,7 +8,14 @@ export const STOP_ABORT_CHECKOUT_SYSTEM = 'STOP_ABORT_CHECKOUT_SYSTEM';
 export const PAYMENT_TYPE = 'PAYMENT_TYPE';
 export const SET_SELL = 'SET_SELL';
 export const FIND_SELL_CHECKOUT = 'FIND_SELL_CHECKOUT';
+export const DESC_CHEKOUT = 'DESC_CHEKOUT';
 
+
+
+export const doDesc = (desc) => ({
+  type: DESC_CHEKOUT,
+  desc
+})
 export const findSell = (word) => ({
   type: FIND_SELL_CHECKOUT,
   word
@@ -18,7 +25,6 @@ export const paymentTypeChange = (paymentType) => ({
   paymentType
 })
 export const processCheckout = (checkoutObj) => {
-  console.log('action', checkoutObj);
   return {
     type: PROCESS_CHECKOUT,
     checkoutObj,

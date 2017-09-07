@@ -11,9 +11,13 @@ class Checkout extends Component {
     this.onClickProcessCheckout = this.onClickProcessCheckout.bind(this);
   }
 
+  onChangeDesc = (e) => {
+       this.props.doDesc(e.target.value);
+  }
+
   onClickProcessCheckout(checkoutObj) {
     console.log(checkoutObj);
-    this.props.processCheckout(checkoutObj);
+    this.props.processCheckout(checkoutObj);    
   }
 
   onClickCancelCheckout = () => {
@@ -104,6 +108,7 @@ class Checkout extends Component {
              onClickPaymentType = {this.props.onClickPaymentType}
              onClickProcessCheckout={this.onClickProcessCheckout}
              onClickCancelCheckout = {this.onClickCancelCheckout}
+             onChangeDesc = {this.onChangeDesc}
              />
          : null
      }
@@ -119,6 +124,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    doDesc: (desc) => {
+      dispatch(checkoutAction.doDesc(desc));
+    },
     findSell: (word) => {
       dispatch(checkoutAction.findSell(word));
     },
