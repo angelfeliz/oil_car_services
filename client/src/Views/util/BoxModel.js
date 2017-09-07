@@ -20,6 +20,7 @@ export const CheckoutBoxModel = (props) => {
     let checkoutItem = props.checkoutItem;
     return (
         <div className="container block_view">
+          <div className="inner-container">
             <div className="col-lg-10 col-md-2 col-sm-12 col-xs-12">
                 <fieldset>
                     <legend>Tipo de pago</legend>
@@ -40,13 +41,15 @@ export const CheckoutBoxModel = (props) => {
                 </fieldset>
                 <hr/>
                 <div>
-                    <h1>Factura</h1>
-                    <hr/>
-                    <h2>{`Total: ${checkoutItem.totalNeto}`}</h2>
-                    <h3>{`${checkoutItem.firstName} ${checkoutItem.lastName}`}</h3>
+                    <div className="row text-center"><h1>Factura</h1></div>
+                    <div className="row">
+                      <span>{`RD$: ${checkoutItem.totalNeto}`} - <input type="text" onChange={(e)=>{props.onChangeDesc(e)}} className="input-control" placeholder="Desc" name="descCaja" value={props.descCaja}/> = {`RD$ ${props.totalCaja}`}</span>
+                    </div>
+                    <div className="row">
+                      <h3>{`${checkoutItem.firstName} ${checkoutItem.lastName}`}</h3>
+                    </div>
                     {checkoutItem.vehicle
                         ? <div>
-                            <h3>Vehiculo</h3>
                             <div className="row">
                                 <div className="col-lg-2">
                                     <label>Marca</label>
@@ -91,6 +94,7 @@ export const CheckoutBoxModel = (props) => {
                         <button onClick={props.onClickCancelCheckout} className="btn btn-warning">Cancelar</button>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     )
