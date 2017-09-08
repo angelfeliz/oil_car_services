@@ -65,7 +65,6 @@ export const oilChangeServices = (state=stateDefault, action) => {
         doneAndRedirect: true,
       }
     case actionOilChangeServicesType.TOGGLE_IS_SAVED:
-    console.log('in');
       return {
         ...state,
        didSaved: !state.didSaved,
@@ -108,7 +107,7 @@ export const oilChangeServices = (state=stateDefault, action) => {
         ...state.products,
          {
            product_id: action.product_id,
-           typeProduct: action.typeProduct,
+           productType: action.productType,
            name_: action.name_,
            price: action.price,
            quantity: action.quantity,

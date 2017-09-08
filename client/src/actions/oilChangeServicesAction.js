@@ -23,7 +23,7 @@ export const addCustomerServerProduct = (product) => {
     return {
         type: ADD_CUSTOMER_SERVER_PRODUCTS,
         product_id: product.product_id,
-        typeProduct: product.typeProduct,
+        productType: product.productType,
         name_: product.name_,
         price: product.price,
         quantity: product.quantity,
@@ -143,9 +143,11 @@ const customerOilChangeSave = (dispatch, state) => {
             }, (error) => {
                 console.log(error);
             }).then(() => {
+              debugger;
                 dispatch(toggledidSaved());
-                window.setTimeout(dispatch(toggledidSaved()), 500);
-                dispatch(toggleDoneAdnRiderect());
+                window.setTimeout(()=>{dispatch(toggledidSaved())},1000);
+                window.setTimeout(()=>{dispatch(toggleDoneAdnRiderect())}, 800);
+
             }, (error) => console.log(error))
         })
     })

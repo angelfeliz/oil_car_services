@@ -91,19 +91,17 @@ export const CheckoutBoxModel = (props) => {
               </table>
             </div>
             <div className="row pull-right total_checkout">
-              <span>{`$ ${checkoutItem.totalNeto}`}
-                -
-                <input type="text" onChange={(e) => {
+              <span>{`$ ${checkoutItem.totalNeto} - `}<input type="text" onChange={(e) => {
                   props.onChangeDesc(e)
                 }} className="input-control" placeholder="Desc" name="descCaja" value={checkoutItem.descCheckout}/>
                 = {`$ ${checkoutItem.totalNeto - checkoutItem.descCheckout}`}</span>
             </div>
             <div className="row checkout_button">
               <div className="col-lg-1 col-md-1 col-sm-1 col-xs-12">
-                <button className="btn btn-primary" onClick={props.onClickProcessCheckout}>Pagar</button>
+                <button className="btn btn-primary" onClick={() => props.onClickConfirmCheckout()}>Pagar</button>
               </div>
               <div className="col-lg-1 col-md-1 col-sm-1 col-xs-12">
-                <button onClick={props.onClickCancelCheckout} className="btn btn-warning">Cancelar</button>
+                <button onClick={()=>props.onClickCancelCheckout()} className="btn btn-warning">Cancelar</button>
               </div>
             </div>
           </div>

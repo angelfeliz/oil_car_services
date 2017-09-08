@@ -71,12 +71,13 @@ router.get('/topSell', function(req, res) {
 
 router.get('/countOilSellOfDay', function(req, res) {
   let today = Date.now();
-  customerServerModel.aggregate(
+  customerServerModel  
+  .aggregate(
   { $unwind: "$products" },
   {
     $group: {
       _id: null,
-      countAllOil: { $sum: "$products.cuantity"  }
+      countAllOil: { $sum: "$products.quantity"  }
     }
   },
    function(err, responses) {

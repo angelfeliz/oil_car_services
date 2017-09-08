@@ -81,7 +81,7 @@ componentWillUnmount(){
           <h2>Nuevo producto</h2>
           <div className="form-group">
             <label className="sr-only">dd</label>
-            <select name="typeProduct" value={this.props.products.product.typeProduct} onChange={(e) => this.onChangeInput(e)} className="form-control">
+            <select name="productType" value={this.props.products.product.productType} onChange={(e) => this.onChangeInput(e)} className="form-control">
               <option value="">Tipo de producto</option>
               { elementsProductType }
             </select>

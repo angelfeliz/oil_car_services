@@ -8,7 +8,7 @@ const ProductsTree = {
     product:{
       name_: '',
       model: '',
-      typeProduct: '',
+      productType: '',
       api: '',
       price: '',
       createdAt: null,
@@ -33,7 +33,7 @@ const products = (state=ProductsTree, action) => {
         product:{
           name_: action.name_,
           model: action.model,
-          typeProduct: action.typeProduct,
+          productType: action.productType,
           api: action.api,
           price: action.price,
           _id: action._id,
@@ -65,7 +65,7 @@ const products = (state=ProductsTree, action) => {
         if(item.name_.toLowerCase().includes(action.filter.toLowerCase())) {
           return item;
         }
-        else if(item.typeProduct.toLowerCase().includes(action.filter.toLowerCase())) {
+        else if(item.productType.toLowerCase().includes(action.filter.toLowerCase())) {
           return item;
         }
         else if (item.model.toLowerCase().includes(action.filter.toLowerCase())) {
@@ -103,7 +103,7 @@ const products = (state=ProductsTree, action) => {
         product: {
           name_: '',
           model: '',
-          typeProduct: '',
+          productType: '',
           api: '',
           price: '',
           createdAt: null,

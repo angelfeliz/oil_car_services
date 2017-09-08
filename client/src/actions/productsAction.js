@@ -35,7 +35,7 @@ export const filteringProduct = (filter) => {
 export const stageProduct = (product) => {
   return {
     type: STAGE_PRODUCT,
-    typeProduct: product.typeProduct,
+    productType: product.productType,
     name_: product.name_,
     model: product.model,
     api: product.api,
@@ -89,7 +89,7 @@ export const GetAllProducts = () => {
   return (dispatch) => {
     return api.get('/product')
       .then(
-        (response) => {          
+        (response) => {
            return response.data
          },
         (error) => {

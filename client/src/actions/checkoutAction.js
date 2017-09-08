@@ -9,9 +9,13 @@ export const PAYMENT_TYPE = 'PAYMENT_TYPE';
 export const SET_SELL = 'SET_SELL';
 export const FIND_SELL_CHECKOUT = 'FIND_SELL_CHECKOUT';
 export const DESC_CHEKOUT = 'DESC_CHEKOUT';
+export const PRINT_CHECKOUT = 'PRINT_CHECKOUT';
 
 
-
+export const printCheckout = () => ({
+  type: PRINT_CHECKOUT,
+  isPrinting: true,
+})
 export const doDesc = (desc) => ({
   type: DESC_CHEKOUT,
   desc
@@ -33,26 +37,22 @@ export const processCheckout = (checkoutObj) => {
     isAbortBySystem: false,
   }
 }
-
 export const cancelModalViewCheckout = () => {
   return {
     type: TOGGLE_CHECK_FOR_CHECKOUT,
   }
 }
-
 export const abortCheckoutBySystem = () => {
   return {
     type: ABORT_CHECKOUT_SYSTEM,
 
   }
 }
-
 export const stopAbortCheckoutBySystem = () => {
   return {
     type: STOP_ABORT_CHECKOUT_SYSTEM,
   }
 }
-
 export const ReceiveConfirmedCheckout = () => {
   return {
     type: CONFIRMED_CHECKOUT,
@@ -67,26 +67,7 @@ export const setSell = (sell, sellType) => ({
 })
 export const confirmedCheckout = (checkout) => {
   return (dispatch) => {
-    api.put('customerServices/checkout/',checkout)
-      .then((responses) => {
-        return  responses.data;
-      },
-    (error) => {
-      console.log('error message');
-      throw error;
-    })
-    .then((data) => {
-      if(data.isPaid) {
-        dispatch(ReceiveConfirmedCheckout);
-      }
-      else{
-        dispatch(abortCheckoutBySystem);
-      }
-    },
-    (error) => {
-       dispatch(abortCheckoutBySystem);
-       window.setTimeout(dispatch(stopAbortCheckoutBySystem()), 1500);
-  })
+     dispatch(printCheckout());
   }
 }
 

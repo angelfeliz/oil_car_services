@@ -3,21 +3,23 @@ import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
 import * as checkoutAction from '../actions/checkoutAction';
 import { CheckoutBoxModel } from './util/BoxModel';
-
+import PrintReceipt from './PrintReceipt';
 
 class Checkout extends Component {
   constructor(props) {
     super(props);
-    this.onClickProcessCheckout = this.onClickProcessCheckout.bind(this);
   }
 
+  onClickConfirmCheckout = () => {
+    this.props.onClickConfirmCheckout();
+  }
   onChangeDesc = (e) => {
        this.props.doDesc(e.target.value);
   }
 
-  onClickProcessCheckout(checkoutObj) {
+  onClickProcessCheckout = (checkoutObj) => {
     console.log(checkoutObj);
-    this.props.processCheckout(checkoutObj);    
+    this.props.processCheckout(checkoutObj);
   }
 
   onClickCancelCheckout = () => {
@@ -27,7 +29,7 @@ class Checkout extends Component {
   onClickPaymentType  = (e) => {
     let paymentType = e.target.value;
     if(paymentType) {
-      this.paymentTypeChange(paymentType);
+      this.props.paymentTypeChange(paymentType);
     }
 
   }
@@ -44,8 +46,13 @@ class Checkout extends Component {
   render() {
      let checkoutMaching = this.props.checkoutMaching;
     let checks = checkoutMaching.sell.map(item =>item);
+
     return (
       <div className="container">
+      { checkoutMaching.isPrinting
+        ? <PrintReceipt checkoutItem = {checkoutMaching.checkoutItem}/>
+       : null
+     }
       {
          checkoutMaching.isAbortBySystem
             ? (<div className="alert alert-warnning">
@@ -105,8 +112,8 @@ class Checkout extends Component {
        checkoutMaching.isModalVisible
          ? <CheckoutBoxModel
              checkoutItem= {checkoutMaching.checkoutItem}
-             onClickPaymentType = {this.props.onClickPaymentType}
-             onClickProcessCheckout={this.onClickProcessCheckout}
+             onClickPaymentType = {this.onClickPaymentType}
+             onClickConfirmCheckout={this.onClickConfirmCheckout}
              onClickCancelCheckout = {this.onClickCancelCheckout}
              onChangeDesc = {this.onChangeDesc}
              />
@@ -124,6 +131,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    confirmedCheckout: () => {
+      dispatch(checkoutAction.confirmedCheckout(this.props.checkoutMaching.checkoutItem));
+    },
     doDesc: (desc) => {
       dispatch(checkoutAction.doDesc(desc));
     },

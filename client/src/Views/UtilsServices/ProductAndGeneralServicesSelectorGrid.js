@@ -53,7 +53,8 @@ const ProductAndGeneralServicesSelectorGrid = (props) => {
               <input className="form-control" placeholder="Precio" name="product_select_price" type="text" value={ props.item_select_price }   readOnly/>
             </div>
           </div>
-
+        </div>
+        <div className="row">
           <div className="col-xs-12 col-sm-2 col-md-2 col-lg-2">
             <div className="form-group">
               <label className="sr-only">-</label>

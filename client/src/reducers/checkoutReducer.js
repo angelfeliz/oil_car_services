@@ -27,6 +27,19 @@ let stateDefault = {
 
 export const checkoutMaching = (state = stateDefault, action) => {
     switch (action.type) {
+        case checkoutActionType.PRINT_CHECKOUT:
+          return {
+            ...state,
+            isPrinting: action.isPrinting
+          }
+        case checkoutActionType.PAYMENT_TYPE :
+           return {
+              ...state,
+              checkoutItem:{
+                ...state.checkoutItem,
+                paymentMethod: action.paymentType
+              }
+           }
         case checkoutActionType.DESC_CHEKOUT:
           return {
             ...state,
