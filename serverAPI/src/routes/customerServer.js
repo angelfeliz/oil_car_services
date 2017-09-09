@@ -2,14 +2,38 @@ import express from 'express';
 import customerServerModel from '../models/customerServerModel';
 import * as handlers from '../utils/handler';
 import validateCustomerServer from '../validators/validateCustomerServer';
+import company from '../models/companyModel';
 
 var router = express.Router();
+
+router.use('/', function(req, res, next){
+
+  if(req.method === 'POST' && req.customer.rnc) {
+    let oilChange = {...req.body};
+    let ncfObj = company.find({}, { inicialNCF: 1, finalNCF: 1});
+    ncfObj.exec(function(err, ncf) {
+      if((Number.parseInt(ncf.inicialNCF) + 1) > Number.parseInt(ncf.finalNCF)) {
+        let err = {
+          msg: 'La factura no fue guardada debido aque ya no tiene comprobante restantes'
+        }
+         res.json(err);
+      }
+      else {
+        req.ncf = ncf[0].inicialNFC;
+        let newNCF = (Number.parseInt(ncf[0].inicialNCF) + 1);
+        company.update({branch: 1}, {inicialNCF: newNCF}).exec();
+      }
+    });
+}
+  next();
+});
 
 router.post('/', function(req, res, next) {
   let servicesCustomer = {
     ...req.body,
     _id: 3
   };
+  console.log(req.ncf);
   console.log('llego');
   let servicesCustomerDb = new customerServerModel(servicesCustomer);
   servicesCustomerDb.save().then((response) => {
@@ -71,7 +95,7 @@ router.get('/topSell', function(req, res) {
 
 router.get('/countOilSellOfDay', function(req, res) {
   let today = Date.now();
-  customerServerModel  
+  customerServerModel
   .aggregate(
   { $unwind: "$products" },
   {

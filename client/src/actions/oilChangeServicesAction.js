@@ -142,11 +142,10 @@ const customerOilChangeSave = (dispatch, state) => {
                 return response.data;
             }, (error) => {
                 console.log(error);
-            }).then(() => {
-              debugger;
+            }).then(() => {              
                 dispatch(toggledidSaved());
                 window.setTimeout(()=>{dispatch(toggledidSaved())},1000);
-                window.setTimeout(()=>{dispatch(toggleDoneAdnRiderect())}, 800);
+                //window.setTimeout(()=>{dispatch(toggleDoneAdnRiderect())}, 800);
 
             }, (error) => console.log(error))
         })

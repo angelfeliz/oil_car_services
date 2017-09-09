@@ -52,12 +52,16 @@ export const customerServerSchema = new Schema({
     chk_cristal:  {type: Boolean, default: false},
     chk_aspiradora:  {type: Boolean, default: false},
     chk_filtro_aire: {type: Boolean, default: false},
+    chk_transmision_description: {type: String},
+    chk_liq_hidra_description: {type: String},
+    chk_agua_bateria_description: {type: String}
   },
  },
    {timestamps: true},
 )
 
 customerServerSchema.plugin(autoIncrement.mongoosePlugin);
+
 
 const customerServerModel = mongoose.model('customerServer', customerServerSchema);
 

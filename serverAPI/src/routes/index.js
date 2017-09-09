@@ -6,7 +6,9 @@ import customerServer from './customerServer';
 import customer from './customer';
 import vehicle from './vehicle';
 import generalServices from './generalServices';
+import company from './company';
 
+router.use('/company', company);
 router.use('/customer', customer);
 router.use('/vehicle', vehicle);
 router.use('/customerServices', customerServer);
