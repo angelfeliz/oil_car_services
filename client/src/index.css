@@ -184,6 +184,12 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 @media print {
+  *{
+    font-family:sans-serif;
+    font-size: 14px;
+    font-weight: 200;
+  }
+
   .not_show_in_print {
     display: none;
   }
@@ -192,11 +198,22 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     display: block;
   }
 
+  .space_container{
+    margin:  0 15px 0 15px;
+  }
+  .services-space {
+    margin: 15px 0 0 0;
+  }
+
   .company_name-print {
     margin: 9px 0 0 9px;
+    font-size: 16px;
   }
-  .address-print, .phone-print {
-    margin: 0 0 0 9px;
+  .client_name {
+    margin: 0 0 0 0;
+  }
+  p, .address-print, .phone-print {
+    margin: 0 0 0 0px;
   }
 
   .text-center: {
@@ -220,5 +237,29 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
   position: absolute;
 }
 
+.brand-vehicle {
+  max-width: 250px;
+  display: inline;
+  margin-right: 5px;
+}
+ .place_number-vehicle {
+   max-width: 200px;
+ }
+ .proximo_cambio-vehicle {
+   max-width: 150px;
+ }
+
+ .supervisor-vehicle, .mecanico-vehicle {
+   max-width: 250px;
+ }
+
+ .brand-vehicle, .place_number-vehicle,.proximo_cambio-vehicle, .supervisor-vehicle, .mecanico-vehicle {
+   display: inline;
+   margin-right: 8px;
+ }
+
+ .payment {
+     margin-top: -34px;
+ }
 
 }

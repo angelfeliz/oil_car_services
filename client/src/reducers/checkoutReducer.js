@@ -71,20 +71,26 @@ export const checkoutMaching = (state = stateDefault, action) => {
         case checkoutActionType.SET_SELL:
             let setSell = [];
             if (action.sellType === "cambio aceite") {
+
                 setSell = action.sell.map((item) => {
+                  console.log(item)
                     return {
                         services_id: item._id,
                         paymentType: item.paymentType,
                         services: action.sellType,
                         firstName: item.customer.firstName,
                         lastName: item.customer.lastName,
+                        rnc: item.customer.rnc,
                         totalNeto: item.totalNeto,
                         totalCaja: item.totalNeto,
                         phoneNumber: item.customer.phoneNumber,
                         products: [...item.products.map(pro => pro)],
+                        services_check: {...item.services},
                         vehicle: {
                             ...item.vehicle
-                        }
+                        },
+                        supervisor: item.supervisor,
+                        dateNextOilChange: item.dateNextOilChange
                     }
                 })
             }
@@ -97,6 +103,7 @@ export const checkoutMaching = (state = stateDefault, action) => {
                         services: action.sellType,
                         firstName: item.customer.firstName,
                         lastName: item.customer.lastName,
+                        rnc: item.customer.rnc,
                         totalNeto: item.totalNeto,
                         totalCaja: item.totalNeto,
                         phoneNumber: item.customer.phoneNumber,

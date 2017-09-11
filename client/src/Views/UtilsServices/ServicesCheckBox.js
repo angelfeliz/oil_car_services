@@ -65,7 +65,7 @@ const SERVICESLISTCHECKBOX = [
         return (
           <div key={index} className="form-group col-sm-4 col-md-4">
             <label className="checkbox-inline">
-              <input onChange={(e) => props.onChange(e)} name={`${key}`} type="checkbox" value="check"/>{item[key]}
+              <input onChange={(e) => props.onChange(e)} name={`${key}`} type="checkbox" value="check" checked={true}/>{item[key]}
               {
                 isDescription
                 ?
@@ -79,7 +79,7 @@ const SERVICESLISTCHECKBOX = [
       })
 }
       <label className="sr-only"></label>
-      <textarea name="otros" onChange={(e) => props.onChange(e)} className="form-control" rows="3" placeholder="Otros"></textarea>
+      <textarea name="otros" onChange={(e) => props.onChange(e)} className="form-control not_show_in_print" rows="3" placeholder="Otros"></textarea>
     </div>
   )
 }

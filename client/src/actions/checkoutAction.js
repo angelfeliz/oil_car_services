@@ -75,8 +75,7 @@ export const loadAllSells = () => {
   return (dispatch) => {
     api.get("/customerServices/oilChangeUnPay")
     .then(
-      (responses)=>{
-        console.log(responses.data);
+      (responses)=>{        
           return responses.data;
        },
       (err) => {
