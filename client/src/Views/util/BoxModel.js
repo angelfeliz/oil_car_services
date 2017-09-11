@@ -66,7 +66,7 @@ export const CheckoutBoxModel = (props) => {
                 </div>
               : null}
 
-            <h3>Detalle</h3>
+            <h3 className="text-center">Detalle</h3>
             <div className="detail_checkout">
               <table className="table">
                 <thead>

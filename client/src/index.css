@@ -1,4 +1,6 @@
-body {
+@media screen{
+
+  body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
@@ -170,4 +172,53 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 
 .checkout_button {
   margin-top: 6%;
+}
+
+.detail_checkout {
+  max-height: 20vh;
+  overflow: auto;
+}
+.not_show_in_screen {
+  display: none;
+}
+}
+
+@media print {
+  .not_show_in_print {
+    display: none;
+  }
+
+  .show_in_print {
+    display: block;
+  }
+
+  .company_name-print {
+    margin: 9px 0 0 9px;
+  }
+  .address-print, .phone-print {
+    margin: 0 0 0 9px;
+  }
+
+  .text-center: {
+    text-align: center;
+  }
+
+  .pull-rigth {
+    float: right;
+  }
+
+  .form-group {
+    margin: 0;
+  }
+  .col-md-4 {
+    width: 33.33333333%;
+    float: left;
+  }
+
+.selector_inline-print {
+  display: inline;
+  position: absolute;
+}
+
+
 }

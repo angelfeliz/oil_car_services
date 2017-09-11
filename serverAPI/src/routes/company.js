@@ -11,7 +11,7 @@ router.post('/', function(req, res, next) {
     companyName: "Lubriserv",
     group: 1,
     branch: 1,
-    NFC: "A123345543",
+    NCF: "A123345543",
     actualNCF: "0",
     inicialNCF: "1",
     finalNCF: "20",

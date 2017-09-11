@@ -6,7 +6,7 @@ export const companySchema = new Schema({
     companyName: { type: String, required: [true, 'El campo nombre es obligatorio'], trim: true },
     group: { type: String, required: [true, 'El campo grupo es obligatorio'], trim: true },
     branch: { type: Number, required: [true, 'El campo grupo es obligatorio'], trim: true },
-    NFC: { type: String, required: false, trim: false },
+    NCF: { type: String, required: false, trim: false },
     actualNCF: { type: String, required: false, trim: true },
     inicialNCF: { type: String, required: false, trim: true },
     finalNCF: { type: String, required: false, trim: true },

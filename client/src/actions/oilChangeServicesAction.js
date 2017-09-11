@@ -138,11 +138,11 @@ const customerOilChangeSave = (dispatch, state) => {
                     customer_id: data.customer_id
                 }
             };
-            api.post('/customerServices', state).then((response) => {
+            api.post('/customerServices/save', state).then((response) => {
                 return response.data;
             }, (error) => {
                 console.log(error);
-            }).then(() => {              
+            }).then(() => {
                 dispatch(toggledidSaved());
                 window.setTimeout(()=>{dispatch(toggledidSaved())},1000);
                 //window.setTimeout(()=>{dispatch(toggleDoneAdnRiderect())}, 800);
@@ -174,7 +174,7 @@ const vehicleOilChangeSave = (dispatch, state) => {
             }
         };
         console.log('services object ', state);
-        api.post('/customerServices', state).then((response) => {
+        api.post('/customerServices/save', state).then((response) => {
             return response.data;
         }, (error) => {
             console.log(error);
@@ -187,7 +187,7 @@ const vehicleOilChangeSave = (dispatch, state) => {
 }
 const servicesOilChangeSave = (dispatch, state) => {
     console.log('services object ', state);
-    api.post('/customerServices', state).then((response) => {
+    api.post('/customerServices/save', state).then((response) => {
         return response.data;
     }, (error) => {
         console.log(error);

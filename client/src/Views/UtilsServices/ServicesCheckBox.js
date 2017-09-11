@@ -54,7 +54,7 @@ const SERVICESLISTCHECKBOX = [
         else{isDescription = false}
 
         if(isDescription) {
-          DescriptionSelect =  () => (<select className={props.services[`${key}`] ? "showElement" : "hideElement"} name={`${key}_description`} value={props.services[`${key}_description`]} onChange={(e)=>props.onChangeServicsInput(e)}>
+          DescriptionSelect =  () => (<select className={`${props.services[`${key}`] ? "showElement" : "hideElement"} selector_inline-print`} name={`${key}_description`} value={props.services[`${key}_description`]} onChange={(e)=>props.onChangeServicsInput(e)}>
                                <option value="">Selecione</option>
                                <option value={select_value_1}>{select_value_1}</option>
                                <option value={select_value_2}>{select_value_2}</option>

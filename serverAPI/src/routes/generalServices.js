@@ -7,9 +7,10 @@ import company from '../models/companyModel';
 var router = express.Router();
 
 router.use('/save', function(req, res, next){
-  if(req.method === 'POST' && req.customer.rnc) {
-    let oilChange = {...req.body};
-    let ncfObj = company.find({}, { inicialNCF: 1, finalNCF: 1});
+
+  if(req.method === 'POST') {    
+     if(req.body.customer.rnc) {
+    let ncfObj = company.find({}, { NCF: 1, inicialNCF: 1, finalNCF: 1});
     ncfObj.exec(function(err, ncf) {
       if((Number.parseInt(ncf.inicialNCF) + 1) > Number.parseInt(ncf.finalNCF)) {
         let err = {
@@ -18,20 +19,28 @@ router.use('/save', function(req, res, next){
          res.json(err);
       }
       else {
-        req.ncf = ncf[0].inicialNFC;
+        req.ncf = ncf[0].NFC + ncf[0].inicialNFC;
         let newNCF = (Number.parseInt(ncf[0].inicialNCF) + 1);
-        company.update({branch: 1}, {inicialNCF: newNCF}).exec();
+        company.update({branch: 1}, {inicialNCF: newNCF}, function(err, done){
+            next();
+        });
       }
     });
+   }
+   else{
+     console.log("entro sin ncf");
+      req.ncf = null;
+      next();}
 }
-  next();
+
 });
 router.post('/save', function(req, res, next) {
   let generalServices = {
     ...req.body,
-    _id: 5
+    _id: 5,
+    ncf: req.ncf
   };
-console.log(req.ncf);
+console.log("nno ncf" , req.ncf);
   let generalServicesDb = new generalServicesModel(generalServices);
   generalServicesDb.save().then((response) => {
     return res.json(response);

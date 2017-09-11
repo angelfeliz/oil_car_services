@@ -17,6 +17,7 @@ let stateDefault = {
     checkoutItem: {
       descCheckout: 0.00,
       products:[],
+      vehicle:{},
       paymentMethod:"cash",
     },
     isModalVisible: false,

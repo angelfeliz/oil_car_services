@@ -6,11 +6,12 @@ import company from '../models/companyModel';
 
 var router = express.Router();
 
-router.use('/', function(req, res, next){
+router.use('/save', function(req, res, next){
+   console.log('no debe entrar ',req.method);
+  if(req.method === 'POST') {
+    if(req.body.customer.rnc) {
 
-  if(req.method === 'POST' && req.customer.rnc) {
-    let oilChange = {...req.body};
-    let ncfObj = company.find({}, { inicialNCF: 1, finalNCF: 1});
+    let ncfObj = company.find({}, { NCF: 1, inicialNCF: 1, finalNCF: 1});
     ncfObj.exec(function(err, ncf) {
       if((Number.parseInt(ncf.inicialNCF) + 1) > Number.parseInt(ncf.finalNCF)) {
         let err = {
@@ -19,22 +20,32 @@ router.use('/', function(req, res, next){
          res.json(err);
       }
       else {
-        req.ncf = ncf[0].inicialNFC;
+        console.log(ncf[0].NCF + ncf[0].inicialNCF);
+        req.ncf = ncf[0].NCF + ncf[0].inicialNCF;
         let newNCF = (Number.parseInt(ncf[0].inicialNCF) + 1);
-        company.update({branch: 1}, {inicialNCF: newNCF}).exec();
+        company.update({branch: 1}, {inicialNCF: newNCF}, function(err, done) {
+          next();
+        })
       }
     });
 }
-  next();
+  else{
+    req.ncf = null;
+    next();
+  }
+}
+
+
 });
 
-router.post('/', function(req, res, next) {
+router.post('/save', function(req, res, next) {
   let servicesCustomer = {
     ...req.body,
-    _id: 3
+    _id: 3,
+    ncf: req.ncf
   };
-  console.log(req.ncf);
-  console.log('llego');
+
+  console.log('llego ', servicesCustomer );
   let servicesCustomerDb = new customerServerModel(servicesCustomer);
   servicesCustomerDb.save().then((response) => {
     return res.json(response);
@@ -115,6 +126,7 @@ router.get('/countOilSellOfDay', function(req, res) {
 router.get('/oilChangeUnPay', function(req, res) {
     var pending = customerServerModel.find({statu:"pending"});
     pending.exec(function(err, sell){
+      console.log(sell);
         if(err) {
           return res.status(500).json(err);
         }

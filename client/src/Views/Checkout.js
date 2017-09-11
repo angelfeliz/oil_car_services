@@ -48,17 +48,17 @@ class Checkout extends Component {
     let checks = checkoutMaching.sell.map(item =>item);
 
     return (
-      <div className="container">
-      { checkoutMaching.isPrinting
-        ? <PrintReceipt checkoutItem = {checkoutMaching.checkoutItem}/>
-       : null
-     }
-      {
-         checkoutMaching.isAbortBySystem
-            ? (<div className="alert alert-warnning">
+      <div>
+        <div className="not_show_in_screen show_in_print">
+          <PrintReceipt checkoutItem = {checkoutMaching.checkoutItem}/>
+        </div>
+        <div className="container not_show_in_print">
+          {
+            checkoutMaching.isAbortBySystem
+              ? (<div className="alert alert-warnning">
                 La operación fue abortada por el sístema.</div>)
-            : null
-      }
+             : null
+          }
       <div className="row">
         <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-sm-12 col-xs-12">
           <input type="text" className="form-control" onChange={(e)=>this.onChangeFindCheckout(e)} placeholder="Buscar factura" />
@@ -119,6 +119,7 @@ class Checkout extends Component {
              />
          : null
      }
+     </div>
      </div>
      </div>
     )

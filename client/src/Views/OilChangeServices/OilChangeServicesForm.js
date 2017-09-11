@@ -77,8 +77,6 @@ class OilChangeServicesForm extends Component {
 
     onProductAdd() {
       let quantity = this.state.product_select_quantity;
-       console.log('type', typeof quantity);
-       console.log();
 
       if(quantity) {
         let pro = this.products.find((item) => {
@@ -282,7 +280,7 @@ class OilChangeServicesForm extends Component {
                                 <ServicesCheckbox
                                   onChange={this.onChangeServicsInput}
                                   onChangeServicsInput={this.onChangeServicsInput}
-                                  services = {this.props.oilChangeServices.services}                                
+                                  services = {this.props.oilChangeServices.services}
                                   />
                                 <ProductAndGeneralServicesSelectorGrid
                                   onProductAdd={this.onProductAdd}

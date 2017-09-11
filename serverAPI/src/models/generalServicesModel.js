@@ -12,6 +12,7 @@ export const generalServicesSchema = new Schema({
   totalNeto: { type: Number },
   paymentType: { type: String },
   branchOffice: { type: String },
+  ncf: { type: String },
   customer: {
      customer_id: { type: Number },
      email: { type: String },
