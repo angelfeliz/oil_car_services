@@ -1,4 +1,5 @@
 import React from 'react';
+import NCFType '../util/NCFType';
 
 const CustomerField = (props) => {
   let customer = props.customer;
@@ -14,6 +15,15 @@ const CustomerField = (props) => {
     </div>
 
     <div className="form-group">
+      {
+        customer.rnc
+        ?
+        <NCFType
+         onClickNCFType={props.onClickNCFType}
+        />
+        :
+        null
+      }
       <label className="sr-only"></label>
       <input onChange={(e)=>props.onChangeInput(e)} value={ customer.rnc } className="form-control" placeholder="RNC" name="rnc" type="text"/>
      </div>
