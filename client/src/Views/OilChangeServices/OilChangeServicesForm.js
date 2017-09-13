@@ -25,18 +25,15 @@ class OilChangeServicesForm extends Component {
             product_type_select: ''
         }
         this.onSubmit = this.onSubmit.bind(this);
-        this.onChangeServicsInput = this.onChangeServicsInput.bind(this);
-        //this.onProductChangeInput = this.onProductChangeInput.bind(this);
         this.onChangeProductQuantity = this.onChangeProductQuantity.bind(this);
         this.onProductAdd = this.onProductAdd.bind(this);
         this.onChangeFindProduct = this.onChangeFindProduct.bind(this);
-
         this.OnClickSelectVehicleFromModalList = this.OnClickSelectVehicleFromModalList.bind(this);
-        this.onChangeProductType = this.onChangeProductType.bind(this);
+
         const products = [];
     }
 
-    onChangeProductType(e) {
+    onChangeProductType = (e) => {
         let productType = e.target.value;
         if (productType) {
             this.props.filteringProudct(productType);
@@ -56,7 +53,7 @@ class OilChangeServicesForm extends Component {
         });
     }
 
-    onChangeServicsInput(e) {
+    onChangeServicsInput = (e) => {
         if (e.target != undefined) {
             if (e.target.value == 'check') {
                 let checkbox = e.target;
@@ -69,10 +66,19 @@ class OilChangeServicesForm extends Component {
                     value: value
                 });
             }
+            else{
+              this.props.addCustomerServerServices({
+                  property: [e.target.name],
+                  value: e.target.value
+              });
+            }
         }
     }
 
     onProductAdd() {
+      let quantity = this.state.product_select_quantity;
+
+      if(quantity) {
         let pro = this.products.find((item) => {
             if (item._id == this.state.product_select) {
                 return item;
@@ -84,7 +90,7 @@ class OilChangeServicesForm extends Component {
 
         this.props.addCustomerServerProduct({
             product_id: pro._id,
-            typeProduct: pro.typeProduct,
+            productType: pro.productType,
             name_: pro.name_,
             price: pro.price,
             quantity: this.state.product_select_quantity,
@@ -99,6 +105,7 @@ class OilChangeServicesForm extends Component {
             product_select_quantity: "",
             product_select_price: ""
         });
+      }
     }
 
     /*This Handle set the produc_select state with the price and the id for future known*/
@@ -203,7 +210,7 @@ class OilChangeServicesForm extends Component {
         let yyyy = today.getFullYear();
         let todayDate = `${dd}/${mm}/${yyyy}`;
 
-        return this.props.oilChangeServices.doneAndRedirect
+        return this.props.oilChangeServices.doneAndRedirect && this.props.oilChangeServices.didSaved
             ? <Redirect to="/"/>
             : (
                 <div className={1 == 1
@@ -234,13 +241,18 @@ class OilChangeServicesForm extends Component {
                             <fieldset>
                                 <legend>Cambio de aceite</legend>
                                 <CustomerField customer={this.props.oilChangeServices.customer} onChangeInput={this.onChangeInputCustomer}/>
-                                <div className="row">
-                                    <div className="col-sm-3 col-md-1 col-lg-1 pull-left">
-                                        <button onClick={() => this.props.toggleModalListVehichle()} type="button">
-                                            <i className="fa fa-wrench" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                               {this.props.oilChangeServices.customer.customer_id
+                                 ?
+                                 <div className="row">
+                                     <div className="col-sm-3 col-md-1 col-lg-1 pull-left">
+                                         <button onClick={() => this.props.toggleModalListVehichle()} type="button">
+                                             <i className="fa fa-wrench" aria-hidden="true"></i>
+                                         </button>
+                                     </div>
+                                 </div>
+                                 :
+                                 null
+                               }
 
                                 <VehicleField brand={this.props.oilChangeServices.vehicle.brand} model={this.props.oilChangeServices.vehicle.model} year={this.props.oilChangeServices.vehicle.year} numberPlace={this.props.oilChangeServices.vehicle.numberPlace} typeFuel={this.props.oilChangeServices.vehicle.typeFuel} km={this.props.oilChangeServices.vehicle.km} nextKm={this.props.oilChangeServices.vehicle.nextKm} onChange={this.onChangeInputVehicle}/>
 
@@ -265,8 +277,24 @@ class OilChangeServicesForm extends Component {
                                     </div>
                                 </div>
 
-                                <ServicesCheckbox onChange={this.onChangeServicsInput}/>
-                                <ProductAndGeneralServicesSelectorGrid onProductAdd={this.onProductAdd} onChangeProductQuantity={this.onChangeProductQuantity} onChangeFind={this.onChangeFindProduct} onChangeProductType={this.onChangeProductType} list={this.products} onClickElementList={this.onSelectProduct} productsAdded={this.props.oilChangeServices.products} item_select_price={this.state.product_select_price} item_select_name={this.state.product_select_name} item_select_quantity={this.state.product_select_quantity} product_type_select={this.state.product_type_select}/>
+                                <ServicesCheckbox
+                                  onChange={this.onChangeServicsInput}
+                                  onChangeServicsInput={this.onChangeServicsInput}
+                                  services = {this.props.oilChangeServices.services}
+                                  />
+                                <ProductAndGeneralServicesSelectorGrid
+                                  onProductAdd={this.onProductAdd}
+                                  onChangeProductQuantity={this.onChangeProductQuantity}
+                                  onChangeFind={this.onChangeFindProduct}
+                                  onChangeProductType={this.onChangeProductType}
+                                  list={this.products}
+                                  onClickElementList={this.onSelectProduct}
+                                  productsAdded={this.props.oilChangeServices.products}
+                                  item_select_price={this.state.product_select_price}
+                                  item_select_name={this.state.product_select_name}
+                                  item_select_quantity={this.state.product_select_quantity}
+                                  product_type_select={this.state.product_type_select}
+                                  />
 
                                 <div className="row top-money">
                                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 pull-right">
@@ -333,7 +361,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(filteringProduct(filter));
         },
         totalPropertyDispatch: (totals) => {
-            console.log('totals', totals);
             dispatch(oilChangeServicesAction.generalTotalProperty(totals));
         },
         addCustomerServerCustomer: (customer) => {

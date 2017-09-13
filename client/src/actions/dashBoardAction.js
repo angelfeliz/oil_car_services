@@ -49,6 +49,7 @@ export const getSellOfDayCount = () => {
   return (dispatch) => {
     api.get("/customerServices/countSellofDay")
     .then((responses) => {
+      console.log('sellofDay', responses);
       return responses.data;
     },
      (errors) => { console.log(errors); },
@@ -99,6 +100,7 @@ export const getCountOilSellDay = () => {
   return (dispatch) => {
     api.get("/customerServices/countOilSellOfDay")
     .then((responses) => {
+      console.log('countOilSellOfDay', responses);
       return responses.data;
     },
      (errors) => { console.log(errors); },

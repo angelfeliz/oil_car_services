@@ -23,7 +23,7 @@ export const addCustomerServerProduct = (product) => {
     return {
         type: ADD_CUSTOMER_SERVER_PRODUCTS,
         product_id: product.product_id,
-        typeProduct: product.typeProduct,
+        productType: product.productType,
         name_: product.name_,
         price: product.price,
         quantity: product.quantity,
@@ -67,7 +67,6 @@ export const stageCustomer = (customer) => {
     }
 }
 export const stageVehicle = (vehicle) => {
-    console.log(vehicle);
     return {
         type: STAGE_VEHICLE_CHANGE_OIL,
         vehicle_id: vehicle._id,
@@ -139,14 +138,15 @@ const customerOilChangeSave = (dispatch, state) => {
                     customer_id: data.customer_id
                 }
             };
-            api.post('/customerServices', state).then((response) => {
+            api.post('/customerServices/save', state).then((response) => {
                 return response.data;
             }, (error) => {
                 console.log(error);
             }).then(() => {
                 dispatch(toggledidSaved());
-                window.setTimeout(dispatch(toggledidSaved()), 500);
-                dispatch(toggleDoneAdnRiderect());
+                window.setTimeout(()=>{dispatch(toggledidSaved())},1000);
+                //window.setTimeout(()=>{dispatch(toggleDoneAdnRiderect())}, 800);
+
             }, (error) => console.log(error))
         })
     })
@@ -174,7 +174,7 @@ const vehicleOilChangeSave = (dispatch, state) => {
             }
         };
         console.log('services object ', state);
-        api.post('/customerServices', state).then((response) => {
+        api.post('/customerServices/save', state).then((response) => {
             return response.data;
         }, (error) => {
             console.log(error);
@@ -187,7 +187,7 @@ const vehicleOilChangeSave = (dispatch, state) => {
 }
 const servicesOilChangeSave = (dispatch, state) => {
     console.log('services object ', state);
-    api.post('/customerServices', state).then((response) => {
+    api.post('/customerServices/save', state).then((response) => {
         return response.data;
     }, (error) => {
         console.log(error);

@@ -35,6 +35,9 @@ import { validateSync } from '../functions';
       "services.chk_cristal":  { presence: false },
       "services.chk_aspiradora":  { presence: false },
       "services.chk_filtro_aire": { presence: false },
+      "services.chk_transmision_description": { presence: false },
+      "services.chk_liq_hidra_description": { presence: false },
+      "services.chk_agua_bateria_description": { presence: false },
 
       "vehicle.vehicle_id": { presence: false },
       "vehicle.brand": { presence: true },

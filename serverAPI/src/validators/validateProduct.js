@@ -7,7 +7,7 @@ import { validateAsync } from '../utils/functions';
   name_: {
     presence: true,
   },
-  typeProduct: {
+  productType: {
     presence: true,
     length: {
       minimum: 1,

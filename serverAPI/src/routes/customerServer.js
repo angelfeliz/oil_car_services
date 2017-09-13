@@ -2,15 +2,50 @@ import express from 'express';
 import customerServerModel from '../models/customerServerModel';
 import * as handlers from '../utils/handler';
 import validateCustomerServer from '../validators/validateCustomerServer';
+import company from '../models/companyModel';
 
 var router = express.Router();
 
-router.post('/', function(req, res, next) {
+router.use('/save', function(req, res, next){
+   console.log('no debe entrar ',req.method);
+  if(req.method === 'POST') {
+    if(req.body.customer.rnc) {
+
+    let ncfObj = company.find({}, { NCF: 1, inicialNCF: 1, finalNCF: 1});
+    ncfObj.exec(function(err, ncf) {
+      if((Number.parseInt(ncf.inicialNCF) + 1) > Number.parseInt(ncf.finalNCF)) {
+        let err = {
+          msg: 'La factura no fue guardada debido aque ya no tiene comprobante restantes'
+        }
+         res.json(err);
+      }
+      else {
+        console.log(ncf[0].NCF + ncf[0].inicialNCF);
+        req.ncf = ncf[0].NCF + ncf[0].inicialNCF;
+        let newNCF = (Number.parseInt(ncf[0].inicialNCF) + 1);
+        company.update({branch: 1}, {inicialNCF: newNCF}, function(err, done) {
+          next();
+        })
+      }
+    });
+}
+  else{
+    req.ncf = null;
+    next();
+  }
+}
+
+
+});
+
+router.post('/save', function(req, res, next) {
   let servicesCustomer = {
     ...req.body,
-    _id: 3
+    _id: 3,
+    ncf: req.ncf
   };
-  console.log('llego');
+
+  console.log('llego ', servicesCustomer );
   let servicesCustomerDb = new customerServerModel(servicesCustomer);
   servicesCustomerDb.save().then((response) => {
     return res.json(response);
@@ -71,12 +106,13 @@ router.get('/topSell', function(req, res) {
 
 router.get('/countOilSellOfDay', function(req, res) {
   let today = Date.now();
-  customerServerModel.aggregate(
+  customerServerModel
+  .aggregate(
   { $unwind: "$products" },
   {
     $group: {
       _id: null,
-      countAllOil: { $sum: "$products.cuantity"  }
+      countAllOil: { $sum: "$products.quantity"  }
     }
   },
    function(err, responses) {
@@ -90,6 +126,7 @@ router.get('/countOilSellOfDay', function(req, res) {
 router.get('/oilChangeUnPay', function(req, res) {
     var pending = customerServerModel.find({statu:"pending"});
     pending.exec(function(err, sell){
+      console.log(sell);
         if(err) {
           return res.status(500).json(err);
         }

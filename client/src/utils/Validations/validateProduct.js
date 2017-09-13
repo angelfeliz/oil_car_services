@@ -5,7 +5,7 @@ const validateProduct = validateSync({
  name_: {
    presence: true,
  },
- typeProduct: {
+ productType: {
    presence: true,
  },
  model: {
