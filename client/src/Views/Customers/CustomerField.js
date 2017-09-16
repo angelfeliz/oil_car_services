@@ -1,5 +1,5 @@
 import React from 'react';
-import NCFType '../util/NCFType';
+import NCFType from '../util/NCFType';
 
 const CustomerField = (props) => {
   let customer = props.customer;
@@ -19,7 +19,7 @@ const CustomerField = (props) => {
         customer.rnc
         ?
         <NCFType
-         onClickNCFType={props.onClickNCFType}
+         onClickNcfType={props.onChangeNcfType}
         />
         :
         null

@@ -9,7 +9,12 @@ export const TOGGLE_IS_REDIRECT = 'TOGGLE_IS_REDIRECT';
 export const ADD_PRODUCT_TO_GENERAL_SERVICES = 'ADD_PRODUCT_TO_GENERAL_SERVICES';
 export const ADD_GENERALS_ITEM = 'ADD_GENERALS_ITEM';
 export const ADD_GENERAL_SERVICES_ERRORS = 'ADD_GENERAL_SERVICES_ERRORS';
+export const CLEAR_GENERAL_SERVICES = 'CLEAR_GENERAL_SERVICES';
+export const TOGGLE_SAVE_GENERAL_SERVICES = 'TOGGLE_SAVE_GENERAL_SERVICES';
 
+export const clearGeneralServices = () => ({
+  type: CLEAR_GENERAL_SERVICES
+})
 export const addErrors = (errors) => ({
   type:ADD_GENERAL_SERVICES_ERRORS,
   errors_:errors.map(item => item)
@@ -47,7 +52,9 @@ export const setTotalGeneralProperty = ({ totalBruto, totalNeto, totalItebis, to
   totalItebis,
   totalDesc,
 })
-
+export const toggledidSaved = () => ({
+  type: TOGGLE_SAVE_GENERAL_SERVICES
+})
 export const selectItem = (item) => ({
   type:  SET_SELECT_ITEM,
   item_select_price: item.item_select_price,
@@ -80,7 +87,9 @@ export const saveGeneralServices = (state) => {
          let general = {...state, customer:{...state.customer, customer_id : data._id}};
          api.post('generalServices/save',general).then(
            (responses) => {
-             dispatch(toggleRedirect());
+             dispatch(toggledidSaved());
+             //window.setTimeout(()=>{dispatch(toggledidSaved())},1000);
+             window.setTimeout(()=>{dispatch(toggleRedirect())},1000);
            },
            (error) => {
              //TODO handle errors

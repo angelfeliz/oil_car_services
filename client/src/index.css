@@ -184,11 +184,16 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 @media print {
-  @import url('https://fonts.googleapis.com/css?family=Roboto');
+  @import url('https://fonts.googleapis.com/css?family=Inconsolata');
+  @font-face {
+    font-family: secrcode;
+    src:url('./secrcode.ttf');
+  }
   *{
-    font-family: 'Roboto', sans-serif;
+  font-family: 'Inconsolata', monospace;
     font-size: 14px;
     font-weight: 200;
+    font-style: normal;
   }
 
   .not_show_in_print {

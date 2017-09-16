@@ -5,7 +5,7 @@ import { validateSync } from '../functions';
       totalBruto: { presence: true },
       totalItebis: { presence: true },
       totalNeto: { presence: true },
-      typePayment: { presence: false },
+      typePayment: { presence: false },      
       "customer.customer_id": { presence: false },
       "customer.email": { presence: false },
       "customer.firstName": { presence: true },

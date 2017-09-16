@@ -10,16 +10,25 @@ let initialState = {
   customer:{
     customer_id:'',
   },
+  ncfType: '',
   item_select_price: '',
   item_select_id: '',
   item_select_quantity: '',
   item_select_name: 'seleccione producto',
   item_type_select: '',
+  didSaved: false,
   isRedirect: false,
   generalServerErrors:[]
 }
 export const generalServices = (state = initialState, action) => {
   switch(action.type) {
+    case generalServicesActionType.TOGGLE_SAVE_GENERAL_SERVICES:
+      return {
+        ...state,
+        didSaved : !state.didSaved
+      }
+    case generalServicesActionType.CLEAR_GENERAL_SERVICES:
+      return initialState;
     case generalServicesActionType.ADD_GENERAL_SERVICES_ERRORS:
       return {
         ...state,

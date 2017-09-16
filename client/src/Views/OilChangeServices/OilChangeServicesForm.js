@@ -201,7 +201,9 @@ class OilChangeServicesForm extends Component {
         }
         this.props.loadProducts();
     }
+    componentWillUnmount() {
 
+    }
     render() {
         this.products = this.props.products.productList.map((item) => item );
         let today = new Date();

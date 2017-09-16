@@ -9,7 +9,7 @@ import { calculateTotal, validationSpread } from '../../utils/functions';
 import PaymentType from '../util/PaymentType';
 import TotalInputs from '../util/TotalInputs';
 import validatedGeneralServices from '../../utils/Validations/validatedGeneralServices';
-import {RenderErrorMessage} from '../util/Alerts';
+import {RenderErrorMessage, AlertSuccess} from '../util/Alerts';
 
 
 class GeneralServicesForm extends Component {
@@ -36,26 +36,29 @@ class GeneralServicesForm extends Component {
       });
   }
   onProductAdd = () => {
-    let general = this.props.generalServices;
-    let pro = this.props.products.productList.find((item) => {
-      if (item._id == general.item_select_id) {
-        return item;
-      }
-    });
-    let itebis_tmp = parseFloat(pro.price) * 0.18;
-    let total_tmp = (parseFloat(pro.price) + parseFloat(itebis_tmp)) * parseInt(general.item_select_quantity);
 
-    this.props.totalProperty(calculateTotal(general.products, itebis_tmp, parseFloat(pro.price), parseInt(general.item_select_quantity)));
+      let general = this.props.generalServices;
+  if (general.item_select_id !== '') {
+      let pro = this.props.products.productList.find((item) => {
+        if (item._id == general.item_select_id) {
+          return item;
+        }
+      });
+      let itebis_tmp = parseFloat(pro.price) * 0.18;
+      let total_tmp = (parseFloat(pro.price) + parseFloat(itebis_tmp)) * parseInt(general.item_select_quantity);
 
-    this.props.addProduct({
-      product_id: pro._id,
-      productType: pro.typeProduct,
-      name_: pro.name_,
-      price: pro.price,
-      quantity: general.item_select_quantity,
-      itebis: itebis_tmp,
-      totalProduct: total_tmp
-    });
+      this.props.totalProperty(calculateTotal(general.products, itebis_tmp, parseFloat(pro.price), parseInt(general.item_select_quantity)));
+
+      this.props.addProduct({
+        product_id: pro._id,
+        productType: pro.typeProduct,
+        name_: pro.name_,
+        price: pro.price,
+        quantity: general.item_select_quantity,
+        itebis: itebis_tmp,
+        totalProduct: total_tmp
+      });
+    }
    }
   onSelectProduct = (_id) => {
     let pro = this.props.products.productList.find((item) => {
@@ -87,6 +90,9 @@ class GeneralServicesForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     let validatedGeneral = validatedGeneralServices(this.props.generalServices);
+    if((this.props.generalServices.customer.rnc !== undefined && this.props.generalServices.customer.rnc !== '') && this.props.generalServices.ncfType === '') {
+      validatedGeneral = {...validatedGeneral, nfcType: ["Especifique el tipo de comprobante"]};
+    }
     if(validatedGeneral) {
       this.props.addErrors(validationSpread(validatedGeneral));
     }else{
@@ -96,6 +102,9 @@ class GeneralServicesForm extends Component {
   }
   componentDidMount() {
     this.props.loadProducts();
+  }
+  componentWillUnmount() {
+     this.props.clearGeneralServices();
   }
 
   render() {
@@ -108,10 +117,13 @@ class GeneralServicesForm extends Component {
     let todayDate = `${dd}/${mm}/${yyyy}`;
 
     if(general.isRedirect) {
-    return   <Redirect to='/'/>
+       return <Redirect to='/'/>
     }
     return (
       <div className="container">
+      {general.didSaved
+          ? <AlertSuccess text={"La factura fue guardado y listo para pasar por caja."}/>
+          : null}
        {general.generalServerErrors.length > 0 ?  <RenderErrorMessage errors={general.generalServerErrors}/> : null }
 
         <form onSubmit={(e)=>this.onSubmit(e)}>
@@ -133,6 +145,7 @@ class GeneralServicesForm extends Component {
         <CustomerField
            customer={general.customer}
            onChangeInput={this.onChangeInputCustomer}
+           onChangeNcfType={this.onChangeInput}
           />
         <ProductAndGeneralServicesSelectorGrid
           isGeneralServicesOn = { general.isGeneralServicesOn }
@@ -172,6 +185,9 @@ let mapStateToProps = (state) => ({
 })
 
 let mapDispatchToProps = (dispatch) => ({
+  clearGeneralServices: () => {
+    dispatch(generalServicesAction.clearGeneralServices());
+  },
   addErrors: (errorArray) => {
     dispatch(generalServicesAction.addErrors(errorArray));
   },
