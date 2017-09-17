@@ -29,9 +29,9 @@ class OilChangeServicesForm extends Component {
         this.onProductAdd = this.onProductAdd.bind(this);
         this.onChangeFindProduct = this.onChangeFindProduct.bind(this);
         this.OnClickSelectVehicleFromModalList = this.OnClickSelectVehicleFromModalList.bind(this);
-
         const products = [];
     }
+
 
     onChangeProductType = (e) => {
         let productType = e.target.value;
@@ -242,7 +242,11 @@ class OilChangeServicesForm extends Component {
                         <div className="row">
                             <fieldset>
                                 <legend>Cambio de aceite</legend>
-                                <CustomerField customer={this.props.oilChangeServices.customer} onChangeInput={this.onChangeInputCustomer}/>
+                                <CustomerField
+                                  customer={this.props.oilChangeServices.customer}
+                                  onChangeInput={this.onChangeInputCustomer}
+                                  onClickNcfType={this.onChangeInput}
+                                />
                                {this.props.oilChangeServices.customer.customer_id
                                  ?
                                  <div className="row">

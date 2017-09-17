@@ -1,5 +1,6 @@
 import React from 'react';
 import ServicesCheckBox from './UtilsServices/ServicesCheckBox';
+import TotalInputs from './util/TotalInputs.js';
 
 const PrintReceipt = (props) => {
   let checkout = props.checkoutItem;
@@ -53,9 +54,10 @@ const PrintReceipt = (props) => {
     checkout.services == "cambio aceite"
     ?
      <ServicesCheckBox
-     onChange={()=>{}}
-     onChangeServicsInput={()=>{}}
-     services = {{}}
+       onChange={()=>{}}
+       onChangeServicsInput={()=>{}}
+       services= {checkout.services_check}
+       //services_check = {checkout.services_check}
      />
 
      :
@@ -93,6 +95,14 @@ const PrintReceipt = (props) => {
         </tbody>
       </table>
   </div>
+
+  <TotalInputs
+    totalBruto={checkout.totalBruto}
+    onChangeInputDisc={()=>{}}
+    totalDesc={checkout.descCheckout + checkout.totalDesc}
+    totalItebis={checkout.totalItebis}
+    totalNeto={checkout.totalNeto}
+  />
 </div>)
 }
 

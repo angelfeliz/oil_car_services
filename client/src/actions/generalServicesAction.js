@@ -72,7 +72,6 @@ export const saveGeneralServices = (state) => {
   return (dispatch) => {
     console.log(state);
     if(!state.customer.customer_id) {
-      console.log('aqui no ahora');
       api.post("/customer", state.customer)
         .then(
            (responses) => { return responses.data },
@@ -88,7 +87,7 @@ export const saveGeneralServices = (state) => {
          api.post('generalServices/save',general).then(
            (responses) => {
              dispatch(toggledidSaved());
-             //window.setTimeout(()=>{dispatch(toggledidSaved())},1000);
+             window.setTimeout(()=>{dispatch(toggledidSaved())},1000);
              window.setTimeout(()=>{dispatch(toggleRedirect())},1000);
            },
            (error) => {

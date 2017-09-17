@@ -50,7 +50,9 @@ class Checkout extends Component {
     return (
       <div>
         <div className="not_show_in_screen show_in_print">
-          <PrintReceipt checkoutItem = {checkoutMaching.checkoutItem}/>
+          <PrintReceipt
+            checkoutItem = {checkoutMaching.checkoutItem}
+            />
         </div>
         <div className="container not_show_in_print">
           {

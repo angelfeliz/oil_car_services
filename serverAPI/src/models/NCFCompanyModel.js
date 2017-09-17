@@ -17,6 +17,6 @@ export const NCFCompanySchema = new Schema({
 
 NCFCompanySchema.plugin(autoIncrement.mongoosePlugin);
 
-const NCFCompanyModels = mongoose.model('NCFCompany', NCFCompanySchema);
+const NCFCompanyModel = mongoose.model('NCFCompany', NCFCompanySchema);
 
-export default NCFCompanyModels;
+export default NCFCompanyModel;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SERVICESLISTCHECKBOX = [
   {
@@ -30,6 +31,7 @@ const SERVICESLISTCHECKBOX = [
 
  const ServicesCheckbox = (props) => {
   var closeTag = 0;
+
   return (
     <div className="row">
       {SERVICESLISTCHECKBOX.map((item, index) => {
@@ -60,12 +62,14 @@ const SERVICESLISTCHECKBOX = [
                                <option value={select_value_2}>{select_value_2}</option>
                                </select>)
         }
-
-
+        let isCheck = false;
+        if(props.services[key]) {
+          isCheck = true;
+        }
         return (
           <div key={index} className="form-group col-sm-4 col-md-4">
             <label className="checkbox-inline">
-              <input onChange={(e) => props.onChange(e)} name={`${key}`} type="checkbox" value="check" checked={true}/>{item[key]}
+              <input onChange={(e) => props.onChange(e)} name={`${key}`} type="checkbox" value="check" checked={isCheck}/>{item[key]}
               {
                 isDescription
                 ?
@@ -82,6 +86,12 @@ const SERVICESLISTCHECKBOX = [
       <textarea name="otros" onChange={(e) => props.onChange(e)} className="form-control not_show_in_print" rows="3" placeholder="Otros"></textarea>
     </div>
   )
+}
+
+ServicesCheckbox.propType = {
+  services: PropTypes.object,
+  onChangeServicsInput: PropTypes.func,
+  services_check: PropTypes.bool
 }
 
 export default ServicesCheckbox;

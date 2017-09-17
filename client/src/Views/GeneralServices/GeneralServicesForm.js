@@ -23,8 +23,9 @@ class GeneralServicesForm extends Component {
       value: e.target.value
     })
   }
-  onChangeProductType(e) {
+  onChangeProductType = (e) => {
     let productType = e.target.value;
+    console.log('get to here ', productType);
     if(productType) {
       this.props.filterProduct(productType);
     }
@@ -145,7 +146,7 @@ class GeneralServicesForm extends Component {
         <CustomerField
            customer={general.customer}
            onChangeInput={this.onChangeInputCustomer}
-           onChangeNcfType={this.onChangeInput}
+           onClickNcfType={this.onChangeInput}
           />
         <ProductAndGeneralServicesSelectorGrid
           isGeneralServicesOn = { general.isGeneralServicesOn }
@@ -154,7 +155,7 @@ class GeneralServicesForm extends Component {
           item_select_price = { general.item_select_price}
           item_select_name = { general.item_select_name }
           item_select_id = { general.item_select_id }
-          onChangeProductType = { general.onChangeProductType }
+          onChangeProductType = { this.onChangeProductType }
           onChangeFind = { this.onChangeItemFind }
           list = { products.productList }
           onClickElementList = {this.onSelectProduct}

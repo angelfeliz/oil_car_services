@@ -19,7 +19,7 @@ const CustomerField = (props) => {
         customer.rnc
         ?
         <NCFType
-         onClickNcfType={props.onChangeNcfType}
+         onClickNcfType={props.onClickNcfType}
         />
         :
         null

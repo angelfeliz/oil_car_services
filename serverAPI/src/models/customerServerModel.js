@@ -14,6 +14,7 @@ export const customerServerSchema = new Schema({
   paymentType: { type: String },
   branchOffice: { type: String },
   dateNextOilChange: { type: Date },
+  ncfType: { type: Number },
   ncf: { type: String },
   vehicle: {
     vehicle_id: { type: Number, },

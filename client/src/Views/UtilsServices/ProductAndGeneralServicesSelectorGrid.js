@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import AutoCompleteDropBox from '../util/AutoCompleteDropBox';
 import { productType } from '../../utils/objectAsList';
 import HeadAutoComplete from '../util/HeadAutoComplete';
+import PropTypes from 'prop-types';
 
 const ProductAndGeneralServicesSelectorGrid = (props) => {
-
+console.log()
     let keysTypeProduct = Object.keys(productType);
     let elementsProductType = [];
     for(let x = 0; x < keysTypeProduct.length; x++ ) {
@@ -22,7 +23,7 @@ const ProductAndGeneralServicesSelectorGrid = (props) => {
         <div className="col-xs-12 col-sm-4 col-md-4 col-lg-4">
           <div className="form-group">
             <label className="sr-only">dd</label>
-            <select name="typeProduct" value={props.product_type_select} onChange={(e) => props.onChangeProductType(e)} className="form-control">
+            <select name="typeProduct" value={props.product_type_select} onChange={(e) => {props.onChangeProductType(e)}} className="form-control">
               <option value="">Tipo de producto</option>
               { elementsProductType }
             </select>
@@ -98,4 +99,10 @@ const ProductAndGeneralServicesSelectorGrid = (props) => {
       </fieldset>
     )
 }
+
+ProductAndGeneralServicesSelectorGrid.propTypes = {
+  onChangeProductType: PropTypes.func,
+  onChangeProductQuantity: PropTypes.func
+};
+
 export default ProductAndGeneralServicesSelectorGrid;

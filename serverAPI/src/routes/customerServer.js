@@ -2,7 +2,7 @@ import express from 'express';
 import customerServerModel from '../models/customerServerModel';
 import * as handlers from '../utils/handler';
 import validateCustomerServer from '../validators/validateCustomerServer';
-import company from '../models/companyModel';
+import NCFCompany from '../models/NCFCompanyModel';
 
 var router = express.Router();
 
@@ -10,8 +10,7 @@ router.use('/save', function(req, res, next){
    console.log('no debe entrar ',req.method);
   if(req.method === 'POST') {
     if(req.body.customer.rnc) {
-
-    let ncfObj = company.find({}, { NCF: 1, inicialNCF: 1, finalNCF: 1});
+    let ncfObj = NCFCompany.find({companyId: 1, NCFType: req.body.ncfType}, { NCF: 1, inicialNCF: 1, finalNCF: 1});
     ncfObj.exec(function(err, ncf) {
       if((Number.parseInt(ncf.inicialNCF) + 1) > Number.parseInt(ncf.finalNCF)) {
         let err = {
@@ -19,11 +18,10 @@ router.use('/save', function(req, res, next){
         }
          res.json(err);
       }
-      else {
-        console.log(ncf[0].NCF + ncf[0].inicialNCF);
+      else {        
         req.ncf = ncf[0].NCF + ncf[0].inicialNCF;
         let newNCF = (Number.parseInt(ncf[0].inicialNCF) + 1);
-        company.update({branch: 1}, {inicialNCF: newNCF}, function(err, done) {
+        NCFCompany.update({companyId: 1, NCFType: req.body.ncfType}, {inicialNCF: newNCF}, function(err, done) {
           next();
         })
       }
