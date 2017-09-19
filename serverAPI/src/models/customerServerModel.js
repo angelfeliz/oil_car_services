@@ -7,6 +7,7 @@ export const customerServerSchema = new Schema({
   _id: { type: Number },
   statu: { type: String, default: "pending"},
   supervisor: { type: String },
+  mechanic: { type: String }
   totalBruto: { type: Number },
   totalDesc: { type: Number },
   totalItebis: { type: Number },
