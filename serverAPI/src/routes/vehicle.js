@@ -31,7 +31,7 @@ router.get('/vehicleList', function(req, res){
 });
 
 router.post('/', function(req, res, next) {
-  let vehicle = { ...req.body, _id: 2 };
+  let vehicle = { ...req.body, _id: 2 };  
   validateVehicle(vehicle)
   .then((vehicle) => {
     new vehicleModel(vehicle)

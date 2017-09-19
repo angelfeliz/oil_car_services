@@ -27,14 +27,14 @@ export const CheckoutBoxModel = (props) => {
               <div className="form-group">
                 <label className="sr-only"></label>
                 <input onClick={(e) => props.onClickPaymentType(e)} className="" type="radio" name="typePayment" value="cash"/>
-                <span> Contado <i className="fa fa-money" aria-hidden="true"></i></span>
+                <span className="font-payment-type"> Contado <i className="fa fa-money" aria-hidden="true"></i></span>
               </div>
             </div>
             <div className="col-lg-2 col-md-2 col-sm-4 col-xs-4">
               <div className="form-group">
                 <label className="sr-only"></label>
                 <input onClick={(e) => props.onClickPaymentType(e)} className="" type="radio" name="typePayment" value="card"/>
-                <span> Tarjeta <i className="fa fa-credit-card" aria-hidden="true"></i></span>
+                <span className="font-payment-type"> Tarjeta <i className="fa fa-credit-card" aria-hidden="true"></i></span>
               </div>
             </div>
           </fieldset>
@@ -91,9 +91,7 @@ export const CheckoutBoxModel = (props) => {
               </table>
             </div>
             <div className="row pull-right total_checkout">
-              <span>{`$ ${checkoutItem.totalNeto} - `}<input type="text" onChange={(e) => {
-                  props.onChangeDesc(e)
-                }} className="input-control" placeholder="Desc" name="descCaja" value={checkoutItem.descCheckout}/>
+              <span>{`$ ${checkoutItem.totalNeto} - `}<input type="text" onChange={(e) => {props.onChangeDesc(e) }} className="input-control" placeholder="Desc" name="descCaja" value={checkoutItem.descCheckout}/>
                 = {`$ ${checkoutItem.totalNeto - checkoutItem.descCheckout}`}</span>
             </div>
             <div className="row checkout_button">

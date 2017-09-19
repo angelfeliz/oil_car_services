@@ -19,6 +19,7 @@ export const customerServerSchema = new Schema({
   vehicle: {
     vehicle_id: { type: Number, },
     brand: { type: String, },
+    model: {type: String},
     numberPlace: { type: String, },
     year: { type: Number, },
     km: { type: Number, },

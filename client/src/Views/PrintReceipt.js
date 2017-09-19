@@ -8,10 +8,10 @@ const PrintReceipt = (props) => {
   return(
 <div className="space_container">
   <div>
-    <h3 className="company_name-print"><i className="fa fa-server" aria-hidden="true"></i>LubriserServ</h3>
+    <h3 className="company_name-print"><img className="logo" src={require('./logo_lubriserv_b.png')}/></h3>
     <p className="address-print">C/ Aut. Duarte Km.14, Pantoja Sto. Dgo. Rep. Dom.</p>
     <p className="phone-print">Tel.: 809-544-5555</p>
-    <span className="pull-rigth">Fecha: 10-09-2016</span>
+    <span className="pull-rigth">Fecha: {checkout.date}</span>
   </div>
   <h3 className="text-center">Factura</h3>
   <div >
@@ -23,6 +23,9 @@ const PrintReceipt = (props) => {
       <p className="">
         Telefono: {checkout.phoneNumber}
       </p>
+      <p>
+        RNC: {checkout.rnc}
+      </p>
     </div>
     <div className="pull-rigth payment">
       <p><span>Tipo de factura: </span>{checkout.paymentType}</p>
@@ -30,7 +33,7 @@ const PrintReceipt = (props) => {
       {
         checkout.rnc
         ?
-        <p><span>NCF: </span>{checkout.paymentMethod}</p>
+        <p><span>NCF: </span>{checkout.ncf}</p>
         :
         null
       }
@@ -39,13 +42,18 @@ const PrintReceipt = (props) => {
   {
     checkout.vehicle.brand
     ?
+    <div>
     <div className="vehicle">
       <div className="brand-vehicle">Marca: {checkout.vehicle.brand}</div>
       <div className="place_number-vehicle">Placa: {checkout.vehicle.numberPlace}</div>
       <div className="proximo_cambio-vehicle">Proximo cambio: {checkout.vehicle.numberPlace}</div>
+    </div>
+    <div className="vehicle">
       <div className="supervisor-vehicle">Supervisor: {checkout.vehicle.numberPlace}</div>
       <div className="mecanico-vehicle">Mecanico: {checkout.vehicle.numberPlace}</div>
     </div>
+    </div>
+
     :
     null
   }
@@ -53,13 +61,14 @@ const PrintReceipt = (props) => {
   {
     checkout.services == "cambio aceite"
     ?
+    <div className="services_print">
      <ServicesCheckBox
        onChange={()=>{}}
        onChangeServicsInput={()=>{}}
        services= {checkout.services_check}
        //services_check = {checkout.services_check}
      />
-
+</div>
      :
      null
   }

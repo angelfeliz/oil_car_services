@@ -14,6 +14,8 @@ class Checkout extends Component {
     this.props.onClickConfirmCheckout();
   }
   onChangeDesc = (e) => {
+    /*let desc = e.target.value;
+    let result = this.props.checkoutMaching.checkoutItem.totalNeto - desc;*/
        this.props.doDesc(e.target.value);
   }
 

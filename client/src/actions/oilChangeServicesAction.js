@@ -18,6 +18,11 @@ export const TOGGLE_MODAL_LIST_VEHICLE = 'TOGGLE_MODAL_LIST_VEHICLE';
 export const TOGGLE_IS_SAVED = 'TOGGLE_IS_SAVED';
 export const TOGGLE_REDIRECT = 'TOGGLE_REDIRECT';
 export const ADD_OIL_CHANGE_ERRORS = 'ADD_OIL_CHANGE_ERRORS';
+export const CLEAR_OIL_CHANGE = 'CLEAR_OIL_CHANGE';
+
+export const clearOilChange = () => ({
+  type: CLEAR_OIL_CHANGE
+})
 
 export const addCustomerServerProduct = (product) => {
     return {
@@ -96,6 +101,7 @@ export const addOilChangeErrors = (errors) => ({
   errors: errors.map(item => item),
 })
 export const postCustomerServiceForm = (state) => {
+  console.log('see ',state)
     return (dispatch) => {
         if (!state.customer.customer_id) {
             customerOilChangeSave(dispatch, state);

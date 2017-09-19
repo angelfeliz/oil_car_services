@@ -167,6 +167,9 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
   margin-top: 6%;
 }
 
+.font-payment-type {
+  font-size: 17px;
+}
 .detail_checkout {
   max-height: 20vh;
   overflow: auto;
@@ -174,16 +177,25 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 .not_show_in_screen {
   display: none;
 }
+.hideElement{
+  display: none;
+}
+.showElement{
+  display: inline;
+}
+.selector_inline-print {
+  display: inline;
+}
 }
 
 @media print {
-  @import url('https://fonts.googleapis.com/css?family=Inconsolata');
-  @font-face {
+  @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300italic,600);
+  /*@font-face {
     font-family: cour;
     src:url('./cour.ttf');
-  }
+  }*/
   *{
-  font-family: 'Inconsolata', monospace;
+  font-family:sans-serif;
     font-size: 14px;
     font-weight: 200;
     font-style: normal;
@@ -208,6 +220,10 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 
   .space_container{
     margin:  0 15px 0 15px;
+    /*width:1080px;*/
+  }
+  .logo {
+   width:40%;
   }
   .services-space {
     margin: 15px 0 0 0;
@@ -241,15 +257,19 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 
 .selector_inline-print {
   position: absolute;
-  border: none;
+  display: inline;
+  margin-left: 2px;
+  padding: 1px !important;
+}
+
+.option_inline-print{
+  border: 1px solid black;
   -webkit-appearance: none;
   -moz-appearance:none;
   -webkit-appearance:none;
   text-decoration: none;
-  margin-left: 15px;
-  background-color: black !important;
-  color: white !important;
-  padding: 1px !important;
+  background-color: transparent !important;
+  color: black !important;
 }
 
 .brand-vehicle {
@@ -290,5 +310,26 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     border-radius: 4px;
     box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
+
+.print-input {
+  border: none;
+}
+
+.print-show-inline {
+  display: inline;
+}
+.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+
+  .form-inline .input-group>.form-control {
+    width: 100%;
+   }
+
+   .services_print {
+     width: 90%
+   }
 
 }

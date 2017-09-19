@@ -61,11 +61,11 @@ const products = (state=ProductsTree, action) => {
         isShowProductForm: !state.isShowProductForm,
       }
     case productActionType.FILTER_PRODUCTS:
-      let filterProducts = state.productListClone.filter((item) => {        
+      let filterProducts = state.productListClone.filter((item) => {
         if(item.name_.toLowerCase().includes(action.filter.toLowerCase())) {
           return item;
         }
-        else if(item.typeProduct.toLowerCase().includes(action.filter.toLowerCase())) {
+        else if(item.productType.toLowerCase().includes(action.filter.toLowerCase())) {
           return item;
         }
         else if (item.model.toLowerCase().includes(action.filter.toLowerCase())) {

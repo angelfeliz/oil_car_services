@@ -56,7 +56,7 @@ const SERVICESLISTCHECKBOX = [
         else{isDescription = false}
 
         if(isDescription) {
-          DescriptionSelect =  () => (<select className={`${props.services[`${key}`] ? "showElement" : "hideElement"} selector_inline-print`} name={`${key}_description`} value={props.services[`${key}_description`]} onChange={(e)=>props.onChangeServicsInput(e)}>
+          DescriptionSelect =  () => (<select className={`${props.services[`${key}`] ? "showElement" : "hideElement"} not_show_in_print`} name={`${key}_description`} value={props.services[`${key}_description`]} onChange={(e)=>props.onChangeServicsInput(e)}>
                                <option value="">Selecione</option>
                                <option value={select_value_1}>{select_value_1}</option>
                                <option value={select_value_2}>{select_value_2}</option>
@@ -66,18 +66,31 @@ const SERVICESLISTCHECKBOX = [
         if(props.services[key]) {
           isCheck = true;
         }
+        console.log('check ', props.services[`${key}_description`]);
         return (
-          <div key={index} className="form-group col-sm-4 col-md-4">
+          <div key={index} className="form-group col-xs-8 col-sm-4 col-md-4 col-lg-4">
             <label className="checkbox-inline">
-              <input onChange={(e) => props.onChange(e)} name={`${key}`} type="checkbox" value="check" checked={isCheck}/>{item[key]}
-              {
-                isDescription
-                ?
-                <DescriptionSelect/>
-
-                : null
+              { isCheck ?
+                <i className="fa fa-check not_show_in_screen print-show-inline" aria-hidden="true"></i>
+                :
+                null
               }
+              <input className="not_show_in_print" onChange={(e) => props.onChange(e)} name={`${key}`} type="checkbox" value="check" checked={isCheck}/>{item[key]}
             </label>
+            {
+              isDescription
+              ?
+              <div className="selector_inline-print">
+              <DescriptionSelect/>
+              {
+                props.services[`${key}_description`] != undefined
+              ?
+              <span className="not_show_in_screen option_inline-print">{props.services[`${key}_description`]}</span>
+              :
+              null}
+              </div>
+              : null
+            }
           </div>
         )
       })

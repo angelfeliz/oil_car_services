@@ -37,6 +37,7 @@ class OilChangeServicesForm extends Component {
         let productType = e.target.value;
         if (productType) {
             this.props.filteringProudct(productType);
+            this.setState({...this.state, product_type_select: productType });
         }
     }
     onChangeInputCustomer = (e) => {
@@ -87,7 +88,6 @@ class OilChangeServicesForm extends Component {
         let itebis_tmp = parseFloat(pro.price) * 0.18;
         let total_tmp = (parseFloat(pro.price) + parseFloat(itebis_tmp)) * parseInt(this.state.product_select_quantity);
         this.props.totalPropertyDispatch(calculateTotal(this.props.oilChangeServices.products, itebis_tmp, parseFloat(pro.price), parseInt(this.state.product_select_quantity), parseInt(this.state.totalDesc)));
-
         this.props.addCustomerServerProduct({
             product_id: pro._id,
             productType: pro.productType,
@@ -139,6 +139,7 @@ class OilChangeServicesForm extends Component {
     }
 
     onChangeInputVehicle = (e) => {
+      console.log(e.target.value);
         this.props.addCustomerServerVehicle({
             property: [e.target.name],
             value: e.target.value
@@ -202,7 +203,7 @@ class OilChangeServicesForm extends Component {
         this.props.loadProducts();
     }
     componentWillUnmount() {
-
+      this.props.clearOilChange();
     }
     render() {
         this.products = this.props.products.productList.map((item) => item );
@@ -260,7 +261,15 @@ class OilChangeServicesForm extends Component {
                                  null
                                }
 
-                                <VehicleField brand={this.props.oilChangeServices.vehicle.brand} model={this.props.oilChangeServices.vehicle.model} year={this.props.oilChangeServices.vehicle.year} numberPlace={this.props.oilChangeServices.vehicle.numberPlace} typeFuel={this.props.oilChangeServices.vehicle.typeFuel} km={this.props.oilChangeServices.vehicle.km} nextKm={this.props.oilChangeServices.vehicle.nextKm} onChange={this.onChangeInputVehicle}/>
+                                <VehicleField
+                                    brand={this.props.oilChangeServices.vehicle.brand}
+                                    model={this.props.oilChangeServices.vehicle.model}
+                                    year={this.props.oilChangeServices.vehicle.year}
+                                    numberPlace={this.props.oilChangeServices.vehicle.numberPlace}
+                                    typeFuel={this.props.oilChangeServices.vehicle.typeFuel}
+                                    km={this.props.oilChangeServices.vehicle.km}
+                                    nextKm={this.props.oilChangeServices.vehicle.nextKm}
+                                    onChange={this.onChangeInputVehicle}/>
 
                                 <div className="row">
                                     <div className="col-sm-4 col-md-4">
@@ -395,6 +404,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         addOilChangeErrors: (errors) => {
             dispatch(oilChangeServicesAction.addOilChangeErrors(errors));
+        },
+        clearOilChange: () => {
+          dispatch(oilChangeServicesAction.clearOilChange());
         }
     }
 }

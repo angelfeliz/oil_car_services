@@ -70,6 +70,12 @@ export const checkoutMaching = (state = stateDefault, action) => {
             }
         case checkoutActionType.SET_SELL:
             let setSell = [];
+            let today = new Date();
+            let dd = today.getDate();
+            let yy = today.getFullYear();
+            let mm = today.getMonth()+1;
+            let fullDate = `${dd}/${mm}/${yy}`;
+
             if (action.sellType === "cambio aceite") {
 
                 setSell = action.sell.map((item) => {
@@ -85,6 +91,8 @@ export const checkoutMaching = (state = stateDefault, action) => {
                         totalBruto: item.totalBruto,
                         totalDesc: item.totalDesc,
                         totalItebis: item.totalItebis,
+                        ncf: item.ncf,
+                        date: fullDate,
                         phoneNumber: item.customer.phoneNumber,
                         products: [...item.products.map(pro => pro)],
                         services_check: {...item.services},
@@ -108,6 +116,8 @@ export const checkoutMaching = (state = stateDefault, action) => {
                         rnc: item.customer.rnc,
                         totalNeto: item.totalNeto,
                         totalCaja: item.totalNeto,
+                        ncf: item.ncf,
+                        date: fullDate,
                         phoneNumber: item.customer.phoneNumber,
                         products: [...item.products.map(pro => pro)]
                     }

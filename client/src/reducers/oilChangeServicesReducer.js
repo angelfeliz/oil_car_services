@@ -51,6 +51,9 @@ let stateDefault = {
 export const oilChangeServices = (state=stateDefault, action) => {
 
   switch(action.type) {
+    case actionOilChangeServicesType.CLEAR_OIL_CHANGE:
+      return stateDefault
+
     case actionOilChangeServicesType.ADD_OIL_CHANGE_ERRORS:
       return {
         ...state,
