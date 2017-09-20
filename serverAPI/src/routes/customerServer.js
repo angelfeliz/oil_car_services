@@ -18,7 +18,7 @@ router.use('/save', function(req, res, next){
         }
          res.json(err);
       }
-      else {        
+      else {
         req.ncf = ncf[0].NCF + ncf[0].inicialNCF;
         let newNCF = (Number.parseInt(ncf[0].inicialNCF) + 1);
         NCFCompany.update({companyId: 1, NCFType: req.body.ncfType}, {inicialNCF: newNCF}, function(err, done) {
@@ -53,6 +53,16 @@ router.post('/save', function(req, res, next) {
       return res.status(200).json(err);
   })
 });
+
+router.post('/updateState', function(req, res, next) {
+  console.log(req.body)
+   customerServerModel.update({_id: req.body.check.id},{statu:req.body.check.statu},{upsert: true},function(err,done) {
+     if(err) {
+       return res.status(200).json();
+     }
+     return res.status(200).end();
+   })
+})
 
 router.get('/topLastCustomer', function(req, res) {
 

@@ -75,7 +75,7 @@ export const loadAllSells = () => {
   return (dispatch) => {
     api.get("/customerServices/oilChangeUnPay")
     .then(
-      (responses)=>{        
+      (responses)=>{
           return responses.data;
        },
       (err) => {
@@ -117,5 +117,29 @@ export const loadAllSells = () => {
       throw err;
     }
   )
+  }
+}
+
+export const saveCheckout = (checkout) => {
+  return (dispatch) => {
+    api.post('/checkout/save', checkout)
+    .then((responses)=>{
+      check = {
+        id: checkout.services_id,
+        statu: "complete"
+      }
+      api.post('/customerServer/updateState',check)
+      .then(
+        (responses) => {
+           dispatch(cancelModalViewCheckout());
+        },
+        (done) => {
+
+        }
+      )
+    },
+  (err)=>{
+
+  })
   }
 }

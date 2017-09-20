@@ -11,11 +11,12 @@ class Checkout extends Component {
   }
 
   onClickConfirmCheckout = () => {
-    this.props.onClickConfirmCheckout();
+    window.print();
+    this.props.saveCheckout();
   }
   onChangeDesc = (e) => {
-    /*let desc = e.target.value;
-    let result = this.props.checkoutMaching.checkoutItem.totalNeto - desc;*/
+     /*let desc = e.target.value;
+     let result = this.props.checkoutMaching.checkoutItem.totalNeto - desc;*/
        this.props.doDesc(e.target.value);
   }
 
@@ -136,6 +137,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    saveCheckout: () => {
+      dispatch(checkoutAction.saveCheckout(this.props.checkoutMaching.checkoutItem))
+    },
     confirmedCheckout: () => {
       dispatch(checkoutAction.confirmedCheckout(this.props.checkoutMaching.checkoutItem));
     },
@@ -152,7 +156,7 @@ let mapDispatchToProps = (dispatch) => {
       dispatch(checkoutAction.confirmedCheckout(check));
     },
     cancelCheckout: () => {
-      dispatch(checkoutAction.cancelModalViewCheckout());
+      dispatch(checkoutAction.cancelModalViewCheckout(this.props.checkoutMaching.checkoutItem));
     },
     processCheckout: (checkout) => {
       dispatch(checkoutAction.processCheckout(checkout));
