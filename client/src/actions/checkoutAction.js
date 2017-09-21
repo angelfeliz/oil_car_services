@@ -124,19 +124,49 @@ export const saveCheckout = (checkout) => {
   return (dispatch) => {
     api.post('/checkout/save', checkout)
     .then((responses)=>{
-      check = {
+      var  check = {
         id: checkout.services_id,
         statu: "complete"
       }
-      api.post('/customerServer/updateState',check)
-      .then(
-        (responses) => {
-           dispatch(cancelModalViewCheckout());
-        },
-        (done) => {
+      if(checkout.services == "cambio aceite") {
+        api.post('/customerServices/updateState',check)
+         .then(
+           (responses) => {
+              dispatch(cancelModalViewCheckout());
+           },
+           (err) => {
+             console.log('err in checkout ', err);
+             throw err;
+           }
+         )
+         .then((responses) => {
+           dispatch(loadAllSells());
+         },
+         (err) => {
+           console.log('err in checkout ', err);
+           throw err;
+         });
+      }
+      else if(checkout.services == "general") {
+        api.post('/generalServices/updateState',check)
+         .then(
+           (responses) => {
+              dispatch(cancelModalViewCheckout());
+           },
+           (err) => {
+             console.log('err in checkout ', err);
+             throw err;
+           }
+         )
+         .then((responses) => {
+           dispatch(loadAllSells());
+         },
+         (err) => {
+           console.log('err in checkout ', err);
+           throw err;
+         });
+      }
 
-        }
-      )
     },
   (err)=>{
 

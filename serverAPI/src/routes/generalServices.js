@@ -61,4 +61,13 @@ router.get('/generalUnPay', function(req, res, next) {
     return res.status(200).json(sell);
   })
 });
+
+router.post('/updateState', function(req, res, next) {  
+   generalServicesModel.update({_id: req.body.id},{statu:req.body.statu},{upsert: true},function(err,done) {
+     if(err) {
+       return res.status(200).json();
+     }
+     return res.status(200).end();
+   });
+})
 module.exports = router;

@@ -9,7 +9,7 @@ let stateDefault = {
   totalNeto: 0.00,
   supervisor: '',
   mechanic: '',
-  paymentType: '',
+  paymentType: 'cash',
   customer: {
     customer_id:'',
     firstName: '',

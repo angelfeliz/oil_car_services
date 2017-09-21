@@ -65,8 +65,7 @@ const SERVICESLISTCHECKBOX = [
         let isCheck = false;
         if(props.services[key]) {
           isCheck = true;
-        }
-        console.log('check ', props.services[`${key}_description`]);
+        }        
         return (
           <div key={index} className="form-group col-xs-8 col-sm-4 col-md-4 col-lg-4">
             <label className="checkbox-inline">

@@ -6,6 +6,10 @@ import autoIncrement from 'mongodb-autoincrement';
 export const checkoutSchema = new Schema({
   _id: { type: Number },
   statu: { type: String, default: "complete" },
+  services_id: {type: Number},
+  date: {type: Date},
+  dateNextOilChange: { type: Date },
+  descCheckout: { type: Number },
   supervisor: { type: String, default:undefined },
   mechanic: { type: String, default: undefined},
   totalBruto: { type: Number },
@@ -16,6 +20,7 @@ export const checkoutSchema = new Schema({
   branchOffice: { type: String },
   ncfType: { type: Number },
   ncf: { type: String },
+  services: { type: String },
   customer: {
      customer_id: { type: Number },
      email: { type: String },
@@ -42,7 +47,7 @@ export const checkoutSchema = new Schema({
     km: { type: Number, default:undefined },
     nextKm: { type: Number, default:undefined },
   },
-  services: {
+  services_check: {
       chk_transmision: {type: Boolean, default: false},
       chk_diferencial: {type: Boolean, default: false},
       chk_transferencia: {type: Boolean, default: false},

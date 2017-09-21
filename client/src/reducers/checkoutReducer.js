@@ -18,6 +18,7 @@ let stateDefault = {
       descCheckout: 0.00,
       products:[],
       vehicle:{},
+      customer:{},
       paymentMethod:"cash",
     },
     isModalVisible: false,
@@ -70,23 +71,17 @@ export const checkoutMaching = (state = stateDefault, action) => {
             }
         case checkoutActionType.SET_SELL:
             let setSell = [];
-            let today = new Date();
-            let dd = today.getDate();
-            let yy = today.getFullYear();
-            let mm = today.getMonth()+1;
-            let fullDate = `${dd}/${mm}/${yy}`;
+            let today = Date.now();
+            let fullDate = new Date(today).toLocaleDateString('en-US');
 
             if (action.sellType === "cambio aceite") {
 
-                setSell = action.sell.map((item) => {
-                  console.log(item)
+                setSell = action.sell.map((item) => {                  
                     return {
                         services_id: item._id,
                         paymentType: item.paymentType,
                         services: action.sellType,
-                        firstName: item.customer.firstName,
-                        lastName: item.customer.lastName,
-                        rnc: item.customer.rnc,
+                        customer: {...item.customer},
                         totalNeto: item.totalNeto,
                         totalBruto: item.totalBruto,
                         totalDesc: item.totalDesc,
@@ -111,9 +106,7 @@ export const checkoutMaching = (state = stateDefault, action) => {
                         services_id: item._id,
                         paymentType: item.paymentType,
                         services: action.sellType,
-                        firstName: item.customer.firstName,
-                        lastName: item.customer.lastName,
-                        rnc: item.customer.rnc,
+                        customer: {...item.customer},
                         totalNeto: item.totalNeto,
                         totalCaja: item.totalNeto,
                         ncf: item.ncf,

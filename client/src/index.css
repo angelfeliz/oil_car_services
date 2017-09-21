@@ -186,6 +186,13 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 .selector_inline-print {
   display: inline;
 }
+.black_box {
+  color: white;
+  border: 1px solid black;
+  background-color: black;
+  padding: 6px;
+}
+
 }
 
 @media print {

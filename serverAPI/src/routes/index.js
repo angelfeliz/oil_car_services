@@ -7,6 +7,7 @@ import customer from './customer';
 import vehicle from './vehicle';
 import generalServices from './generalServices';
 import company from './company';
+import checkout from './checkout';
 
 router.use('/company', company);
 router.use('/customer', customer);
@@ -15,6 +16,7 @@ router.use('/customerServices', customerServer);
 router.use('/product', products);
 router.use('/user', users);
 router.use('/generalServices', generalServices);
+router.use('/checkout', checkout);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

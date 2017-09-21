@@ -26,7 +26,7 @@ export const CheckoutBoxModel = (props) => {
             <div className="col-lg-2 col-md-2 col-sm-4 col-xs-4">
               <div className="form-group">
                 <label className="sr-only"></label>
-                <input onClick={(e) => props.onClickPaymentType(e)} className="" type="radio" name="typePayment" value="cash"/>
+                <input onClick={(e) => props.onClickPaymentType(e)} className="" type="radio" name="typePayment" value="cash" defaultChecked/>
                 <span className="font-payment-type"> Contado <i className="fa fa-money" aria-hidden="true"></i></span>
               </div>
             </div>
@@ -44,7 +44,11 @@ export const CheckoutBoxModel = (props) => {
               <h1>Factura</h1>
             </div>
             <div className="row">
-              <h3>{`${checkoutItem.firstName} ${checkoutItem.lastName}`}</h3>
+              <p className="text-right">{checkoutItem.date}</p>
+              <h3 className="pull-right black_box"><span>Servicio: </span>{checkoutItem.services}</h3>
+            </div>
+            <div className="row">
+              <h3>{`${checkoutItem.customer.firstName} ${checkoutItem.customer.lastName}`}</h3>
             </div>
             {checkoutItem.vehicle
               ? <div>
@@ -96,7 +100,12 @@ export const CheckoutBoxModel = (props) => {
             </div>
             <div className="row checkout_button">
               <div className="col-lg-1 col-md-1 col-sm-1 col-xs-12">
-                <button className="btn btn-primary" onClick={() => props.onClickConfirmCheckout()}>Pagar</button>
+              {props.checkoutItem.paymentMethod ?
+                      <button   className="btn btn-primary" onClick={() => props.onClickConfirmCheckout()}>Pagar</button>
+                      :
+                        <button disabled  className="btn btn-primary">Pagar</button>
+              }
+
               </div>
               <div className="col-lg-1 col-md-1 col-sm-1 col-xs-12">
                 <button onClick={()=>props.onClickCancelCheckout()} className="btn btn-warning">Cancelar</button>

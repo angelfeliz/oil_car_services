@@ -3,8 +3,8 @@ import ServicesCheckBox from './UtilsServices/ServicesCheckBox';
 import TotalInputs from './util/TotalInputs.js';
 
 const PrintReceipt = (props) => {
+  
   let checkout = props.checkoutItem;
-  console.log('checkoutprint ',checkout);
   return(
 <div className="space_container">
   <div>
@@ -19,7 +19,7 @@ const PrintReceipt = (props) => {
   </div>
   <div className="cliente">
     <div className="">
-      <h4 className="client_name">Cliente: {`${checkout.firstName} ${checkout.lastName}`}</h4>
+      <h4 className="client_name">Cliente: {`${checkout.customer.firstName} ${checkout.customer.lastName}`}</h4>
       <p className="">
         Telefono: {checkout.phoneNumber}
       </p>

@@ -32,8 +32,6 @@ router.use('/save', function(req, res, next){
     next();
   }
 }
-
-
 });
 
 router.post('/save', function(req, res, next) {
@@ -42,26 +40,24 @@ router.post('/save', function(req, res, next) {
     _id: 3,
     ncf: req.ncf
   };
-
-  console.log('llego ', servicesCustomer );
   let servicesCustomerDb = new customerServerModel(servicesCustomer);
   servicesCustomerDb.save().then((response) => {
     return res.json(response);
   },
   (err) => {
-      console.log('this is a err', err);
+      console.log('this is a err ', err);
       return res.status(200).json(err);
   })
 });
 
 router.post('/updateState', function(req, res, next) {
-  console.log(req.body)
-   customerServerModel.update({_id: req.body.check.id},{statu:req.body.check.statu},{upsert: true},function(err,done) {
+  console.log('Hola update ', req.body.id);
+   customerServerModel.update({_id: req.body.id},{statu:req.body.statu},{upsert: true},function(err,done) {
      if(err) {
        return res.status(200).json();
      }
      return res.status(200).end();
-   })
+   });
 })
 
 router.get('/topLastCustomer', function(req, res) {

@@ -11,8 +11,8 @@ class Checkout extends Component {
   }
 
   onClickConfirmCheckout = () => {
-    window.print();
-    this.props.saveCheckout();
+    //window.print();
+    this.props.saveCheckout(this.props.checkoutMaching.checkoutItem);
   }
   onChangeDesc = (e) => {
      /*let desc = e.target.value;
@@ -21,7 +21,6 @@ class Checkout extends Component {
   }
 
   onClickProcessCheckout = (checkoutObj) => {
-    console.log(checkoutObj);
     this.props.processCheckout(checkoutObj);
   }
 
@@ -95,11 +94,11 @@ class Checkout extends Component {
        return (
          <tr key={item.services_id}>
            <td>{item.services_id}</td>
-           <td>{item.firstName}
+           <td>{item.customer.firstName}
            </td>
-           <td>{item.lastName}</td>
+           <td>{item.customer.lastName}</td>
            <td>{item.services}</td>
-           <td>{item.phoneNumber}
+           <td>{item.customer.phoneNumber}
            </td>
            <td>{item.totalNeto}</td>
            <td>
@@ -137,8 +136,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    saveCheckout: () => {
-      dispatch(checkoutAction.saveCheckout(this.props.checkoutMaching.checkoutItem))
+    saveCheckout: (checkoutItem) => {
+      dispatch(checkoutAction.saveCheckout(checkoutItem));
     },
     confirmedCheckout: () => {
       dispatch(checkoutAction.confirmedCheckout(this.props.checkoutMaching.checkoutItem));
@@ -156,7 +155,7 @@ let mapDispatchToProps = (dispatch) => {
       dispatch(checkoutAction.confirmedCheckout(check));
     },
     cancelCheckout: () => {
-      dispatch(checkoutAction.cancelModalViewCheckout(this.props.checkoutMaching.checkoutItem));
+      dispatch(checkoutAction.cancelModalViewCheckout());
     },
     processCheckout: (checkout) => {
       dispatch(checkoutAction.processCheckout(checkout));
