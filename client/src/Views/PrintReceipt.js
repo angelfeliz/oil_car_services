@@ -3,12 +3,12 @@ import ServicesCheckBox from './UtilsServices/ServicesCheckBox';
 import TotalInputs from './util/TotalInputs.js';
 
 const PrintReceipt = (props) => {
-  
+
   let checkout = props.checkoutItem;
   return(
 <div className="space_container">
   <div>
-    <h3 className="company_name-print"><img className="logo" src={require('./logo_lubriserv_b.png')}/></h3>
+    <h3 className="company_name-print"><img className="logo" src={require('../logo_lubriserv_w.png')}/></h3>
     <p className="address-print">C/ Aut. Duarte Km.14, Pantoja Sto. Dgo. Rep. Dom.</p>
     <p className="phone-print">Tel.: 809-544-5555</p>
     <span className="pull-rigth">Fecha: {checkout.date}</span>

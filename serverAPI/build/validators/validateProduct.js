@@ -13,7 +13,7 @@ var validateProduct = (0, _functions.validateAsync)({
   name_: {
     presence: true
   },
-  typeProduct: {
+  productType: {
     presence: true,
     length: {
       minimum: 1,

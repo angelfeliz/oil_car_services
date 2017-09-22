@@ -28,6 +28,7 @@ var router = _express2.default.Router();
 
 router.post('/', function (req, res, next) {
   var customer = _extends({}, req.body, { _id: 1 });
+
   (0, _validateCustomer2.default)(customer).then(function (customer) {
     new _customerModel2.default(customer).save().then(function (response) {
       res.status(200).json(response);
