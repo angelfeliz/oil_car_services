@@ -3,7 +3,7 @@ import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as productAction from '../../actions/productsAction';
 import ProductItemList from './ProductItemList';
-import BoxModel from '../util/BoxModel';
+import {BoxModel} from '../util/BoxModel';
 
 class Products extends Component {
   constructor(props) {
@@ -68,7 +68,12 @@ class Products extends Component {
     return (
       <div className="container">
         {this.props.products.isDisabledModal
-          ? (<BoxModel name={this.props.products.product.name_} onClickAccept={this.onClickAcceptDisabled} onClickCancel={this.onClickCancelDisabled}/>)
+          ? (<BoxModel
+            name={this.props.products.product.name_}
+            onClickAccept={this.onClickAcceptDisabled}
+            onClickCancel={this.onClickCancelDisabled}
+            text = {"Esta seguro que quier deshabilitar este product?"}
+            />)
           : null}
         <h2 className="text-center">Product</h2>
         <div className="row">

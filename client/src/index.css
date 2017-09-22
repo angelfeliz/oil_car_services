@@ -4,7 +4,14 @@
   padding: 0;
   font-family: sans-serif;
 }
-
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+.logo_header {
+  width: 47%;
+  padding: 7px 14px;
+}
 .checkbox-inline
 {
   margin-left: 0px!important;
@@ -338,5 +345,12 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
    .services_print {
      width: 90%
    }
+
+.flex_container {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: stretch;
+}
 
 }

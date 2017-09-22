@@ -51,7 +51,6 @@ router.post('/save', function(req, res, next) {
 });
 
 router.post('/updateState', function(req, res, next) {
-  console.log('Hola update ', req.body.id);
    customerServerModel.update({_id: req.body.id},{statu:req.body.statu},{upsert: true},function(err,done) {
      if(err) {
        return res.status(200).json();
@@ -127,10 +126,9 @@ router.get('/countOilSellOfDay', function(req, res) {
    });
 });
 
-router.get('/oilChangeUnPay', function(req, res) {
-    var pending = customerServerModel.find({statu:"pending"});
+router.post('/oilChangeUnPay', function(req, res) {  
+    var pending = customerServerModel.find({statu:req.body.statu});
     pending.exec(function(err, sell){
-      console.log(sell);
         if(err) {
           return res.status(500).json(err);
         }

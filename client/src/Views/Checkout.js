@@ -35,15 +35,18 @@ class Checkout extends Component {
     }
 
   }
+  onChangeFindCheckout = (e) => {
+    let word = e.target.value;
+    this.props.findSell(word);
+  }
 
   componentDidMount() {
    this.props.loadAllSells();
   }
 
-  onChangeFindCheckout = (e) => {
-    let word = e.target.value;
-    this.props.findSell(word);
-  }
+   componentWillUnmount() {
+     this.props.cleanInvoice();
+   }
 
   render() {
      let checkoutMaching = this.props.checkoutMaching;
@@ -136,6 +139,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    cleanInvoice: () => {
+      dispatch(checkoutAction.cleanInvoice());
+    },
     saveCheckout: (checkoutItem) => {
       dispatch(checkoutAction.saveCheckout(checkoutItem));
     },
@@ -149,7 +155,7 @@ let mapDispatchToProps = (dispatch) => {
       dispatch(checkoutAction.findSell(word));
     },
     loadAllSells: () => {
-      dispatch(checkoutAction.loadAllSells());
+      dispatch(checkoutAction.loadAllSells("pending"));
     },
     confirmedCheckout: (check) => {
       dispatch(checkoutAction.confirmedCheckout(check));

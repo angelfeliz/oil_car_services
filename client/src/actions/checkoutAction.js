@@ -9,12 +9,52 @@ export const PAYMENT_TYPE = 'PAYMENT_TYPE';
 export const SET_SELL = 'SET_SELL';
 export const FIND_SELL_CHECKOUT = 'FIND_SELL_CHECKOUT';
 export const DESC_CHEKOUT = 'DESC_CHEKOUT';
-export const PRINT_CHECKOUT = 'PRINT_CHECKOUT';
+export const CLEAN_FILTER = 'CLEAN_FILTER';
+export const RIDIRECT_INVOICE = 'RIDIRECT_INVOICE';
+export const ELIMINATE_SERVICES = 'ELIMINATE_SERVICES';
+export const SHOW_DIALOG = 'SHOW_DIALOG';
+export const CLEAN_CHECKOUT_ITEM = 'CLEAN_CHECKOUTITEM';
+export const CLEAN_INVOICE = 'CLEAN_INVOICE';
 
 
-export const printCheckout = () => ({
-  type: PRINT_CHECKOUT,
-  isPrinting: true,
+export const cleanInvoice = () => ({
+  type: CLEAN_INVOICE
+})
+export const cleanCheckoutItem = () => ({
+  type: CLEAN_CHECKOUT_ITEM
+})
+export const showDialog = () => ({
+  type: SHOW_DIALOG
+})
+export const eliminate = (services) => {
+  return (dispatch) => {
+    api.post("/checkout/deleteServices",services)
+    .then(
+      (responses) => {
+        dispatch(cleanFilter());
+      },
+      (err) => {
+        console.log(err);
+        throw err;
+      },
+    )
+    .then(
+      (responses) => {
+        console.log('his in side');
+        dispatch(loadAllSells("complete"));
+      },
+      (err) => {
+        console.log(err);
+        throw err;
+      },
+    )
+  }
+}
+export const ridirectInvoice = () => {
+  type: RIDIRECT_INVOICE
+}
+export const cleanFilter = () => ({
+  type: CLEAN_FILTER
 })
 export const doDesc = (desc) => ({
   type: DESC_CHEKOUT,
@@ -65,15 +105,16 @@ export const setSell = (sell, sellType) => ({
   sellType,
   sell: sell.map(item => item),
 })
+//TODO delete later confirmedCheckout
 export const confirmedCheckout = (checkout) => {
   return (dispatch) => {
-     dispatch(printCheckout());
+     //dispatch(printCheckout());
   }
 }
 
-export const loadAllSells = () => {
+export const loadAllSells = (statu) => {
   return (dispatch) => {
-    api.get("/customerServices/oilChangeUnPay")
+    api.post("/customerServices/oilChangeUnPay", {statu:statu})
     .then(
       (responses)=>{
           return responses.data;
@@ -92,7 +133,7 @@ export const loadAllSells = () => {
       (err) => {}
    )
     .then(()=>{
-      api.get("/generalServices/generalUnPay")
+      api.get("/generalServices/generalUnPay", {statu:statu})
       .then(
         (responses) => {
           return responses.data;

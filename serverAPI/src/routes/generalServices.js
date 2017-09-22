@@ -22,7 +22,6 @@ router.use('/save', function(req, res, next){
         let ncfFull = ncf[0].NCF + ncf[0].inicialNCF;
         req.ncf = ncfFull;
         let newNCF = (Number.parseInt(ncf[0].inicialNCF) + 1);
-        console.log('el NCFTYPe ',req.body);
         NCFCompany.update({companyId:1, NCFType: req.body.ncfType}, {inicialNCF: newNCF}, function(err, done){
             next();
         });
@@ -53,7 +52,7 @@ router.post('/save', function(req, res, next) {
 });
 
 router.get('/generalUnPay', function(req, res, next) {
-  var generalUnpay = generalServicesModel.find({statu: "pending"});
+  var generalUnpay = generalServicesModel.find({statu: req.body.statu});
   generalUnpay.exec((err, sell) => {
     if(err) {
       return res.status(500).json(err);
@@ -62,7 +61,7 @@ router.get('/generalUnPay', function(req, res, next) {
   })
 });
 
-router.post('/updateState', function(req, res, next) {  
+router.post('/updateState', function(req, res, next) {
    generalServicesModel.update({_id: req.body.id},{statu:req.body.statu},{upsert: true},function(err,done) {
      if(err) {
        return res.status(200).json();

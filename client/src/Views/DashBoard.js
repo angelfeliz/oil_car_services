@@ -18,18 +18,14 @@ class DashBoard extends Component {
       focusCustomerSearch: false,
     }
     this.customerListCustome = [];
-    this.onClickCustomerInput = this.onClickCustomerInput.bind(this);
-    this.onClickSelectCustomer = this.onClickSelectCustomer.bind(this);
-    this.onClickGoCustomer = this.onClickGoCustomer.bind(this);
-    this.onChangeFilterInputCustomer = this.onChangeFilterInputCustomer.bind(this);
 
   }
 
-  onClickCustomerInput() {
+  onClickCustomerInput = () => {
     this.setState({...this.state, showCustomerAutoList: !this.state.showCustomerAutoList, focusCustomerSearch: !this.state.focusCustomerSearch });
   }
 
-  onClickSelectCustomer(_id) {
+  onClickSelectCustomer = (_id) => {
     let customer = this.customerListCustome.find((item) => {
       if (item._id == _id) {
         return item;
@@ -38,11 +34,11 @@ class DashBoard extends Component {
     this.setState({ ...this.state, customer_id: customer._id, showCustomerAutoList: !this.state.showCustomerAutoList, customerSelect: customer.name_ });
   }
 
-  onClickGoCustomer() {
+  onClickGoCustomer = () => {
     this.setState({ ...this.state, redirectToCustomer: true });
   }
 
-  onChangeFilterInputCustomer(e) {
+  onChangeFilterInputCustomer = (e) => {
     if(e.target.value) {
       let filter = e.target.value;
       this.props.filterListOfCustomer(filter);
@@ -79,7 +75,7 @@ class DashBoard extends Component {
         let name_ = item.firstName +' '+ item.lastName;
         return {
           _id: item._id,
-          name_,          
+          name_,
         }
       });
 

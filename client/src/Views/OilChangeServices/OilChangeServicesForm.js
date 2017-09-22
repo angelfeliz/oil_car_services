@@ -200,6 +200,7 @@ class OilChangeServicesForm extends Component {
             let customer_id = this.props.match.params.id;
             this.props.getCustomerById(customer_id);
         }
+        if(this.props.match.params.checkout) {}
         this.props.loadProducts();
     }
     componentWillUnmount() {

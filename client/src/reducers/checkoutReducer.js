@@ -22,17 +22,44 @@ let stateDefault = {
       paymentMethod:"cash",
     },
     isModalVisible: false,
-    isRidirectToInvoice: false,
+    isRidirect: false,
     isAbortBySystem: false,
-    isNoMatch: false
+    isNoMatch: false,
+    filter:'',
+    showDialog: false
 }
 
 export const checkoutMaching = (state = stateDefault, action) => {
     switch (action.type) {
-        case checkoutActionType.PRINT_CHECKOUT:
+      case checkoutActionType.CLEAN_INVOICE:
+        return stateDefault
+       case checkoutActionType.CLEAN_CHECKOUT_ITEM:
+         return {
+           ...state,
+           checkoutItem: {
+             descCheckout: 0.00,
+             products:[],
+             vehicle:{},
+             customer:{},
+             paymentMethod:"cash",
+           }
+         }
+       case checkoutActionType.SHOW_DIALOG:
+         return {
+           ...state,
+           showDialog: !state.showDialog
+         }
+        case checkoutActionType.RIDIRECT_INVOICE:
           return {
             ...state,
-            isPrinting: action.isPrinting
+            isRidirect:true,
+          }
+        case checkoutActionType.CLEAN_FILTER:
+          return {
+            ...state,
+            filter: '',
+            sell: [],
+            sellClone: []
           }
         case checkoutActionType.PAYMENT_TYPE :
            return {
@@ -53,9 +80,9 @@ export const checkoutMaching = (state = stateDefault, action) => {
         case checkoutActionType.FIND_SELL_CHECKOUT:
             let filterSell = state.sellClone.filter((item) => {
                 if (item.services_id) {
-                    let fullName = item.firstName + " " + item.lastName;
+                    let fullName = item.customer.firstName + " " + item.customer.lastName;
                     if (fullName.toLowerCase().includes(action.word.toLowerCase())) {
-                        return item;
+                      return item;
                     }
                 }
             });
@@ -76,7 +103,7 @@ export const checkoutMaching = (state = stateDefault, action) => {
 
             if (action.sellType === "cambio aceite") {
 
-                setSell = action.sell.map((item) => {                  
+                setSell = action.sell.map((item) => {
                     return {
                         services_id: item._id,
                         paymentType: item.paymentType,
@@ -95,7 +122,8 @@ export const checkoutMaching = (state = stateDefault, action) => {
                             ...item.vehicle
                         },
                         supervisor: item.supervisor,
-                        dateNextOilChange: item.dateNextOilChange
+                        dateNextOilChange: item.dateNextOilChange,
+                        statu: item.statu
                     }
                 })
             }
@@ -112,7 +140,8 @@ export const checkoutMaching = (state = stateDefault, action) => {
                         ncf: item.ncf,
                         date: fullDate,
                         phoneNumber: item.customer.phoneNumber,
-                        products: [...item.products.map(pro => pro)]
+                        products: [...item.products.map(pro => pro)],
+                        statu: item.statu
                     }
                 })
             }
@@ -126,7 +155,8 @@ export const checkoutMaching = (state = stateDefault, action) => {
                 sellClone: [
                     ...state.sell,
                     ...setSell.map(item => item)
-                ]
+                ],
+                filter: action.word,
             }
         case checkoutActionType.PROCESS_CHECKOUT:
             return {
@@ -137,7 +167,7 @@ export const checkoutMaching = (state = stateDefault, action) => {
                     products:[...action.checkoutObj.products.map(item => item)]
                 },
                 isModalVisible: true,
-                isRidirectToInvoice: false,
+                isRidirect: false,
                 isAbortBySystem: false
             }
         case checkoutActionType.TOGGLE_CHECK_FOR_CHECKOUT:
@@ -158,7 +188,7 @@ export const checkoutMaching = (state = stateDefault, action) => {
                 isModalVisible: false
             }
         case checkoutActionType.CONFIRMED_CHECKOUT:
-            return {isModalVisible: true, isRidirectToInvoice: false}
+            return {isModalVisible: true, isRidirect: false}
         default:
             return state;
     }
