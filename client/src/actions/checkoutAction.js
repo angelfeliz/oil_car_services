@@ -171,6 +171,15 @@ export const saveCheckout = (checkout) => {
       }
       if(checkout.services == "cambio aceite") {
         api.post('/customerServices/updateState',check)
+        .then(
+          (responses) => {
+             dispatch(cleanFilter());
+          },
+          (err) => {
+            console.log('err in checkout ', err);
+            throw err;
+          }
+        )
          .then(
            (responses) => {
               dispatch(cancelModalViewCheckout());
@@ -190,6 +199,15 @@ export const saveCheckout = (checkout) => {
       }
       else if(checkout.services == "general") {
         api.post('/generalServices/updateState',check)
+        .then(
+          (responses) => {
+             dispatch(cleanFilter());
+          },
+          (err) => {
+            console.log('err in checkout ', err);
+            throw err;
+          }
+        )
          .then(
            (responses) => {
               dispatch(cancelModalViewCheckout());

@@ -11,7 +11,7 @@ class Checkout extends Component {
   }
 
   onClickConfirmCheckout = () => {
-    //window.print();
+    window.print();
     this.props.saveCheckout(this.props.checkoutMaching.checkoutItem);
   }
   onChangeDesc = (e) => {
