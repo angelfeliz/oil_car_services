@@ -9,7 +9,10 @@ const ProductsTree = {
       name_: '',
       model: '',
       productType: '',
+      materialType: '',
       api: '',
+      cost:'',
+      itebis:'',
       price: '',
       createdAt: null,
     },
@@ -19,10 +22,21 @@ const ProductsTree = {
     isDisabledModal: false,
     productErrors: [],
     isNoMatch: false,
+    byMaterial: false,
 }
 
 const products = (state=ProductsTree, action) => {
   switch(action.type) {
+    case productActionType.ADD_PRICES:
+      return {
+        ...state,
+        product:{
+          ...state.product,
+          cost: action.cost,
+          itebis: action.itebis,
+          price: action.total
+        }
+      }
     case productActionType.CLEAN_PRODUCTS_STATE:
       return {
         ...ProductsTree
@@ -60,8 +74,42 @@ const products = (state=ProductsTree, action) => {
         ...state,
         isShowProductForm: !state.isShowProductForm,
       }
-    case productActionType.FILTER_PRODUCTS:
+    case productActionType.SEARCH_BY_MATERIAL_OIL:
       let filterProducts = state.productListClone.filter((item) => {
+        if(item.materialType.toLowerCase().includes(action.filter.toLowerCase())) {
+          return item;
+        }
+    });
+
+    let noMatch = false;
+    filterProducts.length === 0 ? noMatch = true : noMatch = false;
+    return {
+      ...state,
+      productList: filterProducts.map(item=>item),
+      byMaterial:true,
+      isNoMatch: noMatch,
+    }
+    case productActionType.NOT_SEARCH_BY_MATERIAL_OIL:
+      return {
+        ...state,
+        byMaterial: false,
+      }
+    case productActionType.FILTER_PRODUCTS:
+    let filterProd;
+    if(state.byMaterial) {
+       filterProd = state.productList.filter((item) => {
+        if(item.name_.toLowerCase().includes(action.filter.toLowerCase())) {
+          return item;
+        }
+        else if(item.productType.toLowerCase().includes(action.filter.toLowerCase())) {
+          return item;
+        }
+        else if (item.model.toLowerCase().includes(action.filter.toLowerCase())) {
+          return item;
+        }
+      });
+    }
+       filterProd = state.productListClone.filter((item) => {
         if(item.name_.toLowerCase().includes(action.filter.toLowerCase())) {
           return item;
         }
@@ -73,13 +121,13 @@ const products = (state=ProductsTree, action) => {
         }
       });
 
-      let noMatch = false;
-      filterProducts.length === 0 ? noMatch = true : noMatch = false;
+      let noMatch_ = false;
+      filterProducts.length === 0 ? noMatch_ = true : noMatch_ = false;
       return {
         ...state,
         productList: filterProducts.map(item=>item),
 
-        isNoMatch: noMatch,
+        isNoMatch: noMatch_,
       }
     case productActionType.ADD_PRODUCT_ITEM:
       return {

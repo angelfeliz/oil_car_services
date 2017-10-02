@@ -16,11 +16,15 @@ class DashBoard extends Component {
       customer_id: '',
       customerSelect: '',
       focusCustomerSearch: false,
+      searchBy: 1
     }
     this.customerListCustome = [];
 
   }
 
+  onClickSearchBy = (e) => {
+    this.setState({...this.state, searchBy: e.target.value})
+  }
   onClickCustomerInput = () => {
     this.setState({...this.state, showCustomerAutoList: !this.state.showCustomerAutoList, focusCustomerSearch: !this.state.focusCustomerSearch });
   }
@@ -41,11 +45,12 @@ class DashBoard extends Component {
   onChangeFilterInputCustomer = (e) => {
     if(e.target.value) {
       let filter = e.target.value;
-      this.props.filterListOfCustomer(filter);
-
-      if(this.props.customers.customerList.length <= 0) {
-           this.props.filterListOfVehicle(filter);
-       }
+      if(this.state.searchBy == 1) {
+        this.props.filterListOfCustomer(filter);
+      }
+      else if(this.state.searchBy == 2) {
+        this.searchPlaceNumber(filter);
+      }
     }
     else{
       this.props.loadListOfCustomer();
@@ -53,6 +58,18 @@ class DashBoard extends Component {
     }
   }
 
+  searchPlaceNumber = (filter) => {
+
+      let customersIdArray = this.props.vehicles.vehicleArray.filter((item) => {
+                          if(item.numberPlace.toLowerCase().includes(filter.toLowerCase()))
+                            {
+                                return item.customer_id;
+                            }
+                          }).map((item)=>item.customer_id);
+
+       this.props.filterPlaceNumberToCustomer(customersIdArray);
+
+   }
   componentWillMount() {
     this.props.TopTenOilSellDay();
     this.props.SellOfDayCount();
@@ -86,22 +103,22 @@ class DashBoard extends Component {
         return(
 <div className="container">
                  <div className="row">
-  <div className="col-xs-12 col-sm-4 col-md-3 col-lg-3 bg-primary card-dashboard">
+  <div className="col-xs-12 col-sm-4 col-md-3 col-lg-3 lubri-color card-dashboard">
     <span className="card-info-primary">{this.props.dashBoard.daySellCount}</span><span className="card-icon pull-right gray-light fa fa-user fa-5x" aria-hidden="true"></span>
     <p>Ventas del dia</p>
   </div>
-  <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 bg-primary card-dashboard">
+  <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 lubri-color card-dashboard">
     <span className="card-info-primary">{this.props.dashBoard.countOilSellDay}</span><span className="card-icon pull-right gray-light fa fa-eyedropper fa-5x" aria-hidden="true"></span>
     <p>Ventas de aceites</p>
   </div>
-  <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 bg-primary card-dashboard">
+  <div className="col-xs-12 col-sm-3 col-md-3 col-lg-3 col-sm-offset-1 col-md-offset-1 col-lg-offset-1 lubri-color card-dashboard">
     <span className="card-info-primary">-</span><span className="card-icon pull-right gray-light fa fa-refresh fa-5x" aria-hidden="true"></span>
     <p>Empty</p>
   </div>
 </div>
 <div className="row">
   <div className="padding-left-off col-lg-6">
-    <h2 className="padding-left-on bg-primary">Clientes atendidos</h2>
+    <h2 className="padding-left-on lubri-color">Clientes atendidos</h2>
     <table className="table table-striped">
       <thead>
         <tr>
@@ -124,6 +141,10 @@ class DashBoard extends Component {
   </div>
    <div className="col-lg-offset-1 col-lg-5">
       <form className="dash_board-margin-form">
+      <div className="row">
+      <input name="searchBy" type="radio" value="1" onClick={(e) => this.onClickSearchBy(e)} defaultChecked/> <span> Datos cliente</span>
+      <input name="searchBy" type="radio" value="2" onClick={(e) => this.onClickSearchBy(e)} className=""/> <span> Placa vehiculo</span>
+      </div>
         <div className="form-group">
           <div className="input-group">
             <input className="form-control" placeholder="Busca cliente"  onClick={this.onClickCustomerInput} value={this.state.customerSelect}/>
@@ -170,6 +191,9 @@ class DashBoard extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    filterPlaceNumberToCustomer: (customersIdArray) => {
+      dispatch(customerAction.filterPlaceNumberToCustomer(customersIdArray))
+    },
     loadListOfCustomer: () => {
       dispatch(customerAction.getCutomers());
     },

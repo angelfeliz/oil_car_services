@@ -63,6 +63,24 @@ export const customers = (state=stateDefault, action) => {
         ...state,
         isShowCustomerForm: !state.isShowCustomerForm,
       }
+    case customerActionType.SEARCH_PLACE_NUMBER_TO_CUSTOMER:
+      let customerFound = action.customersIdArray.map((item) => {
+                             return state.customerListClone.filter((itemClone)=>{
+                                if(itemClone._id == item) {
+                                  return itemClone;
+                                }
+                             })
+                          })[0];
+        console.log('in reducer ',customerFound);
+        let machFilter_ = false;
+        customerFound.length == 0 ? machFilter_ = true: machFilter_ = false;
+
+        return {
+           ...state,
+           isFilterVehicle: false,
+           customerList: customerFound.map(item => item),
+           noMachFilter: machFilter_,
+        }
     case customerActionType.FILTER_CUSTOMER:
            let filterCustomer = state.customerListClone.filter((item) => {
              let fullName = item.firstName +' '+item.lastName;
@@ -70,6 +88,9 @@ export const customers = (state=stateDefault, action) => {
                return item;
              }
              else if(item.phoneNumber === action.filter){
+               return item;
+             }
+             else if(item.rnc.toLowerCase().includes(action.filter.toLowerCase())) {
                return item;
              }
            });

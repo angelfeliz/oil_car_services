@@ -115,7 +115,10 @@ class GeneralServicesForm extends Component {
     let dd = today.getDate();
     let mm = today.getMonth() + 1;
     let yyyy = today.getFullYear();
-    let todayDate = `${dd}/${mm}/${yyyy}`;
+    let hours = today.getHours();
+    let minute = today.getMinutes();
+    let todayDate = `${dd}/${mm}/${yyyy}  ${hours}:${minute}`;
+    ;
 
     if(general.isRedirect) {
        return <Redirect to='/'/>

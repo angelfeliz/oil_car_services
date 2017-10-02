@@ -12,7 +12,12 @@ export const ADD_CUSTOMER_ITEM = "ADD_CUSTOMER_ITEM";
 export const FOR_UPDATE_CUSTOMER = "FOR_UPDATE_CUSTOMER";
 export const CUTOMER_SAVED = "CUTOMER_SAVED";
 export const CLEAN_CUSTOMERS_STATE = 'CLEAN_CUSTOMERS_STATE';
+export const SEARCH_PLACE_NUMBER_TO_CUSTOMER = "SEARCH_PLACE_NUMBER_TO_CUSTOMER";
 
+export const filterPlaceNumberToCustomer = (customersIdArray) => ({
+  type: SEARCH_PLACE_NUMBER_TO_CUSTOMER,
+  customersIdArray
+})
 export const cleanCustomerStateDefault = () => ({
   type: CLEAN_CUSTOMERS_STATE
 })

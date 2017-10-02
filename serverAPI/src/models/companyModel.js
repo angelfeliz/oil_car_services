@@ -5,9 +5,10 @@ export const companySchema = new Schema({
     _id: { type: Number },
     companyName: { type: String, required: [true, 'El campo nombre es obligatorio'], trim: true },
     group: { type: String, required: [true, 'El campo grupo es obligatorio'], trim: true },
-    branch: { type: Number, required: [true, 'El campo grupo es obligatorio'], trim: true },    
+    branch: { type: Number, required: [true, 'El campo grupo es obligatorio'], trim: true },
     logo: { type: Buffer, required: false, trim: true },
-    eneable: { type: Boolean, default: true }
+    eneable: { type: Boolean, default: true },
+    itebis: {type:Number}
   },
     { timestamps: true, }
   )

@@ -14,6 +14,9 @@ import { validateAsync } from '../utils/functions';
       message: 'debe de escribir algo en typo de producto'
     }
   },
+  materialType: {
+    presence: false,
+  },
   model: {
     presence: false,
     length: {
@@ -23,6 +26,12 @@ import { validateAsync } from '../utils/functions';
   },
   api: {
     presence: false,
+  },
+  cost: {
+    presence: true,
+  },
+  itebis: {
+    presence: true,
   },
   price: {
     presence: true,

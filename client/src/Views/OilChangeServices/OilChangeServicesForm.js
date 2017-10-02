@@ -212,7 +212,9 @@ class OilChangeServicesForm extends Component {
         let dd = today.getDate();
         let mm = today.getMonth() + 1;
         let yyyy = today.getFullYear();
-        let todayDate = `${dd}/${mm}/${yyyy}`;
+        let hours = today.getHours();
+        let minute = today.getMinutes();
+        let todayDate = `${dd}/${mm}/${yyyy}  ${hours}:${minute}`;
 
         return this.props.oilChangeServices.doneAndRedirect && this.props.oilChangeServices.didSaved
             ? <Redirect to="/"/>

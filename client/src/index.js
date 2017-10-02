@@ -43,6 +43,7 @@ const Root = () => (
     <Navbar.Collapse>
     <Nav pullRight>
       <NavItem eventKey={1} href="#"><Link to='/nuevoCambioAceite/'>Cambio de aceite</Link></NavItem>
+      <NavItem eventKey={6} href="#"><Link to='/generalServices'>Ventas generales</Link></NavItem>
       <NavItem eventKey={2} href="#"><Link to='/nuevoProducto'>Producto</Link></NavItem>
       <NavItem eventKey={3} href="#"><Link to='/customer'>Cliente</Link></NavItem>
       <NavItem eventKey={4} href="#"><Link to='/nuevoVehiculo'>Vehiculo</Link></NavItem>
@@ -50,8 +51,6 @@ const Root = () => (
           <MenuItem eventKey={5.1}><Link to='/caja'>Caja</Link></MenuItem>
           <MenuItem eventKey={5.2}><Link to='/facturas'>Pendientes/Despachadas</Link></MenuItem>
       </NavDropdown>
-
-      <NavItem eventKey={6} href="#"><Link to='/generalServices'>Ventas generales</Link></NavItem>
     </Nav>
     </Navbar.Collapse>
   </Navbar>

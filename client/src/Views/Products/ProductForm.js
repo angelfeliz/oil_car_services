@@ -13,6 +13,17 @@ class ProductForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  calculatePrice = (e) => {
+    var cost = parseFloat(e.target.value);
+    if(typeof cost == "number" && !isNaN(cost)) {
+       var itebis = parseFloat(cost * 0.18).toFixed(2);
+       var total = cost + parseFloat(itebis);
+       this.props.addPrice({cost, itebis, total});
+    }else if(isNaN(cost) && e.target.value == ''){
+      this.props.addPrice({cost:'', itebis:'', total:''});
+    }
+  }
+
   onChangeInput(e) {
     if (e.target.value != undefined) {
       this.props.addProductItem({
@@ -22,10 +33,32 @@ class ProductForm extends Component {
     }
   }
 
+  onChangeInputProductType = (e)=> {
+    if (e.target.value != undefined) {
+      this.props.addProductItem({
+        property: [e.target.name],
+        value: e.target.value
+      });
+    }
+    if(e.target.value !== "aceite_de_motor") {
+      this.props.addProductItem({property: "materialType", value:''});
+    }
+  }
+
+
   onSubmit(e) {
     e.preventDefault();
     let validation = validateProduct(this.props.products.product);
-    if (validation == undefined) {
+    let duplicateName = this.props.products.productList.find((item => {
+      return item.name_ === this.props.products.product.name_
+    }));
+
+    if(duplicateName) {
+      let errObj = {duplicado: "Existe un producto con este nombre"};
+      validation = {...validation, errObj};
+    }
+
+    if (validation == undefined ) {
       if(this.props.products.product.createdAt) {
         this.props.updateProduct(this.props.products.product);
       }
@@ -43,6 +76,7 @@ class ProductForm extends Component {
       }
       this.props.addProductErrors(errorList);
     }
+    window.scrollTo(1000, 0);
   }
 
 componentWillUnmount(){
@@ -80,30 +114,65 @@ componentWillUnmount(){
           : 'hideElement'} onSubmit={e => { this.onSubmit(e)  }}>
           <h2>Nuevo producto</h2>
           <div className="form-group">
-            <label className="sr-only">dd</label>
-            <select name="productType" value={this.props.products.product.productType} onChange={(e) => this.onChangeInput(e)} className="form-control">
+            <label className="">Tipo de producto</label>
+            <select name="productType" value={this.props.products.product.productType} onChange={(e) => this.onChangeInputProductType(e)} className="form-control">
               <option value="">Tipo de producto</option>
               { elementsProductType }
             </select>
           </div>
+
+          {this.props.products.product.productType === "aceite_de_motor"
+            ?
+            <div>
+          <div className="radio-inline">
+            <label>
+              <input type="radio" name="materialType" value="mineral" onChange={(e) => this.onChangeInput(e)} checked={this.props.products.product.materialType === "mineral"}/>
+                Mineral
+              </label>
+          </div>
+          <div className="radio-inline">
+            <label>
+              <input type="radio" name="materialType" value="semi-sintetico" onClick={(e) => this.onChangeInput(e)} checked={this.props.products.product.materialType === "semi-sintetico"}/>
+                Semi-sintetico
+              </label>
+          </div>
+          <div className="radio-inline">
+            <label>
+              <input type="radio" name="materialType" value="sintetico" onClick={(e) => this.onChangeInput(e)} checked={this.props.products.product.materialType === "sintetico"}/>
+                Sintetico
+              </label>
+          </div>
+          </div>
+          :
+            null
+          }
+
           <div className="form-group">
-            <label className="sr-only"></label>
-            <input name="name_" value={this.props.products.product.name_} onChange={(e) => this.onChangeInput(e)} placeholder="Nombre" className="form-control"/>
+            <label className="">Nombre</label>
+            <input type="text" name="name_" value={this.props.products.product.name_} onChange={(e) => this.onChangeInput(e)} placeholder="Nombre" className="form-control"/>
           </div>
           <div className="form-group">
-            <label className="sr-only"></label>
-            <input name="model" value={this.props.products.product.model} onChange={(e) => this.onChangeInput(e)} placeholder="Modelo" className="form-control"/>
+            <label className="">Modelo</label>
+            <input type="text" name="model" value={this.props.products.product.model} onChange={(e) => this.onChangeInput(e)} placeholder="Modelo" className="form-control"/>
           </div>
           <div className="form-group">
-            <label className="sr-only"></label>
+            <label className="">Tipo combustible</label>
             <select name="api" value={this.props.products.product.api} onChange={(e) => this.onChangeInput(e)} className="form-control">
               <option value="">Tipo combustible</option>
               { elementsFuel }
             </select>
           </div>
           <div className="form-group">
-            <label className="sr-only"></label>
-            <input name="price" value={this.props.products.product.price} onChange={(e) => this.onChangeInput(e)} placeholder="Precio" className="form-control"/>
+            <label className="">Costo</label>
+            <input type="text" name="cost" value={this.props.products.product.cost} onChange={(e) => this.calculatePrice(e)} placeholder="Costo" className="form-control"/>
+          </div>
+          <div className="form-group">
+            <label className="">Itebis</label>
+            <input type="text" name="itebis" value={this.props.products.product.itebis} readOnly placeholder="Itebis" className="form-control"/>
+          </div>
+          <div className="form-group">
+            <label className="">Precio</label>
+            <input type="text" name="price" value={this.props.products.product.price} readOnly placeholder="Precio" className="form-control"/>
           </div>
           <button type="submit" className="btn btn-success pull-right">Guardar</button>
         </form>
@@ -116,7 +185,10 @@ const mapStateToProps = (state) => {
 }
 
 const mapStateToDispatch = (dispatch) => {
-  return {
+  return {  
+    addPrice(prices) {
+      dispatch(productAction.addPrices(prices));
+    },
     saveProduct(stateForm) {
       dispatch(productAction.saveProduct(stateForm));
     },

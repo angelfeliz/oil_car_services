@@ -5,12 +5,12 @@ const CustomerField = (props) => {
   let customer = props.customer;
  return (  <div>
   <div className="form-group">
-    <label className="sr-only"></label>
+    <label className="">Nombre</label>
     <input onChange={(e)=>props.onChangeInput(e)} value={ customer.firstName } className="form-control" placeholder="Nombre" name="firstName" type="text"/>
    </div>
 
    <div className="form-group">
-     <label className="sr-only"></label>
+     <label className="">Apellido</label>
      <input onChange={(e)=>props.onChangeInput(e)} value={ customer.lastName } className="form-control" placeholder="Apellido" name="lastName" type="text"/>
     </div>
 
@@ -24,7 +24,7 @@ const CustomerField = (props) => {
         :
         null
       }
-      <label className="sr-only"></label>
+      <label className="">RNC</label>
       <input onChange={(e)=>props.onChangeInput(e)} value={ customer.rnc } className="form-control" placeholder="RNC" name="rnc" type="text"/>
      </div>
 
@@ -32,14 +32,14 @@ const CustomerField = (props) => {
 
       <div className="col-sm-6 col-md-6 col-lg-6">
         <div className="form-group">
-          <label className="sr-only"></label>
+          <label className="">Telefeno</label>
           <input onChange={(e)=>props.onChangeInput(e)} value={ customer.phoneNumber } className="form-control" placeholder="Telefono" name="phoneNumber" type="text"/>
          </div>
         </div>
 
       <div className="col-sm-6 col-md-6 col-lg-6">
         <div className="form-group">
-          <label className="sr-only"></label>
+          <label className="">Email</label>
           <input onChange={(e)=>props.onChangeInput(e)} value={ customer.email } className="form-control" placeholder="Email" name="email" type="text"/>
          </div>
        </div>

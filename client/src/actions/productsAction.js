@@ -13,11 +13,27 @@ export const DISABLED_PRODUCT = 'DISABLED_PRODUCT';
 export const SHOW_PRODUCT_DISABLE_MODAL = 'SHOW_PRODUCT_DISABLE_MODAL';
 export const FOR_UPDATE_PRODUCT = 'FOR_UPDATE_PRODUCT';
 export const CLEAN_PRODUCTS_STATE = 'CLEAN_PRODUCTS_STATE';
+export const ADD_PRICES = 'ADD_PRICES';
+export const SEARCH_BY_MATERIAL_OIL = 'SEARCH_BY_MATERIAL_OIL';
+export const NOT_SEARCH_BY_MATERIAL_OIL = 'NOT_SEARCH_BY_MATERIAL_OIL';
 
+
+export const notByMaterialOil = () => ({
+  type: NOT_SEARCH_BY_MATERIAL_OIL
+})
+export const searchByMateriaOil = (filter) => ({
+  type: SEARCH_BY_MATERIAL_OIL,
+  filter
+})
+export const addPrices = (prices) => ({
+  type: ADD_PRICES,
+  cost: prices.cost,
+  itebis: prices.itebis,
+  total: prices.total
+})
 export const cleanProductsState = () => {
   return {
     type: CLEAN_PRODUCTS_STATE,
-
   }
 }
 export const didSavedProduct = (didSaved) => {
@@ -80,6 +96,7 @@ export const resetStageProduct = () => {
   }
 }
 export const addProductErrors = (errors) => {
+  console.log('in action ', errors);
   return {
     type: ADD_PRODUCT_ERRORS,
     errors: errors.map(item => item)
@@ -107,6 +124,7 @@ export const GetAllProducts = () => {
   }
 };
 export const saveProduct = (state) => {
+  console.log('see product', state)
   return (dispatch) => {
     dispatch(didSavedProduct(false));
 
@@ -114,50 +132,35 @@ export const saveProduct = (state) => {
        .then(
          (response) => {
            if(response.data.error) {
-             console.log('tiene error');
-             throw response.data;
+               console.log('tiene error ', response.data.error);
+               throw response.data;
            }
            return response;
-         },
-         (error) => {
-           console.log(error);
-           console.log('An error ocurred saving product.', error);
-           throw error;
          }
        )
        .then(
          (response) => {
            dispatch(GetAllProducts(null));
-         },
-         (error) => {
-           console.log(error);
-           console.log('Throw error on 2ed then');
-           throw error;
          }
        )
        .then(
-         () => dispatch(resetStageProduct()),
-         (error) => {
-           console.log(error);
-           throw error;
-         }
+         () => dispatch(resetStageProduct())
        )
        .then(
-         () => dispatch(showProductForm()),
-         (error) => {
-           console.log(error);
-           throw error;
-         }
+         () => dispatch(showProductForm())
        )
        .then( () => {
          dispatch(didSavedProduct(true));
          window.setTimeout(()=>{dispatch(didSavedProduct(false))},1000);
-       },
-       (error) => {
-         console.log(error);
-         throw error;
        }
      )
+     .catch((error) => {
+       if(error.response.data.error){
+         if(error.response.data.error.typeError === "duplicatedProduct") {
+           dispatch(addProductErrors([error.response.data.error.errors]));
+         }
+     }
+     })
   }
 }
 export const updateProduct = (state) => {

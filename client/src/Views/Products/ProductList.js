@@ -44,7 +44,6 @@ class Products extends Component {
     this.props.resetStageProduct();
     this.props.showProductForm();
   }
-
   onChangeFilterProduct(e) {
     if (e.target.value != undefined && e.target.value) {
       this.props.filteringProudct(e.target.value);
@@ -52,7 +51,14 @@ class Products extends Component {
       this.props.loadProducts();
     }
   }
-
+  onChangeSearchByMaterial = (e) => {
+     if(e.target.checked) {
+       this.props.searchByMateriaOil(e.target.value);
+     }
+     else {
+       this.props.notByMaterialOil();
+     }
+  }
   componentDidMount() {
     this.props.loadProducts();
   }
@@ -83,6 +89,21 @@ class Products extends Component {
               <input placeholder="Buscar..." className="form-control" type="text" onChange={(e) => this.onChangeFilterProduct(e)}/>
             </div>
           </div>
+          <div className="col-lg-2 col-md-2 col-sm-12 col-xm-12">
+             <label className="checkbox-inline">
+              <input onChange={()=>{this.props.onChangeSearchByMaterial()}} type="checkbox" value="mineral"/> mineral
+             </label>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-12 col-xm-12">
+             <label className="checkbox-inline">
+              <input onChange={()=>{this.props.onChangeSearchByMaterial()}} type="checkbox" value="semi-sintetico"/> semi-sintetico
+             </label>
+          </div>
+          <div className="col-lg-2 col-md-2 col-sm-12 col-xm-12">
+             <label className="checkbox-inline">
+              <input onChange={()=>{this.props.onChangeSearchByMaterial()}} type="checkbox"  value="sintetico"/> sintetico
+             </label>
+          </div>
         </div>
         <div className="product-grid">
           {products.map((item, index) => {
@@ -104,6 +125,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    notByMaterialOil() {
+      dispatch(productAction.notByMaterialOil());
+    },
+    searchByMateriaOil(filter) {
+      dispatch(productAction.searchByMateriaOil(filter));
+    },
     loadProducts: () => {
       dispatch(productAction.GetAllProducts());
     },

@@ -9,28 +9,37 @@ router.get('/', function(req, res, next) {
   .find({ eneable:true })
   .sort({ name_: -1 })
   .exec( function(err, data) {
-  if(err) {
-    res.status(500).send('Hubo un error buscando la lista de productos');
-  }
-  res.json(data);
+    if(err) {
+      res.status(500).send('Hubo un error buscando la lista de productos');
+    }
+    res.json(data);
    });
  });
 
 router.post('/', function(req, res, next) {
   let product = { ...req.body, _id: 4 };
-  console.log('before save', product);
-  validateProduct(product).then(
-    (product) => {
-      new ProductModels(product)
-        .save()
-        .then(
-             () => {
-                res.end();
-             },
-             (errors) => handlers.validateError(res, errors)
+
+  ProductModels.findOne({name_:product.name_}, function(err,data){
+    console.log('look ', data);
+    if(data) {
+      handlers.validateError(res,{errors:"Existe un producto con este nombre",typeError:"duplicatedProduct"});
+    }
+    else {
+      validateProduct(product).then(
+        (product) => {
+          new ProductModels(product)
+            .save()
+            .then(
+                 () => {
+                    res.end();
+                 },
+                 (errors) => handlers.validateError(res, errors)
+               )
+             }, errors => handlers.validateError(res, errors)
            )
-         }, errors => handlers.validateError(res, errors)
-       )
+    }
+  });
+
 });
 
 router.put('/disabled', function(req, res, next){
