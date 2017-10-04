@@ -5,7 +5,7 @@ import CustomerField from '../Customers/CustomerField';
 import ProductAndGeneralServicesSelectorGrid from '../UtilsServices/ProductAndGeneralServicesSelectorGrid';
 import * as productAction from '../../actions/productsAction';
 import * as generalServicesAction from '../../actions/generalServicesAction';
-import { calculateTotal, validationSpread } from '../../utils/functions';
+import { calculateTotal, validationSpread, calculateWithLabor } from '../../utils/functions';
 import PaymentType from '../util/PaymentType';
 import TotalInputs from '../util/TotalInputs';
 import validatedGeneralServices from '../../utils/Validations/validatedGeneralServices';
@@ -17,6 +17,20 @@ class GeneralServicesForm extends Component {
     super(props);
   }
 
+  removeProduct = (id) => {
+    this.props.removeProduct(id);
+  }
+  onchangeLabor = (e) => {
+    let labor = e.target.value;
+    let newNeto = calculateWithLabor(e.target.value, this.props.generalServices.totalNetoClone);
+    if(labor !== '') {
+      this.props.pricePlusLabor(labor,newNeto);
+    }
+    else {
+      this.props.pricePlusLabor(labor,newNeto);
+      this.props.totalProperty(calculateTotal(this.props.generalServices.products, 0, 0, 0, 0));
+    }
+  }
   onChangeInput = (e) => {
     this.props.addGeneralProperty({
       property: [e.target.name],
@@ -37,29 +51,48 @@ class GeneralServicesForm extends Component {
       });
   }
   onProductAdd = () => {
-
-      let general = this.props.generalServices;
-  if (general.item_select_id !== '') {
-      let pro = this.props.products.productList.find((item) => {
+    let general = this.props.generalServices;
+    let quantity = general.item_select_quantity;
+    if (general.item_select_id !== '' && quantity) {
+       let pro = this.props.products.productList.find((item) => {
         if (item._id == general.item_select_id) {
           return item;
         }
-      });
-      let itebis_tmp = parseFloat(pro.price) * 0.18;
-      let total_tmp = (parseFloat(pro.price) + parseFloat(itebis_tmp)) * parseInt(general.item_select_quantity);
+       });
+      let itebis_tmp = pro.itebis;
+      let total_tmp = (parseFloat(pro.price) * parseInt(quantity)).toFixed(2);
 
       this.props.totalProperty(calculateTotal(general.products, itebis_tmp, parseFloat(pro.price), parseInt(general.item_select_quantity)));
 
-      this.props.addProduct({
-        product_id: pro._id,
-        productType: pro.typeProduct,
-        name_: pro.name_,
-        price: pro.price,
-        quantity: general.item_select_quantity,
-        itebis: itebis_tmp,
-        totalProduct: total_tmp
+      let findProduct = general.products.find((item)=> {
+        if (item.product_id == general.item_select_id) {
+          return item;
+        }
       });
-    }
+
+      if(findProduct) {
+        this.props.addExitedProduct({
+          product_id: pro._id,
+          productType: pro.productType,
+          name_: pro.name_,
+          price: pro.price,
+          quantity: general.item_select_quantity,
+          itebis: itebis_tmp,
+          totalProduct: total_tmp
+        });
+      }
+      else {
+        this.props.addProduct({
+          product_id: pro._id,
+          productType: pro.productType,
+          name_: pro.name_,
+          price: pro.price,
+          quantity: general.item_select_quantity,
+          itebis: itebis_tmp,
+          totalProduct: total_tmp
+        });
+      }
+     }
    }
   onSelectProduct = (_id) => {
     let pro = this.props.products.productList.find((item) => {
@@ -82,9 +115,13 @@ class GeneralServicesForm extends Component {
     }
   }
   onChangeProductQuantity = (e) => {
-    let quantity = e.target.value;
-    if(quantity) {
-      this.props.changeItemQuantity(quantity);
+    if(e.target.value == '') {
+      this.props.changeItemQuantity(e.target.value);
+    }else {
+      let quantity = parseInt(e.target.value);
+      if((typeof quantity == "number" && !isNaN(quantity))) {
+        this.props.changeItemQuantity(quantity);
+      }
     }
   }
   onChangeInputDisc = () => {}
@@ -165,6 +202,7 @@ class GeneralServicesForm extends Component {
           onChangeProductQuantity = {this.onChangeProductQuantity}
           onProductAdd = {  this.onProductAdd }
           productsAdded = {  general.products }
+          onClickRemoveOfList = { this.removeProduct }
       />
 
       <TotalInputs
@@ -173,6 +211,8 @@ class GeneralServicesForm extends Component {
        totalDesc={general.totalDesc}
        totalItebis={general.totalItebis}
        totalNeto={general.totalNeto}
+       labor={general.labor}
+       onChangeLabor={this.onchangeLabor}
       />
 </fieldset>
       <button className="btn btn-primary">Guardar</button>
@@ -189,6 +229,15 @@ let mapStateToProps = (state) => ({
 })
 
 let mapDispatchToProps = (dispatch) => ({
+  addExitedProduct: (product) => {
+    dispatch(generalServicesAction.addExitedProduct(product));
+  },
+  removeProduct: (id) => {
+    dispatch(generalServicesAction.removeProduct(id));
+  },
+  pricePlusLabor: (labor, neto) => {
+    dispatch(generalServicesAction.pricePlusLabor(labor,neto));
+  },
   clearGeneralServices: () => {
     dispatch(generalServicesAction.clearGeneralServices());
   },

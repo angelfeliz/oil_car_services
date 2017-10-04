@@ -33,7 +33,7 @@ export const calculateTotal = (list = [], total_itebis_tmp = 0, total_bruto_tmp 
   let total_bruto = total_bruto_tmp * cantidad;
   let total_itebis = total_itebis_tmp * cantidad;
   let total_neto = total_bruto + total_itebis;
-  
+
   for (let i = 0; i < list.length; i++) {
     let item = list[i];
     total_bruto = (total_bruto + (parseFloat(item.price) * parseInt(item.quantity)));
@@ -50,5 +50,17 @@ export const calculateTotal = (list = [], total_itebis_tmp = 0, total_bruto_tmp 
     totalNeto: total_neto,
     totalItebis: total_itebis,
     totalDesc: 0
+  }
+}
+
+export const calculateWithLabor = (laborIn=0, netoIn=0) => {
+  let labor = Number.parseInt(laborIn);
+  if(typeof labor == "number" && !isNaN(labor)) {
+     let neto = parseFloat(netoIn);  
+     if(typeof neto === "number" && !isNaN(neto)) {
+       let newNeto = parseFloat((labor + neto).toFixed(2));
+       return newNeto;
+     }
+    return labor;
   }
 }

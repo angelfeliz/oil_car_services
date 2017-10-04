@@ -55,6 +55,8 @@ export const stageProduct = (product) => {
     name_: product.name_,
     model: product.model,
     api: product.api,
+    cost: product.cost,
+    itebis: product.itebis,
     price: product.price,
     _id: product._id,
     enable: product.enable,

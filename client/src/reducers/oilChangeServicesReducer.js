@@ -7,6 +7,8 @@ let stateDefault = {
   totalBruto: 0.00,
   totalItebis: 0.00,
   totalNeto: 0.00,
+  totalNetoClone:0.00,
+  labor:'',
   supervisor: '',
   mechanic: '',
   paymentType: 'cash',
@@ -51,6 +53,12 @@ let stateDefault = {
 export const oilChangeServices = (state=stateDefault, action) => {
 
   switch(action.type) {
+    case actionOilChangeServicesType.NEW_NETO_OIL_CHANGE:
+      return {
+        ...state,
+        totalNeto: action.neto,
+        labor:action.labor
+      }
     case actionOilChangeServicesType.CLEAR_OIL_CHANGE:
       return stateDefault
 
@@ -128,6 +136,7 @@ export const oilChangeServices = (state=stateDefault, action) => {
         ...state,
         totalBruto: action.totalBruto,
         totalNeto: action.totalNeto,
+        totalNetoClone: action.totalNeto,
         totalItebis: action.totalItebis,
         totalDesc: action.totalDesc,
       }

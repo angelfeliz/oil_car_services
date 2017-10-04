@@ -4,8 +4,10 @@ let initialState = {
   paymentType:'cash',
   totalBruto:'',
   totalNeto:'',
+  totalNetoClone:'',
   totalItebis:'',
   totalDesc:'',
+  labor:'',
   products:[],
   customer:{
     customer_id:'',
@@ -22,6 +24,39 @@ let initialState = {
 }
 export const generalServices = (state = initialState, action) => {
   switch(action.type) {
+    case generalServicesActionType.UPDATE_PRODUCT_GENERAL_SERVICES:
+       let updateProduct = state.products.map((item) => {
+         if(item._id == action.product._id) {
+            return ({
+                product_id: item.product_id,
+                productType: item.productType,
+                name_: item.name_,
+                cost: item.cost,
+                itebis: action.product.itebis,
+                price: item.price,
+                quantity: parseInt(item.quantity) + parseInt(action.product.quantity),
+                totalProduct: (parseFloat(item.totalProduct) + parseFloat(action.product.totalProduct)).toFixed(2)
+              });
+         }
+         return item;
+       });
+       return {
+         ...state,
+         products: updateProduct
+       }
+    case generalServicesActionType.REMOVE_ITEM_FROM_PRODUCT_LIST_GENERAL_SERVICES:
+       let removeProductIndex = state.products.findIndex((item) => item._id == action.id);
+       let newProducts = state.products.slice(0,removeProductIndex).concat(state.products.slice(removeProductIndex+1));
+      return {
+        ...state,
+        products: newProducts.map( item => item)
+      }
+    case generalServicesActionType.NEW_NETO_GENERAL_SERVICES:
+      return {
+        ...state,
+        totalNeto: action.neto,
+        labor: action.labor
+      }
     case generalServicesActionType.TOGGLE_SAVE_GENERAL_SERVICES:
       return {
         ...state,
@@ -95,6 +130,7 @@ export const generalServices = (state = initialState, action) => {
         ...state,
         totalBruto: action.totalBruto,
         totalNeto: action.totalNeto,
+        totalNetoClone: action.totalNeto,
         totalItebis: action.totalItebis,
         totalDesc: action.totalDesc,
        }

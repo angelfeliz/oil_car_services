@@ -17,21 +17,21 @@ export const VehicleField = (props) => {
 
   <div className="col-sm-4 col-md-4">
     <div className="form-group">
-      <label className="sr-only"></label>
+      <label className="">Marca</label>
       <input onChange={(e)=>props.onChange(e)} value={ props.brand } className="form-control" placeholder="Marca" name="brand" type="text"/>
      </div>
   </div>
 
   <div className="col-sm-4 col-md-4">
     <div className="form-group">
-      <label className="sr-only"></label>
+      <label className="">Modelo</label>
       <input onChange={(e)=>props.onChange(e)} value={ props.model } className="form-control" placeholder="Modelo" name="model" type="text"/>
     </div>
   </div>
 
   <div className="col-sm-4 col-md-4">
     <div className="form-group">
-      <label className="sr-only"></label>
+      <label className="">Placa</label>
       <input onChange={(e)=>props.onChange(e)} value={ props.numberPlace } className="form-control" placeholder="Placa" name="numberPlace" type="text"/>
     </div>
   </div>
@@ -40,14 +40,14 @@ export const VehicleField = (props) => {
 
   <div className="col-sm-4 col-md-4">
     <div className="form-group">
-      <label className="sr-only"></label>
+      <label className="">Año</label>
       <input onChange={(e)=>props.onChange(e)} value={ props.year } className="form-control" placeholder="Ano" name="year" type="text"/>
     </div>
   </div>
 
   <div className="col-sm-4 col-md-4">
   <div className="form-group">
-    <label className="sr-only"></label>
+    <label className="">Tipo de combustible</label>
     <select placeholder="Tipo combustible" name="typeFuel" value={ props.typeFuel } onChange={(e)=>props.onChange(e)} className="form-control">
       <option value="tipo de combustible">tipo de combustible</option>
       { elementsFuel }
@@ -57,7 +57,7 @@ export const VehicleField = (props) => {
 
   <div className="col-sm-4 col-md-4">
      <div className="form-group">
-        <label className="sr-only"></label>
+        <label className="">Kilometraje</label>
         <input onChange={(e)=>props.onChange(e)} value={ props.km } className="form-control" placeholder="Kilometraje" name="km" type="text"/>
       </div>
     </div>
@@ -66,7 +66,7 @@ export const VehicleField = (props) => {
 <div className="row">
   <div className="col-sm-4 col-md-4">
     <div className="form-group">
-      <label className="sr-only"></label>
+      <label className="">Proximo cambio en KM</label>
       <input onChange={(e)=>props.onChange(e)} value={ props.nextKm } className="form-control" placeholder="Proximo cambio" name="nextKm" type="text"/>
      </div>
    </div>

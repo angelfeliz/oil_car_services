@@ -11,7 +11,23 @@ export const ADD_GENERALS_ITEM = 'ADD_GENERALS_ITEM';
 export const ADD_GENERAL_SERVICES_ERRORS = 'ADD_GENERAL_SERVICES_ERRORS';
 export const CLEAR_GENERAL_SERVICES = 'CLEAR_GENERAL_SERVICES';
 export const TOGGLE_SAVE_GENERAL_SERVICES = 'TOGGLE_SAVE_GENERAL_SERVICES';
+export const NEW_NETO_GENERAL_SERVICES = 'NEW_NETO_GENERAL_SERVICES';
+export const REMOVE_ITEM_FROM_PRODUCT_LIST_GENERAL_SERVICES = 'REMOVE_ITEM_FROM_PRODUCT_LIST_GENERAL_SERVICES';
+export const UPDATE_PRODUCT_GENERAL_SERVICES = 'UPDATE_PRODUCT_GENERAL_SERVICES';
 
+export const addExitedProduct = (product) => ({
+  type: UPDATE_PRODUCT_GENERAL_SERVICES,
+  product
+})
+export const removeProduct = (id) => ({
+  type: REMOVE_ITEM_FROM_PRODUCT_LIST_GENERAL_SERVICES,
+  id
+})
+export const pricePlusLabor = (labor, neto) => ({
+  type: NEW_NETO_GENERAL_SERVICES,
+  labor,
+  neto
+})
 export const clearGeneralServices = () => ({
   type: CLEAR_GENERAL_SERVICES
 })

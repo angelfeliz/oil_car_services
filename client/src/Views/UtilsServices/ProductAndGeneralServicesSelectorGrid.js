@@ -81,7 +81,7 @@ console.log()
                 {props.productsAdded.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td>{item.product_id}</td>
+                      <td><button type="button" className="btn btn-default" onClick={() => { props.onClickRemoveOfList(item.product_id) }}><i className="fa fa-times" aria-hidden="true"></i></button></td>
                       <td>{item.productType}</td>
                       <td>{item.name_}</td>
                       <td>{item.quantity}</td>

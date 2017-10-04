@@ -93,7 +93,7 @@ componentWillUnmount(){
     }
 
     for(let x = 0; x < keysTypeProduct.length; x++ ) {
-        elementsProductType.push(<option key={x} value={keysTypeProduct[x]}>{ productType[keysTypeProduct[x]] }</option>);
+        elementsProductType.push(<option key={x} value={productType[keysTypeProduct[x]]}>{ productType[keysTypeProduct[x]] }</option>);
     }
 
     return (
@@ -185,7 +185,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapStateToDispatch = (dispatch) => {
-  return {  
+  return {
     addPrice(prices) {
       dispatch(productAction.addPrices(prices));
     },

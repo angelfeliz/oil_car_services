@@ -49,6 +49,8 @@ const products = (state=ProductsTree, action) => {
           model: action.model,
           productType: action.productType,
           api: action.api,
+          cost: action.cost,
+          itebis: action.itebis,
           price: action.price,
           _id: action._id,
           eneable: action.eneable,
@@ -122,10 +124,10 @@ const products = (state=ProductsTree, action) => {
       });
 
       let noMatch_ = false;
-      filterProducts.length === 0 ? noMatch_ = true : noMatch_ = false;
+      filterProd.length === 0 ? noMatch_ = true : noMatch_ = false;
       return {
         ...state,
-        productList: filterProducts.map(item=>item),
+        productList: filterProd.map(item=>item),
 
         isNoMatch: noMatch_,
       }

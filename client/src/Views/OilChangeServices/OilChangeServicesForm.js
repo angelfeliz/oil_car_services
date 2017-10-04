@@ -10,7 +10,7 @@ import ServicesCheckbox from '../UtilsServices/ServicesCheckBox';
 import ModalList from '../util/ModalList';
 import {RenderErrorMessage, AlertSuccess} from '../util/Alerts';
 import validatedOilChange from '../../utils/Validations/validatedOilChange';
-import {validationSpread, calculateTotal} from '../../utils/functions';
+import {validationSpread, calculateTotal, calculateWithLabor} from '../../utils/functions';
 import PaymentType from '../util/PaymentType';
 
 class OilChangeServicesForm extends Component {
@@ -25,14 +25,23 @@ class OilChangeServicesForm extends Component {
             product_type_select: ''
         }
         this.onSubmit = this.onSubmit.bind(this);
-        this.onChangeProductQuantity = this.onChangeProductQuantity.bind(this);
         this.onProductAdd = this.onProductAdd.bind(this);
         this.onChangeFindProduct = this.onChangeFindProduct.bind(this);
         this.OnClickSelectVehicleFromModalList = this.OnClickSelectVehicleFromModalList.bind(this);
         const products = [];
     }
 
-
+    onchangeLabor = (e) => {
+      let labor = e.target.value;
+      let newNeto = calculateWithLabor(e.target.value, this.props.oilChangeServices.totalNetoClone);
+      if(labor !== '') {
+        this.props.pricePlusLabor(labor,newNeto);
+      }
+      else {
+        this.props.pricePlusLabor(labor,newNeto);
+        this.props.totalPropertyDispatch(calculateTotal(this.props.oilChangeServices.products, 0, 0, 0, 0));
+      }
+    }
     onChangeProductType = (e) => {
         let productType = e.target.value;
         if (productType) {
@@ -85,14 +94,14 @@ class OilChangeServicesForm extends Component {
                 return item;
             }
         });
-        let itebis_tmp = parseFloat(pro.price) * 0.18;
-        let total_tmp = (parseFloat(pro.price) + parseFloat(itebis_tmp)) * parseInt(this.state.product_select_quantity);
-        this.props.totalPropertyDispatch(calculateTotal(this.props.oilChangeServices.products, itebis_tmp, parseFloat(pro.price), parseInt(this.state.product_select_quantity), parseInt(this.state.totalDesc)));
+        let itebis_tmp = pro.itebis;
+        let total_tmp = pro.price * parseInt(this.state.product_select_quantity);
+        this.props.totalPropertyDispatch(calculateTotal(this.props.oilChangeServices.products, itebis_tmp, pro.price, parseInt(this.state.product_select_quantity), parseInt(this.state.totalDesc)));
         this.props.addCustomerServerProduct({
             product_id: pro._id,
             productType: pro.productType,
             name_: pro.name_,
-            price: pro.price,
+            price: pro.price.toFixed(2),
             quantity: this.state.product_select_quantity,
             itebis: itebis_tmp,
             totalProduct: total_tmp
@@ -131,7 +140,7 @@ class OilChangeServicesForm extends Component {
         }
     }
 
-    onChangeProductQuantity(e) {
+    onChangeProductQuantity = (e) => {
         this.setState({
             ...this.state,
             product_select_quantity: e.target.value
@@ -314,10 +323,19 @@ class OilChangeServicesForm extends Component {
                                   product_type_select={this.state.product_type_select}
                                   />
 
-                                <div className="row top-money">
+                                  <div className="row top-money">
+                                      <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 pull-right">
+                                          <div className="form-group">
+                                              <label className="">Labor</label>
+                                              <input className="form-control" placeholder="Labor" name="labor" type="text" value={this.props.oilChangeServices.labor} onChange={(e)=>this.onchangeLabor(e)}/>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                <div className="row">
                                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 pull-right">
                                         <div className="form-group">
-                                            <label className="sr-only"></label>
+                                            <label className="">Total bruto</label>
                                             <input className="form-control" placeholder="Total bruto" name="total_bruto" type="text" value={this.props.oilChangeServices.totalBruto} readOnly/>
                                         </div>
                                     </div>
@@ -326,7 +344,7 @@ class OilChangeServicesForm extends Component {
                                 <div className="row">
                                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 pull-right">
                                         <div className="form-group">
-                                            <label className="sr-only"></label>
+                                            <label className="">Desc</label>
                                             <span className="input-group">
                                                 <span className="input-group-addon">$</span><input onChange={(e) => this.onChangeInputDisc(e)} className="form-control" placeholder="desc" name="percent_disc" type="text" value={this.props.oilChangeServices.totalDesc}/>
                                             </span>
@@ -337,7 +355,7 @@ class OilChangeServicesForm extends Component {
                                 <div className="row">
                                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 pull-right">
                                         <div className="form-group">
-                                            <label className="sr-only"></label>
+                                            <label className="">Itebis</label>
                                             <input className="form-control" placeholder="itebis" name="ptotal_itebis" type="text" value={this.props.oilChangeServices.totalItebis} readOnly/>
                                         </div>
                                     </div>
@@ -346,7 +364,7 @@ class OilChangeServicesForm extends Component {
                                 <div className="row">
                                     <div className="col-lg-3 col-md-3 col-sm-4 col-xs-4 pull-right">
                                         <div className="form-group">
-                                            <label className="sr-only"></label>
+                                            <label className="">Total neto</label>
                                             <input className="form-control" placeholder="total neto" name="total_neto" type="text" value={this.props.oilChangeServices.totalNeto} readOnly/>
                                         </div>
                                     </div>
@@ -369,6 +387,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        pricePlusLabor: (labor,neto) => {
+          dispatch(oilChangeServicesAction.pricePlusLabor(labor,neto));
+        },
         loadProducts: () => {
             dispatch(GetAllProducts());
         },

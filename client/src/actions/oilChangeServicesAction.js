@@ -19,11 +19,16 @@ export const TOGGLE_IS_SAVED = 'TOGGLE_IS_SAVED';
 export const TOGGLE_REDIRECT = 'TOGGLE_REDIRECT';
 export const ADD_OIL_CHANGE_ERRORS = 'ADD_OIL_CHANGE_ERRORS';
 export const CLEAR_OIL_CHANGE = 'CLEAR_OIL_CHANGE';
+export const NEW_NETO_OIL_CHANGE = 'NEW_NETO_OIL_CHANGE';
 
+export const pricePlusLabor = (labor,neto) => ({
+  type: NEW_NETO_OIL_CHANGE,
+  neto,
+  labor
+})
 export const clearOilChange = () => ({
   type: CLEAR_OIL_CHANGE
 })
-
 export const addCustomerServerProduct = (product) => {
     return {
         type: ADD_CUSTOMER_SERVER_PRODUCTS,
