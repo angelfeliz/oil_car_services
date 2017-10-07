@@ -17,6 +17,7 @@ export const BoxModel = (props) => {
 
 export const CheckoutBoxModel = (props) => {
   let checkoutItem = props.checkoutItem;
+  console.log('checkout check ', checkoutItem.consumidorFinal);
   return (
     <div className="container block_view">
       <div className="inner-container">
@@ -39,6 +40,14 @@ export const CheckoutBoxModel = (props) => {
             </div>
           </fieldset>
           <hr/>
+          <div className="row">
+            <div className="checkbox">
+              <label>
+                <input type="checkbox" name="consumidorFinal" checked={checkoutItem.consumidorFinal} value=""  onClick={() => {props.onClickConsumidorFinal()}}/>
+                Consumidor final
+              </label>
+            </div>
+          </div>
           <div className="row">
             <div className="row text-center">
               <h1>Factura</h1>

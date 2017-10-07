@@ -1,4 +1,5 @@
 import * as  generalServicesActionType from '../actions/generalServicesAction';
+import { calculateTotal } from '../utils/functions';
 
 let initialState = {
   paymentType:'cash',
@@ -45,11 +46,16 @@ export const generalServices = (state = initialState, action) => {
          products: updateProduct
        }
     case generalServicesActionType.REMOVE_ITEM_FROM_PRODUCT_LIST_GENERAL_SERVICES:
-       let removeProductIndex = state.products.findIndex((item) => item._id == action.id);
+       let removeProductIndex = state.products.findIndex((item) => item.product_id == action.id);
        let newProducts = state.products.slice(0,removeProductIndex).concat(state.products.slice(removeProductIndex+1));
+       let totalsObj = calculateTotal(newProducts, 0, 0, 0, state.tatalDesc);
       return {
         ...state,
-        products: newProducts.map( item => item)
+        products: newProducts.map( item => item),
+        totalBruto: totalsObj.totalBruto,
+        totalNeto: totalsObj.totalNeto,
+        totalItebis: totalsObj.totalItebis,
+        totalDesc: totalsObj.totalDesc
       }
     case generalServicesActionType.NEW_NETO_GENERAL_SERVICES:
       return {

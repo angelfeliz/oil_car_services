@@ -10,6 +10,7 @@ class Checkout extends Component {
     super(props);
   }
 
+
   onClickConfirmCheckout = () => {
     window.print();
     this.props.saveCheckout(this.props.checkoutMaching.checkoutItem);
@@ -30,8 +31,11 @@ class Checkout extends Component {
 
   onClickPaymentType  = (e) => {
     let paymentType = e.target.value;
-    if(paymentType) {
+    if(paymentType && !this.props.checkoutMaching.checkoutItem.consumidorFinal ) {
       this.props.paymentTypeChange(paymentType);
+      if(paymentType == "card") {
+        this.props.makeClienteFinal();
+      }
     }
 
   }
@@ -123,6 +127,7 @@ class Checkout extends Component {
              onClickConfirmCheckout={this.onClickConfirmCheckout}
              onClickCancelCheckout = {this.onClickCancelCheckout}
              onChangeDesc = {this.onChangeDesc}
+             onClickConsumidorFinal={this.props.makeClienteFinal}
              />
          : null
      }
@@ -139,6 +144,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return {
+    makeClienteFinal: () => {
+      dispatch(checkoutAction.makeClienteFinal());
+    },
     cleanInvoice: () => {
       dispatch(checkoutAction.cleanInvoice());
     },

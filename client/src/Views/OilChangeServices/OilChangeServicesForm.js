@@ -27,7 +27,6 @@ class OilChangeServicesForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onProductAdd = this.onProductAdd.bind(this);
         this.onChangeFindProduct = this.onChangeFindProduct.bind(this);
-        this.OnClickSelectVehicleFromModalList = this.OnClickSelectVehicleFromModalList.bind(this);
         const products = [];
     }
 
@@ -86,7 +85,12 @@ class OilChangeServicesForm extends Component {
     }
 
     onProductAdd() {
+      let oilObj = this.props.oilChangeServices;
       let quantity = this.state.product_select_quantity;
+      let desc = parseFloat(oilObj.totalDesc).toFixed(2);
+      if(isNaN(desc)) {
+        desc = 0;
+      }
 
       if(quantity) {
         let pro = this.products.find((item) => {
@@ -95,17 +99,40 @@ class OilChangeServicesForm extends Component {
             }
         });
         let itebis_tmp = pro.itebis;
-        let total_tmp = pro.price * parseInt(this.state.product_select_quantity);
-        this.props.totalPropertyDispatch(calculateTotal(this.props.oilChangeServices.products, itebis_tmp, pro.price, parseInt(this.state.product_select_quantity), parseInt(this.state.totalDesc)));
-        this.props.addCustomerServerProduct({
+        let price = parseFloat(pro.price / 1.18).toFixed(2);
+        let total_tmp = (pro.price * parseInt(this.state.product_select_quantity)).toFixed(2);
+        this.props.totalPropertyDispatch(calculateTotal(oilObj.products, itebis_tmp, price, parseInt(quantity), desc));
+
+
+        let findProduct = oilObj.products.find((item)=> {
+          if (item.product_id == this.state.product_select) {
+            return item;
+          }
+        });
+
+        if(findProduct) {
+          this.props.addExitedProduct({
             product_id: pro._id,
             productType: pro.productType,
             name_: pro.name_,
-            price: pro.price.toFixed(2),
-            quantity: this.state.product_select_quantity,
+            price: price,
+            quantity: quantity,
             itebis: itebis_tmp,
             totalProduct: total_tmp
-        });
+          });
+        }
+        else {
+          this.props.addCustomerServerProduct({
+              product_id: pro._id,
+              productType: pro.productType,
+              name_: pro.name_,
+              price: price,
+              quantity: this.state.product_select_quantity,
+              itebis: itebis_tmp,
+              totalProduct: total_tmp
+          });
+        }
+
 
         this.setState({
             ...this.state,
@@ -124,6 +151,7 @@ class OilChangeServicesForm extends Component {
                 return item;
             }
         });
+
         this.setState({
             ...this.state,
             product_select_price: pro.price,
@@ -148,7 +176,6 @@ class OilChangeServicesForm extends Component {
     }
 
     onChangeInputVehicle = (e) => {
-      console.log(e.target.value);
         this.props.addCustomerServerVehicle({
             property: [e.target.name],
             value: e.target.value
@@ -182,7 +209,7 @@ class OilChangeServicesForm extends Component {
             this.props.totalPropertyDispatch({totalBruto: this.props.oilChangeServices.totalBruto, totalNeto: this.props.oilChangeServices.totalNeto, totalItebis: this.props.oilChangeServices.totalItebis, totalDesc: this.props.oilChangeServices.totalDesc});
         }
     }
-    OnClickSelectVehicleFromModalList(id) {
+    OnClickSelectVehicleFromModalList = (id) => {
         let vehicleChose = this.props.oilChangeServices.vehicleArray.find((item) => {
             if (item._id == id) {
                 return item;
@@ -224,6 +251,7 @@ class OilChangeServicesForm extends Component {
         let hours = today.getHours();
         let minute = today.getMinutes();
         let todayDate = `${dd}/${mm}/${yyyy}  ${hours}:${minute}`;
+        console.log('did save ', this.props.oilChangeServices.didSaved);
 
         return this.props.oilChangeServices.doneAndRedirect && this.props.oilChangeServices.didSaved
             ? <Redirect to="/"/>
@@ -235,7 +263,11 @@ class OilChangeServicesForm extends Component {
                         ? <AlertSuccess text={"El cambio de aceite fue guardado y listo para pasar por caja."}/>
                         : null}
                     {this.props.oilChangeServices.isModalListVehicle
-                        ? <ModalList vehicleArray={this.props.oilChangeServices.vehicleArray} OnClickSelect={this.OnClickSelectVehicleFromModalList}/>
+                        ? <ModalList
+                            vehicleArray={this.props.oilChangeServices.vehicleArray}
+                            OnClickSelect={this.OnClickSelectVehicleFromModalList}
+                            closeModalList={this.props.toggleModalListVehichle}
+                            />
                         : null}
                         {this.props.oilChangeServices.oilChangeErrors.length > 0 ?  <RenderErrorMessage errors={this.props.oilChangeServices.oilChangeErrors}/> : null }
 
@@ -321,6 +353,7 @@ class OilChangeServicesForm extends Component {
                                   item_select_name={this.state.product_select_name}
                                   item_select_quantity={this.state.product_select_quantity}
                                   product_type_select={this.state.product_type_select}
+                                  onClickRemoveOfList = { this.props.removeProduct }
                                   />
 
                                   <div className="row top-money">
@@ -387,6 +420,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        addExitedProduct: (productObj) => {
+          dispatch(oilChangeServicesAction.addExiteProduct(productObj));
+        },
+        removeProduct: (id) => {
+          dispatch(oilChangeServicesAction.removeProduct(id));
+        },
         pricePlusLabor: (labor,neto) => {
           dispatch(oilChangeServicesAction.pricePlusLabor(labor,neto));
         },

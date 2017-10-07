@@ -80,10 +80,11 @@ class DashBoard extends Component {
    }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.vehicles.vehicleArray.length == 1 && !nextProps.customers.isFilterVehicle) {
+    //TODO get this code to be more pointfree
+  /*  if(nextProps.vehicles.vehicleArray.length > 1 && !nextProps.customers.isFilterVehicle) {
       let customer_id = this.props.vehicles.vehicleArray[0].customer_id;
       this.props.filterCustomerById(customer_id);
-    }
+    }*/
    }
 
   render() {
@@ -163,7 +164,7 @@ class DashBoard extends Component {
                </div>): null }
         </div>
       </form>
-      <h2 className="padding-left-on bg-primary">Marca mas vendida</h2>
+      <h2 className="padding-left-on lubri-color">Marca mas vendida</h2>
     <table className="table table-striped">
       <thead>
         <tr>

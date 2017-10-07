@@ -1,6 +1,7 @@
 import * as actionOilChangeServicesType  from '../actions/oilChangeServicesAction';
 import { REQUEST_GET, RECEIVE_POST } from '../actions/action';
 import { posts } from './generalReducer';
+import { calculateTotal } from '../utils/functions';
 
 let stateDefault = {
   totalDesc: 0,
@@ -19,6 +20,7 @@ let stateDefault = {
     phoneNumber: '',
     email: '',
     rnc:'',
+    createdAt:'',
   },
   vehicle: {
     vehicle_id: '',
@@ -53,6 +55,39 @@ let stateDefault = {
 export const oilChangeServices = (state=stateDefault, action) => {
 
   switch(action.type) {
+    case actionOilChangeServicesType.ADD_EXISTED_PRODUCT_OIL_CHANGE:
+       let updatePro = state.products.map((item) => {
+         if(item._id == action.prodOil._id) {
+            return ({
+                product_id: item.product_id,
+                productType: item.productType,
+                name_: item.name_,
+                cost: item.cost,
+                itebis: action.prodOil.itebis,
+                price: item.price,
+                quantity: parseInt(item.quantity) + parseInt(action.prodOil.quantity),
+                totalProduct: (parseFloat(item.totalProduct) + parseFloat(action.prodOil.totalProduct)).toFixed(2)
+              });
+         }
+         return item;
+       });
+       return {
+         ...state,
+         products: updatePro
+       }
+    case actionOilChangeServicesType.REMOVE_ITEM_FROM_PRODUCT_LIST_OIL_CHANGE:
+       let removeProductIndexOil = state.products.findIndex((item) => item.product_id == action.id);
+       let newProductsOil = state.products.slice(0,removeProductIndexOil).concat(state.products.slice(removeProductIndexOil+1));
+       let totalsObjOil = calculateTotal(newProductsOil, 0, 0, 0, state.tatalDesc);
+      return {
+        ...state,
+        products: newProductsOil.map( item => item),
+        totalBruto: totalsObjOil.totalBruto,
+        totalNeto: totalsObjOil.totalNeto,
+        totalNetoClone: totalsObjOil.totalNeto,
+        totalItebis: totalsObjOil.totalItebis,
+        totalDesc: totalsObjOil.totalDesc
+      }
     case actionOilChangeServicesType.NEW_NETO_OIL_CHANGE:
       return {
         ...state,
@@ -171,6 +206,7 @@ export const oilChangeServices = (state=stateDefault, action) => {
           phoneNumber: action.phoneNumber,
           email: action.email,
           rnc: action.rnc,
+          createdAt: action.createdAt
         }
       }
     default: return state;

@@ -20,17 +20,29 @@ let stateDefault = {
       vehicle:{},
       customer:{},
       paymentMethod:"cash",
+      consumidorFinal: false
     },
     isModalVisible: false,
     isRidirect: false,
     isAbortBySystem: false,
     isNoMatch: false,
     filter:'',
-    showDialog: false
+    showDialog: false,
+
 }
 
 export const checkoutMaching = (state = stateDefault, action) => {
     switch (action.type) {
+      case checkoutActionType.CLIENTE_FINAL:
+      console.log('checkout ',state.checkoutItem.consumidorFinal);
+      return {
+        ...state,
+        
+        checkoutItem:{
+          ...state.checkoutItem,
+          consumidorFinal: !state.checkoutItem.consumidorFinal
+        }
+      }
       case checkoutActionType.CLEAN_INVOICE:
         return stateDefault
        case checkoutActionType.CLEAN_CHECKOUT_ITEM:

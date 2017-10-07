@@ -29,7 +29,7 @@ export const validationSpread = (validation) => {
   return errorList;
 }
 
-export const calculateTotal = (list = [], total_itebis_tmp = 0, total_bruto_tmp = 0, cantidad = 0) => {
+export const calculateTotal = (list = [], total_itebis_tmp = 0, total_bruto_tmp = 0, cantidad = 0, desc = 0) => {
   let total_bruto = total_bruto_tmp * cantidad;
   let total_itebis = total_itebis_tmp * cantidad;
   let total_neto = total_bruto + total_itebis;
@@ -40,23 +40,29 @@ export const calculateTotal = (list = [], total_itebis_tmp = 0, total_bruto_tmp 
     total_itebis = total_itebis + (parseFloat(item.itebis) * parseInt(item.quantity));
     total_neto = total_bruto + total_itebis;
   }
-  //State Redux
-  total_bruto = parseFloat(Math.round(total_bruto * 100) / 100).toFixed(2);
-  total_neto = parseFloat(Math.round(total_neto * 100) / 100).toFixed(2);
-  total_itebis = parseFloat(Math.round(total_itebis * 100) / 100).toFixed(2);
 
+  total_bruto = parseFloat(parseFloat(Math.round(total_bruto * 100) / 100).toFixed(2));
+  total_itebis = parseFloat(Math.round(total_itebis * 100) / 100).toFixed(2);
+  if(total_neto < desc) {
+    total_neto = total_neto.toFixed(2);
+  }
+  else {
+    total_neto = parseFloat(parseFloat(total_neto) - parseInt(desc)).toFixed(2);
+  }
+
+  desc = desc == 0 ? '' : desc;
   return {
     totalBruto: total_bruto,
     totalNeto: total_neto,
     totalItebis: total_itebis,
-    totalDesc: 0
+    totalDesc: desc
   }
 }
 
 export const calculateWithLabor = (laborIn=0, netoIn=0) => {
   let labor = Number.parseInt(laborIn);
   if(typeof labor == "number" && !isNaN(labor)) {
-     let neto = parseFloat(netoIn);  
+     let neto = parseFloat(netoIn);
      if(typeof neto === "number" && !isNaN(neto)) {
        let newNeto = parseFloat((labor + neto).toFixed(2));
        return newNeto;

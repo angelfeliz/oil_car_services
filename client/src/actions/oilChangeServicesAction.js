@@ -7,6 +7,7 @@ export const ADD_CUSTOMER_SERVER_VEHICLE = 'ADD_CUSTOMER_SERVER_VEHICLE';
 export const ADD_GENERAL_PROPERTY = 'ADD_GENERAL_PROPERTY';
 export const ADD_CUSTOMER_SERVER_SERVICES = 'ADD_CUSTOMER_SERVER_SERVICES';
 export const ADD_CUSTOMER_SERVER_PRODUCTS = 'ADD_CUSTOMER_SERVER_PRODUCTS';
+export const ADD_EXISTED_PRODUCT_OIL_CHANGE = 'ADD_EXISTED_PRODUCT_OIL_CHANGE';
 export const GET_CUSTOMER = 'GET_CUSTOMER';
 export const CHECK_OWNER_EXIST_VEHICLE = 'CHECK_OWNER_EXIST_VEHICLE';
 export const STAGE_CUSTOMER_CHANGE_OIL = 'STAGE_CUSTOMER_CHANGE_OIL';
@@ -20,7 +21,17 @@ export const TOGGLE_REDIRECT = 'TOGGLE_REDIRECT';
 export const ADD_OIL_CHANGE_ERRORS = 'ADD_OIL_CHANGE_ERRORS';
 export const CLEAR_OIL_CHANGE = 'CLEAR_OIL_CHANGE';
 export const NEW_NETO_OIL_CHANGE = 'NEW_NETO_OIL_CHANGE';
+export const REMOVE_ITEM_FROM_PRODUCT_LIST_OIL_CHANGE = 'REMOVE_ITEM_FROM_PRODUCT_LIST_OIL_CHANGE';
 
+
+export const addExiteProduct = (prodOil) => ({
+  type: ADD_EXISTED_PRODUCT_OIL_CHANGE,
+  prodOil
+})
+export const removeProduct = (id) => ({
+  type: REMOVE_ITEM_FROM_PRODUCT_LIST_OIL_CHANGE,
+  id
+})
 export const pricePlusLabor = (labor,neto) => ({
   type: NEW_NETO_OIL_CHANGE,
   neto,
@@ -65,9 +76,10 @@ export const generalTotalProperty = ({totalBruto, totalNeto, totalItebis, totalD
       totalBruto, totalNeto, totalItebis, totalDesc}
 }
 export const stageCustomer = (customer) => {
+  console.log(customer);
     return {
         type: STAGE_CUSTOMER_CHANGE_OIL,
-        customer_id: customer[0].customer_id,
+        customer_id: customer[0]._id,
         firstName: customer[0].firstName,
         lastName: customer[0].lastName,
         email: customer[0].email,
@@ -106,7 +118,7 @@ export const addOilChangeErrors = (errors) => ({
   errors: errors.map(item => item),
 })
 export const postCustomerServiceForm = (state) => {
-  console.log('see ',state)
+  console.log('see ',state);
     return (dispatch) => {
         if (!state.customer.customer_id) {
             customerOilChangeSave(dispatch, state);
@@ -204,7 +216,7 @@ const servicesOilChangeSave = (dispatch, state) => {
         console.log(error);
     }).then(() => {
         dispatch(toggledidSaved());
-        window.setTimeout(dispatch(toggledidSaved()), 1000);
+        window.setTimeout(()=>{dispatch(toggledidSaved())}, 1000);
         dispatch(toggleDoneAdnRiderect());
     }, (error) => console.log(error))
 }

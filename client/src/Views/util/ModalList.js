@@ -3,6 +3,7 @@ import React from 'react';
 const ModalList = (props) => {
   return (
     <div className="block_view">
+    <button onClick={() => props.closeModalList()} className="pull-right" type="button"><i className="fa fa-times" aria-hidden="true"></i></button>
       <div className="">
         <table className="table table-striped table-hover">
           <thead>

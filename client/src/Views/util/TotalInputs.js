@@ -45,7 +45,7 @@ const TotalInputs = (props) => (
     </div>
     <div className="box-input">
         <span className="">$</span>
-          <input className="print-input" name="desc" type="text" value={props.totalDesc}/>
+          <input onChange={(e) => props.onChangeInputDisc(e)} className="print-input" name="desc" type="text" value={props.totalDesc}/>
     </div>
   </div>
 

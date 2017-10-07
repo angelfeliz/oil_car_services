@@ -17,9 +17,6 @@ class GeneralServicesForm extends Component {
     super(props);
   }
 
-  removeProduct = (id) => {
-    this.props.removeProduct(id);
-  }
   onchangeLabor = (e) => {
     let labor = e.target.value;
     let newNeto = calculateWithLabor(e.target.value, this.props.generalServices.totalNetoClone);
@@ -53,6 +50,10 @@ class GeneralServicesForm extends Component {
   onProductAdd = () => {
     let general = this.props.generalServices;
     let quantity = general.item_select_quantity;
+    let desc = parseFloat(general.totalDesc).toFixed(2);
+    if(isNaN(desc)) {
+      desc = 0;
+    }
     if (general.item_select_id !== '' && quantity) {
        let pro = this.props.products.productList.find((item) => {
         if (item._id == general.item_select_id) {
@@ -61,8 +62,8 @@ class GeneralServicesForm extends Component {
        });
       let itebis_tmp = pro.itebis;
       let total_tmp = (parseFloat(pro.price) * parseInt(quantity)).toFixed(2);
-
-      this.props.totalProperty(calculateTotal(general.products, itebis_tmp, parseFloat(pro.price), parseInt(general.item_select_quantity)));
+      let price = parseFloat(parseFloat(pro.price) / 1.18).toFixed(2);
+      this.props.totalProperty(calculateTotal(general.products, itebis_tmp, price, parseInt(general.item_select_quantity)));
 
       let findProduct = general.products.find((item)=> {
         if (item.product_id == general.item_select_id) {
@@ -75,8 +76,8 @@ class GeneralServicesForm extends Component {
           product_id: pro._id,
           productType: pro.productType,
           name_: pro.name_,
-          price: pro.price,
-          quantity: general.item_select_quantity,
+          price: price,
+          quantity: quantity,
           itebis: itebis_tmp,
           totalProduct: total_tmp
         });
@@ -86,7 +87,7 @@ class GeneralServicesForm extends Component {
           product_id: pro._id,
           productType: pro.productType,
           name_: pro.name_,
-          price: pro.price,
+          price: price,
           quantity: general.item_select_quantity,
           itebis: itebis_tmp,
           totalProduct: total_tmp
@@ -124,7 +125,30 @@ class GeneralServicesForm extends Component {
       }
     }
   }
-  onChangeInputDisc = () => {}
+  onChangeInputDisc = (e) => {
+
+    let general = this.props.generalServices;
+    let bruto = parseFloat(general.totalBruto);
+    let desc = parseInt(e.target.value);
+
+    if(!isNaN(desc)) {
+      console.log('entro a NAn ', bruto);
+
+      let itebis = parseFloat((bruto * 0.18)).toFixed(2);
+      console.log('itebis ', itebis);
+      let neto = parseFloat(parseFloat(parseFloat(bruto) + parseInt(itebis)) - desc).toFixed(2);
+      console.log('neto ', neto);
+      this.props.totalProperty({
+        totalBruto: bruto,
+        totalNeto: neto,
+        totalItebis: itebis,
+        totalDesc: desc
+      });
+    }
+    if(e.target.value == '') {
+     this.props.totalProperty(calculateTotal(general.products, 0, 0, 0, 0));
+   }
+  }
   onSubmit = (e) => {
     e.preventDefault();
     let validatedGeneral = validatedGeneralServices(this.props.generalServices);
@@ -155,7 +179,7 @@ class GeneralServicesForm extends Component {
     let hours = today.getHours();
     let minute = today.getMinutes();
     let todayDate = `${dd}/${mm}/${yyyy}  ${hours}:${minute}`;
-    ;
+
 
     if(general.isRedirect) {
        return <Redirect to='/'/>
@@ -202,7 +226,7 @@ class GeneralServicesForm extends Component {
           onChangeProductQuantity = {this.onChangeProductQuantity}
           onProductAdd = {  this.onProductAdd }
           productsAdded = {  general.products }
-          onClickRemoveOfList = { this.removeProduct }
+          onClickRemoveOfList = { this.props.removeProduct }
       />
 
       <TotalInputs

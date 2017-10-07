@@ -6,6 +6,7 @@
 }
 .lubri-color {
   background-color: #bc2525;
+  color:white;
 }
 .navbar-brand {
   display: flex;
@@ -167,6 +168,9 @@ transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
   width: 70%;
   height: inherit;
   margin: 0 auto;
+  background-color: white; /*rgb(151, 154, 158);*/
+  padding: 0 25px 0 25px;
+  overflow: scroll;
 }
 
 .total_checkout {

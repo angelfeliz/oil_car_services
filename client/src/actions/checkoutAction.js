@@ -15,8 +15,11 @@ export const ELIMINATE_SERVICES = 'ELIMINATE_SERVICES';
 export const SHOW_DIALOG = 'SHOW_DIALOG';
 export const CLEAN_CHECKOUT_ITEM = 'CLEAN_CHECKOUTITEM';
 export const CLEAN_INVOICE = 'CLEAN_INVOICE';
+export const CLIENTE_FINAL = 'CLIENTE_FINAL';
 
-
+export const makeClienteFinal = () => ({
+  type:CLIENTE_FINAL
+})
 export const cleanInvoice = () => ({
   type: CLEAN_INVOICE
 })

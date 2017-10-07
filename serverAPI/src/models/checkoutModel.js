@@ -20,6 +20,7 @@ export const checkoutSchema = new Schema({
   branchOffice: { type: String },
   ncfType: { type: Number },
   ncf: { type: String },
+  consumidorFinal: {type: Boolean, default: false},
   services: { type: String },
   customer: {
      customer_id: { type: Number },

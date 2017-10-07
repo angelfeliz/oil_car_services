@@ -44,7 +44,7 @@ class Customers extends Component{
       }
 
        return( <div className="container">
-       <h2 className="text-center">Customer</h2>
+       <h2 className="text-center">Clientes</h2>
        <div className="row">
          <div className="col-lg-6 col-md-6 col-sm-12 col-xm-12">
            <div className="form-group">
