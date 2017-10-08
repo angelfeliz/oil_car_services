@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
     _id: 1,
     companyName: "Lubriserv",
     group: 1,
-    branch: 1,    
+    branch: 1,
     eneable: true
   }
 
@@ -51,6 +51,18 @@ router.post('/ncfset', function(req, res, next) {
     eneable: true
   }
 
+  let ncf_consumidor = {
+    _id: 6,
+    companyId: 1,
+    NCFType: 3,
+    Description: "Consumidor final",
+    NCF: "A997",
+    actualNCF: 0,
+    inicialNCF: 1,
+    finalNCF: 5,
+    eneable: true
+  }
+
 let ncfDb = new NCFCompanyModel(ncf_emp);
     ncfDb.save()
     .then((response)=>{
@@ -64,6 +76,13 @@ let ncfDbGov = new NCFCompanyModel(ncf_gov);
            res.status(200).json(response);
          },
           (errors)=>{ handlers.validateError(res, errors); });
+
+let ncfDbConsumidor = new NCFCompanyModel(ncf_consumidor);
+                   ncfDbConsumidor.save()
+                   .then((response)=>{
+                     res.status(200).json(response);
+                   },
+                    (errors)=>{ handlers.validateError(res, errors); });
 
 });
 

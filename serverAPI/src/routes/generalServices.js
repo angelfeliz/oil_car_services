@@ -29,7 +29,6 @@ router.use('/save', function(req, res, next){
     });
    }
    else{
-     console.log("entro sin ncf");
       req.ncf = null;
       next();}
 }
@@ -51,9 +50,10 @@ router.post('/save', function(req, res, next) {
   })
 });
 
-router.get('/generalUnPay', function(req, res, next) {
+router.post('/generalUnPay', function(req, res) {
   var generalUnpay = generalServicesModel.find({statu: req.body.statu});
-  generalUnpay.exec((err, sell) => {
+
+  generalUnpay.exec((err, sell) => {    
     if(err) {
       return res.status(500).json(err);
     }

@@ -116,10 +116,12 @@ export const confirmedCheckout = (checkout) => {
 }
 
 export const loadAllSells = (statu) => {
+  console.log('entro load list');
   return (dispatch) => {
     api.post("/customerServices/oilChangeUnPay", {statu:statu})
     .then(
       (responses)=>{
+        console.log(responses.data);
           return responses.data;
        },
       (err) => {
@@ -132,11 +134,13 @@ export const loadAllSells = (statu) => {
         if(data.length > 0) {
             dispatch(setSell(data, "cambio aceite"));
         }
+        //return statu;
       },
       (err) => {}
    )
     .then(()=>{
-      api.get("/generalServices/generalUnPay", {statu:statu})
+      console.log(statu);
+      api.post("/generalServices/generalUnPay", {statu:statu})
       .then(
         (responses) => {
           return responses.data;
@@ -193,7 +197,7 @@ export const saveCheckout = (checkout) => {
            }
          )
          .then((responses) => {
-           dispatch(loadAllSells());
+           dispatch(loadAllSells("pending"));
          },
          (err) => {
            console.log('err in checkout ', err);
@@ -221,7 +225,7 @@ export const saveCheckout = (checkout) => {
            }
          )
          .then((responses) => {
-           dispatch(loadAllSells());
+           dispatch(loadAllSells("pending"));
          },
          (err) => {
            console.log('err in checkout ', err);

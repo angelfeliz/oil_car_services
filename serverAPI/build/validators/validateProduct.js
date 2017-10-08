@@ -20,6 +20,9 @@ var validateProduct = (0, _functions.validateAsync)({
       message: 'debe de escribir algo en typo de producto'
     }
   },
+  materialType: {
+    presence: false
+  },
   model: {
     presence: false,
     length: {
@@ -29,6 +32,12 @@ var validateProduct = (0, _functions.validateAsync)({
   },
   api: {
     presence: false
+  },
+  cost: {
+    presence: true
+  },
+  itebis: {
+    presence: true
   },
   price: {
     presence: true

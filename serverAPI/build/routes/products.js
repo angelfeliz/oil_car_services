@@ -35,15 +35,22 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
   var product = _extends({}, req.body, { _id: 4 });
-  console.log('before save', product);
-  (0, _validateProduct2.default)(product).then(function (product) {
-    new _productsmodel2.default(product).save().then(function () {
-      res.end();
-    }, function (errors) {
-      return handlers.validateError(res, errors);
-    });
-  }, function (errors) {
-    return handlers.validateError(res, errors);
+
+  _productsmodel2.default.findOne({ name_: product.name_ }, function (err, data) {
+    console.log('look ', data);
+    if (data) {
+      handlers.validateError(res, { errors: "Existe un producto con este nombre", typeError: "duplicatedProduct" });
+    } else {
+      (0, _validateProduct2.default)(product).then(function (product) {
+        new _productsmodel2.default(product).save().then(function () {
+          res.end();
+        }, function (errors) {
+          return handlers.validateError(res, errors);
+        });
+      }, function (errors) {
+        return handlers.validateError(res, errors);
+      });
+    }
   });
 });
 

@@ -50,10 +50,12 @@ class ProductForm extends Component {
     e.preventDefault();
     let validation = validateProduct(this.props.products.product);
     let duplicateName = this.props.products.productList.find((item => {
-      return item.name_ === this.props.products.product.name_
+       if(item.name_.toLowerCase() === this.props.products.product.name_.toLowerCase() && item.model.toLowerCase() === this.props.products.product.model.toLowerCase()) {
+         return item;
+       }
     }));
 
-    if(duplicateName) {
+    if(duplicateName && this.props.products.product.createdAt === undefined) {
       let errObj = {duplicado: "Existe un producto con este nombre"};
       validation = {...validation, errObj};
     }

@@ -20,8 +20,11 @@ var productSchema = exports.productSchema = new _mongoose.Schema({
   name_: { type: String, required: [true, 'El campo nombre es obligatorio'], trim: true },
   model: { type: String, required: [true, 'El campo modelo es obligatorio'], trim: true },
   productType: { type: String, required: [true, 'El tipo de producto es obligatorio'], trim: true },
+  materialType: { type: String },
   api: { type: String, required: [true, 'El tipo de combustible es obligatorio'], trim: true },
-  price: { type: String, required: [true, 'Debe colocar el precio'], trim: true },
+  cost: { type: Number },
+  itebis: { type: Number },
+  price: { type: Number },
   eneable: { type: Boolean, default: true }
 }, { timestamps: true });
 

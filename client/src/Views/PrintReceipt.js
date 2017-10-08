@@ -5,6 +5,13 @@ import TotalInputs from './util/TotalInputs.js';
 const PrintReceipt = (props) => {
 
   let checkout = props.checkoutItem;
+  let descCheckout = parseInt(checkout.descCheckout);
+  let totalDesc = parseInt(checkout.totalDesc);
+    let desc = 0.00;
+  if(!isNaN(descCheckout) && !isNaN(totalDesc)) {
+     desc = (descCheckout + totalDesc).toFixed(2);
+  }
+
   return(
 <div className="space_container">
   <div>
@@ -108,7 +115,7 @@ const PrintReceipt = (props) => {
   <TotalInputs
     totalBruto={checkout.totalBruto}
     onChangeInputDisc={()=>{}}
-    totalDesc={checkout.descCheckout + checkout.totalDesc}
+    totalDesc={desc}
     totalItebis={checkout.totalItebis}
     totalNeto={checkout.totalNeto}
   />

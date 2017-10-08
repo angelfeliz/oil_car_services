@@ -45,7 +45,7 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-   this.props.loadAllSells();
+   this.props.loadAllSells("pending");
   }
 
    componentWillUnmount() {
