@@ -36,7 +36,7 @@ const Root = () => (
     <Navbar collapseOnSelect>
     <Navbar.Header>
       <Navbar.Brand>
-        <Link to='/'><img className="logo_header" src={require('./logo_lubriserv_w.png')}/></Link>
+        <Link to='/'><img className="logo_header" src=""/></Link>
       </Navbar.Brand>
       <Navbar.Toggle />
     </Navbar.Header>
