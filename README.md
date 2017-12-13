@@ -1,9 +1,9 @@
-# oil car services
+# Oil car services
 
  - Build with Create react app
  - Redux
  - React boostrap
- - Nodojs
+ - Nodejs
  - Mongojs
  
 It help mange your oil car services store.
